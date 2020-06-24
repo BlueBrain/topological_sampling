@@ -1,0 +1,42 @@
+{
+  "paths":{
+    "input": {
+      "dir": "../data/input_data",
+      "files": {
+        "adjacency_matrix": "connectivity.npz",
+        "neuron_info": "neurons.pickle",
+        "spikes": "spiking_activity.h5",
+        "stimuli": "input_stream.npy"
+      }
+    },
+    "analyzed": {
+      "dir": "../data/analyzed_data",
+      "files": {
+        "database": "neuron_db.pickle",
+        "tribes": "tribes.json",
+        "struc_parameters": "structural_parameters.json",
+        "components": "extracted_components.h5",
+        "ec_values": "ec_values.json",
+        "classification_ec": "classification_ec.h5",
+        "classification_hc": "classification_hc.h5",
+        "accuracy_ec": "accuracy_ec.json",
+        "accuracy_hc": "accuracy_hc.json"
+      }
+    },
+    "other": {
+      "dir": "../data/other"
+    },
+    "config": {
+      "dir": ".",
+      "files": {
+        "classifier": "classifier_config.json",
+        "ec_analysis": "ec_analysis_config.json",
+        "evaluator": "evaluator_config.json",
+        "gen_topo_db": "topo_db_config.json",
+        "manifold_analysis": "manifold_config.json",
+        "sample_tribes": "sampling_config.json",
+        "struc_tribe_analysis": "struc_analysis_config.json"
+      }
+    }
+  }
+}
