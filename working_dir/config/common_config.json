@@ -1,17 +1,18 @@
 {
   "paths":{
-    "input": {
+    "inputs": {
       "dir": "../data/input_data",
       "files": {
         "adjacency_matrix": "connectivity.npz",
         "neuron_info": "neurons.pickle",
-        "spikes": "spiking_activity.h5",
-        "stimuli": "input_stream.npy"
+        "raw_spikes": "raw_spikes.npy",
+        "stimuli": "stim_stream.npy"
       }
     },
     "analyzed": {
       "dir": "../data/analyzed_data",
       "files": {
+        "split_spikes": "split_spike_trains.npy",
         "database": "neuron_db.pickle",
         "tribes": "tribes.json",
         "struc_parameters": "structural_parameters.json",
@@ -29,6 +30,7 @@
     "config": {
       "dir": ".",
       "files": {
+        "split_spikes": "input_data_config.json",
         "classifier": "classifier_config.json",
         "ec_analysis": "ec_analysis_config.json",
         "evaluator": "evaluator_config.json",
@@ -38,5 +40,42 @@
         "struc_tribe_analysis": "struc_analysis_config.json"
       }
     }
+  },
+  "structure": {
+      "split_spikes": {
+          "inputs": {
+              "raw_spikes": "inputs",
+              "stimuli": "inputs"
+          },
+          "outputs": {
+              "split_spikes": "analyzed"
+          }
+      },
+      "gen_topo_db": {
+          "inputs": {
+              "adjacency_matrix": "inputs",
+              "neuron_info": "inputs"
+          },
+          "outputs": {
+              "database": "analyzed"
+          }
+      },
+      "sample_tribes": {
+          "inputs": {
+              "database": "analyzed"
+          },
+          "outputs": {
+              "tribes": "analyzed"
+          }
+      },
+      "struc_tribe_analysis": {
+          "inputs": {
+              "database": "analyzed",
+              "tribes": "analyzed"
+          },
+          "outputs": {
+              "struc_parameters": "analyzed"
+          }
+      }
   }
 }
