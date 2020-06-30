@@ -5,27 +5,32 @@
       {
         "name": "125 um",
         "value": 125,
-        "number": 20
+        "number": 20,
+        "neuron_count": 378
       },
       {
         "name": "175 um",
         "value": 175,
-        "number": 20
+        "number": 20,
+        "neuron_count": 378
       },
       {
         "name": "225 um",
         "value": 225,
-        "number": 20
+        "number": 20,
+        "neuron_count": 378
       },
       {
         "name": "275 um",
         "value": 275,
-        "number": 20
+        "number": 20,
+        "neuron_count": 378
       },
       {
         "name": "325 um",
         "value": 325,
-        "number": 20
+        "number": 20,
+        "neuron_count": 378
       }
     ],
     "Arguments": {
@@ -47,7 +52,7 @@
       },
       {
         "name": "In-degree",
-        "value": {"column": "in-degree"},
+        "value": {"column": "in_degree"},
         "number": 20,
         "subsampling": {
           "levels": [95, 90, 80, 70, 50],
@@ -58,16 +63,16 @@
     ]
   },
   "Random": {
-    "Specifier label": "M-type",
+    "Specifier_label": "M-type",
     "Specifiers":[
       {
         "name": "L23_PC",
-        "value": {"column": "m-type", "value": "L23_PC"},
+        "value": {"column": "mtype", "value": "L23_PC"},
         "number": 20
       },
       {
         "name": "L4_PC",
-        "value": {"column": "m-type", "value": "L4_PC"},
+        "value": {"column": "mtype", "value": "L4_PC"},
         "number": 20
       }
     ]

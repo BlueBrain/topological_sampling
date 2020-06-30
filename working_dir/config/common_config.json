@@ -4,7 +4,7 @@
       "dir": "../data/input_data",
       "files": {
         "adjacency_matrix": "connectivity.npz",
-        "neuron_info": "neurons.pickle",
+        "neuron_info": "neuron_info.pickle",
         "raw_spikes": "raw_spikes.npy",
         "stimuli": "stim_stream.npy"
       }
@@ -13,7 +13,7 @@
       "dir": "../data/analyzed_data",
       "files": {
         "split_spikes": "split_spike_trains.npy",
-        "database": "neuron_db.pickle",
+        "database": "community_database.pkl",
         "tribes": "tribes.json",
         "struc_parameters": "structural_parameters.json",
         "components": "extracted_components.h5",
