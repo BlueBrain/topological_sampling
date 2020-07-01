@@ -1,0 +1,27 @@
+{
+  "Parameters": [
+    {
+      "name": "In-degree",
+      "value": {
+        "column": "in_degree"
+      },
+      "prediction_strategy": {
+        "number_sampled": 1000
+      }
+    },
+    {
+      "name": "Betti 2",
+      "value": {"column": "bettis", "index": 2},
+      "prediction_strategy": {
+        "number_sampled": 1000
+      }
+    },
+    {
+      "name": "Euler characteristic",
+      "value": {"column": "euler_characteristic"},
+      "prediction_strategy": {
+        "number_sampled": 1000
+      }
+    }
+  ]
+}

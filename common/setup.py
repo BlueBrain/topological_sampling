@@ -3,8 +3,9 @@ from setuptools import setup, find_packages
 
 setup(
     name='toposample',
-    version='0.01',
-    install_requires=['h5py', 'numpy', 'simplejson', 'scipy>=1.0.0', 'scikit-learn', 'pandas'],
+    version='0.02',
+    install_requires=['h5py', 'numpy', 'simplejson', 'scipy>=1.0.0', 'scikit-learn', 'pandas',
+                      'progressbar'],
     packages=find_packages(),
     include_package_data=True,
     author='Michael Reimann',

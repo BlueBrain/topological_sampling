@@ -4,7 +4,6 @@ import numpy
 import pandas
 import json
 
-from scipy import spatial
 from toposample import config
 
 
@@ -16,7 +15,6 @@ def read_input(input_config):
 def pick_champs_from_column(db, column, N, index=None):
     decider = db[column]
     if index is not None:
-        print(column, index)
         decider = [_x[index] if len(_x) > index else 0 for _x in decider]
     picked = numpy.argsort(decider)[-N:]
     return db.index[picked]
