@@ -92,16 +92,28 @@ def write_output(data, output_config):
             json.dump(data, fid, indent=2)
 
 
-def main(path_to_config):
+def main(path_to_config, **kwargs):
     # Read the meta-config file
     cfg = config.Config(path_to_config)
     # Get configuration related to the current pipeline stage
     stage = cfg.stage("struc_tribe_analysis")
     spikes, stims, tribal_chiefs, tribal_gids = read_input(stage["inputs"])
+    if len(kwargs) > 0:
+        tribal_gids = tribal_gids.filter(**kwargs)
+        tribal_chiefs = tribal_chiefs.filter(**kwargs)
     res_lookup = transform_all(spikes, stims, tribal_chiefs, tribal_gids, stage["config"], stage["other"])
     write_output(res_lookup, stage["outputs"])
 
 
+def parse_filter_arguments(*args):
+    fltr_dict = {}
+    for arg in args:
+        if "=" in arg:
+            splt = arg.split("=")
+            fltr_dict[splt[0]] = splt[1]
+    return fltr_dict
+
+
 if __name__ == "__main__":
     import sys
-    main(sys.argv[1])
+    main(sys.argv[1], **parse_filter_arguments(sys.argv[2:]))
