@@ -1,9 +1,6 @@
-import os
-
 import numpy
 import pandas
 import json
-import progressbar
 
 from toposample import config
 from toposample import TopoData

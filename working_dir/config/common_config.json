@@ -76,6 +76,16 @@
           "outputs": {
               "struc_parameters": "analyzed"
           }
+      },
+      "manifold_analysis": {
+          "inputs": {
+             "raw_spikes": "inputs",
+             "stimuli": "inputs",
+             "tribes": "analyzed"
+          },
+          "outputs": {
+             "components": "analyzed"
+          }
       }
   }
 }
