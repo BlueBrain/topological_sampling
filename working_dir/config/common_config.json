@@ -16,7 +16,7 @@
         "database": "community_database.pkl",
         "tribes": "tribes.json",
         "struc_parameters": "structural_parameters.json",
-        "components": "extracted_components.h5",
+        "components": "extracted_components.json",
         "ec_values": "ec_values.json",
         "classification_ec": "classification_ec.h5",
         "classification_hc": "classification_hc.h5",

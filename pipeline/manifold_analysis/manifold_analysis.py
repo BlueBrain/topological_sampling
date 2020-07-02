@@ -11,6 +11,8 @@ def read_input(input_config):
     tribes = TopoData(input_config["tribes"])
     tribal_chiefs = tribes["chief"]
     tribal_gids = tribes["gids"]
+    tribal_offsets = tribes["center_offset"]
+    tribal_chiefs.merge(tribal_offsets)
     spikes = numpy.load(input_config["raw_spikes"])
     stims = numpy.load(input_config["stimuli"])
     return spikes, stims, tribal_chiefs, tribal_gids
@@ -28,7 +30,7 @@ def spikes_to_y_vec(spikes, gids, t_bin_width):
 def factor_analysis(y_mat, num_components):
     from sklearn.decomposition import FactorAnalysis
     F = FactorAnalysis(num_components)
-    transformed = F.fit_transform(y_mat)
+    transformed = F.fit_transform(y_mat.transpose())  # shape: time x components
     components = F.components_
     mn = F.mean_
     noise_variance = F.noise_variance_
@@ -37,10 +39,10 @@ def factor_analysis(y_mat, num_components):
 
 def split_transformed_into_t_wins(transformed, stim_train):
     u_stims = numpy.unique(stim_train)
-    tf_splt = numpy.split(transformed, len(stim_train), axis=1)
+    tf_splt = numpy.split(transformed, len(stim_train), axis=0)  # [trials] x time x components
     per_stim_splt = [numpy.dstack([_splt for _splt, s in zip(tf_splt, stim_train)
-                                   if s == i]) for i in numpy.unique(u_stims)]  # [stimulus] x component x time x trial
-    per_stim_splt = [_splt.transpose([1, 0, 2]) for _splt in per_stim_splt]  # [stimulus] x time x component x trial
+                                   if s == i]) for i in numpy.unique(u_stims)]  # [stimulus] x time x component x trial
+    # per_stim_splt = [_splt.transpose([1, 0, 2]) for _splt in per_stim_splt]  # [stimulus] x time x component x trial
     return per_stim_splt
 
 
@@ -56,7 +58,7 @@ def write_results_file(transformed, tf_split, components, mn, noise_variance, ch
         h5.create_dataset("components", data=components)
         h5.create_dataset("mean", data=mn)
         h5.create_dataset("noise_variance", data=noise_variance)
-        h5.attrs["chief"] = chief_spec
+        h5.attrs["idv_label"] = chief_spec
         grp = h5.require_group("per_stimulus")
         for i, res in enumerate(tf_split):
             grp.create_dataset("stim{0}".format(i), data=res)
@@ -66,6 +68,7 @@ def write_results_file(transformed, tf_split, components, mn, noise_variance, ch
 def transform_all(spikes, stims, tribal_chiefs, tribal_gids, stage_config, out_root):
     result_lookup = {}
     for res in tribal_gids.contents:
+        print("Transforming for {0}".format(res.cond))
         gids = res.res
         y_vec = spikes_to_y_vec(spikes, gids, stage_config["t_bin_width"])
         transformed, components, mn, noise_variance = factor_analysis(y_vec, stage_config["n_components"])
@@ -74,7 +77,7 @@ def transform_all(spikes, stims, tribal_chiefs, tribal_gids, stage_config, out_r
         out_fn = write_results_file(transformed, tf_split, components, mn,
                                     noise_variance, chief, out_root, res.cond)
         spec_lvl = result_lookup.setdefault(res.cond["sampling"], {}).setdefault(res.cond["specifier"], {})
-        spec_lvl[res.cond["index"]] = {"data_fn": out_fn, "chief": chief}
+        spec_lvl[res.cond["index"]] = {"data_fn": out_fn, "idv_label": chief}
     return result_lookup
 
 
@@ -96,7 +99,7 @@ def main(path_to_config, **kwargs):
     # Read the meta-config file
     cfg = config.Config(path_to_config)
     # Get configuration related to the current pipeline stage
-    stage = cfg.stage("struc_tribe_analysis")
+    stage = cfg.stage("manifold_analysis")
     spikes, stims, tribal_chiefs, tribal_gids = read_input(stage["inputs"])
     if len(kwargs) > 0:
         tribal_gids = tribal_gids.filter(**kwargs)
@@ -116,4 +119,4 @@ def parse_filter_arguments(*args):
 
 if __name__ == "__main__":
     import sys
-    main(sys.argv[1], **parse_filter_arguments(sys.argv[2:]))
+    main(sys.argv[1], **parse_filter_arguments(*sys.argv[2:]))
