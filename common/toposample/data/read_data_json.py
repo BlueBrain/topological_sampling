@@ -24,5 +24,5 @@ class TopoData(object):
         out_dict = dict([(k, ConditionCollection(v)) for k, v in out_dict.items()])
         return out_dict
 
-    def __call__(self, spec_key):
+    def __getitem__(self, spec_key):
         return self.data[spec_key]
