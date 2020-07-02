@@ -14,7 +14,7 @@ def read_input(input_config):
 
 
 def pick_random_where_column_has_certain_value(db, column, value, N):
-    valid = db[column] == numpy.bytes_(value)
+    valid = db[column] == value  # numpy.bytes_(value)
     valid_index = db.index[valid]
     return numpy.random.choice(valid_index, numpy.minimum(N, len(valid_index)), replace=False)
 

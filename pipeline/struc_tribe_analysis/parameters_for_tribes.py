@@ -11,7 +11,8 @@ def read_input(input_config):
     tribes = TopoData(input_config["tribes"])
     tribal_chiefs = tribes["chief"]
     tribal_gids = tribes["gids"]
-    return db, tribal_chiefs, tribal_gids
+    offsets = tribes["center_offset"]
+    return db, tribal_chiefs, tribal_gids, offsets
 
 
 def lookup_parameter_from_db_by_chief(db, list_of_parameters, chief):
@@ -22,7 +23,7 @@ def lookup_parameter_from_db_by_chief(db, list_of_parameters, chief):
         idx = param_spec["value"].get("index", None)
         if idx is not None:
             v = v[idx]
-        out_dict[param_spec["name"]] = v
+        out_dict[param_spec["name"]] = int(v)
     return out_dict
 
 
@@ -52,7 +53,7 @@ def predict_parameter_from_db_by_gids(db, list_of_parameters, gids):
         v = db[param_spec["value"]["column"]].values
         idx = param_spec["value"].get("index", None)
         if idx is not None:
-            v = [_v[idx] for _v in v]
+            v = [_v[idx] if len(_v) > idx else 0 for _v in v]
         N = param_spec["prediction_strategy"]["number_sampled"]
         out_dict[param_spec["name"]] = top_n_weighted_average(relative_overlap, v, n=N)
     return out_dict
@@ -61,12 +62,13 @@ def predict_parameter_from_db_by_gids(db, list_of_parameters, gids):
 def make_lookup_functions(db, list_of_parameters):
     def lookup_if_non_volumetric(sampling_strats, tribe_spec): # to be used with tribal chiefs
         for smpl, trb in zip(sampling_strats, tribe_spec):
-            if smpl != 'Volumetric':
+            if smpl != 'Radius':
                 yield lookup_parameter_from_db_by_chief(db, list_of_parameters, trb), {'sampling': smpl}
 
     def predict_if_volumetric(sampling_strats, tribe_spec): # to be used with tribal gids
         for smpl, trb in zip(sampling_strats, tribe_spec):
-            if smpl == 'Volumetric':
+            if smpl == 'Radius':
+                print("Predicting parameter value for volumetric sample of {0} gids".format(len(trb)))
                 yield predict_parameter_from_db_by_gids(db, list_of_parameters, trb), {'sampling': smpl}
     return lookup_if_non_volumetric, predict_if_volumetric
 
@@ -81,13 +83,7 @@ def lookup_parameters(db, tribal_chiefs, tribal_gids, stage_cfg):
 
 def write_output(data, output_config):
     fn_out = output_config["struc_parameters"]
-    final_dict = {}
-    for sampling in data.labels_of("sampling"):
-        smpl_lvl = final_dict.setdefault(sampling, {})
-        for specifier in data.labels_of("specifier"):
-            spec_lvl = smpl_lvl.setdefault(specifier, {})
-            for index in data.labels_of("index"):
-                spec_lvl[index] = data.get2(sampling=sampling, specifier=specifier, index=index)
+    final_dict = TopoData.condition_collection_to_dict(data)
 
     with open(fn_out, 'w') as fid:
         json.dump(final_dict, fid, indent=2)
@@ -98,7 +94,7 @@ def main(path_to_config):
     cfg = config.Config(path_to_config)
     # Get configuration related to the current pipeline stage
     stage = cfg.stage("struc_tribe_analysis")
-    db, tribal_chiefs, tribal_gids = read_input(stage["inputs"])
+    db, tribal_chiefs, tribal_gids, tribal_offsets = read_input(stage["inputs"])
     tribal_values = lookup_parameters(db, tribal_chiefs, tribal_gids, stage["config"])
     write_output(tribal_values, stage["outputs"])
 

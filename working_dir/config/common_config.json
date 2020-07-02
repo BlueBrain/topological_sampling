@@ -37,7 +37,7 @@
         "gen_topo_db": "topo_db_config.json",
         "manifold_analysis": "manifold_config.json",
         "sample_tribes": "sampling_config.json",
-        "struc_tribe_analysis": "struc_analysis_config.json"
+        "struc_tribe_analysis": "structural_analysis_config.json"
       }
     }
   },
