@@ -26,3 +26,17 @@ class TopoData(object):
 
     def __getitem__(self, spec_key):
         return self.data[spec_key]
+
+    @staticmethod
+    def condition_collection_to_dict(data):
+        final_dict = {}
+        for sampling in data.labels_of("sampling"):
+            smpl_lvl = final_dict.setdefault(sampling, {})
+            smpl_fltr = data.filter(sampling=sampling)
+            for specifier in smpl_fltr.labels_of("specifier"):
+                spec_lvl = smpl_lvl.setdefault(specifier, {})
+                for index in data.labels_of("index"):
+                    data_point = data.get2(sampling=sampling, specifier=specifier, index=index)
+                    if data_point != []:
+                        spec_lvl[index] = data_point
+        return final_dict
