@@ -11,8 +11,10 @@ def read_input(input_config):
     tribes = TopoData(input_config["tribes"])
     tribal_chiefs = tribes["chief"]
     tribal_gids = tribes["gids"]
-    tribal_offsets = tribes["center_offset"]
-    tribal_chiefs.merge(tribal_offsets)
+    if "center_offset" in tribes.data:
+        tribal_chiefs.merge(tribes["center_offset"])
+    if "parent" in tribes.data:
+        tribal_chiefs.merge(tribes["parent"])
     spikes = numpy.load(input_config["raw_spikes"])
     stims = numpy.load(input_config["stimuli"])
     return spikes, stims, tribal_chiefs, tribal_gids
@@ -27,6 +29,7 @@ def spikes_to_y_vec(spikes, gids, t_bin_width):
     return out
 
 
+# noinspection PyPep8Naming
 def factor_analysis(y_mat, num_components):
     from sklearn.decomposition import FactorAnalysis
     F = FactorAnalysis(num_components)
@@ -68,6 +71,7 @@ def write_results_file(transformed, tf_split, components, mn, noise_variance, ch
 def transform_all(spikes, stims, tribal_chiefs, tribal_gids, stage_config, out_root):
     result_lookup = {}
     for res in tribal_gids.contents:
+        #  TODO: Skip if output file already exists. Currently that case will throw an error.
         print("Transforming for {0}".format(res.cond))
         gids = res.res
         y_vec = spikes_to_y_vec(spikes, gids, stage_config["t_bin_width"])
