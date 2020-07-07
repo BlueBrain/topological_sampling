@@ -11,8 +11,8 @@ def read_input(input_config):
     tribes = TopoData(input_config["tribes"])
     tribal_chiefs = tribes["chief"]
     tribal_gids = tribes["gids"]
-    offsets = tribes["center_offset"]
-    return db, tribal_chiefs, tribal_gids, offsets
+    # offsets = tribes["center_offset"]
+    return db, tribal_chiefs, tribal_gids
 
 
 def lookup_parameter_from_db_by_chief(db, list_of_parameters, chief):
@@ -94,7 +94,7 @@ def main(path_to_config):
     cfg = config.Config(path_to_config)
     # Get configuration related to the current pipeline stage
     stage = cfg.stage("struc_tribe_analysis")
-    db, tribal_chiefs, tribal_gids, tribal_offsets = read_input(stage["inputs"])
+    db, tribal_chiefs, tribal_gids = read_input(stage["inputs"])
     tribal_values = lookup_parameters(db, tribal_chiefs, tribal_gids, stage["config"])
     write_output(tribal_values, stage["outputs"])
 
