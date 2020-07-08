@@ -1,0 +1,9 @@
+{
+	"parameters": ["Euler characteristic"],
+	"precision": 10e-5,
+	"Euler characteristic": {
+								"source": "euler_char.py",
+								"column_name": "euler_char"
+							}
+
+}
