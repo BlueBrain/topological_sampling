@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import pickle as pkl
+import importlib
 from toposample import config
 
 def read_input(input_config):
