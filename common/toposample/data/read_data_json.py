@@ -96,3 +96,12 @@ def read_h5_dataset(dset_name):
         with h5py.File(fn, "r") as h5:
             return numpy.array(h5[dset_name])
     return read_func
+
+
+def read_multiple_h5_datasets(dset_dict):
+    readers = dict([(k, read_h5_dataset(v))
+                    for k, v in dset_dict.items()])
+
+    def read_func(fn):
+        return dict([(k, v(fn)) for k, v in readers.items()])
+    return read_func
