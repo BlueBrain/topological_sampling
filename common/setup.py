@@ -8,8 +8,8 @@ setup(
                       'progressbar'],
     packages=find_packages(),
     include_package_data=True,
-    author='Michael Reimann',
-    author_email='michael.reimann@epfl.ch',
+    author=['Michael Reimann','Henri Riihimäki'],
+    author_email=['michael.reimann@epfl.ch','henri.riihimaki@abdn.ac.uk'],
     description='''Sample neuron communities according to topological metrics
     and evaluate their ability to decode stimuli''',
     license='LGPL-3.0',
