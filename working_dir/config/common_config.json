@@ -18,10 +18,12 @@
         "struc_parameters": "structural_parameters.json",
         "components": "extracted_components.json",
         "ec_values": "ec_values.json",
-        "classification_ec": "classification_ec.h5",
+        "features": "features.npy",
+        "classifier_test_scores": "classifier_test_scores.npy",
+        "classifier_cv_scores": "classifier_cv_scores.npy",
         "classification_hc": "classification_hc.h5",
-        "accuracy_ec": "accuracy_ec.json",
-        "accuracy_hc": "accuracy_hc.json"
+        "accuracy_hc": "accuracy_hc.json",
+        "accuracy": "accuracy.txt"
       }
     },
     "other": {
@@ -85,6 +87,24 @@
           },
           "outputs": {
              "components": "analyzed"
+          }
+      },
+      "classifier": {
+          "inputs": {
+             "features": "analyzed"
+          },
+          "outputs": {
+             "classifier_test_scores": "analyzed",
+             "classifier_test_scores": "analyzed"
+          }
+      },
+      "evaluator": {
+          "inputs": {
+             "classifier_test_scores": "analyzed",
+             "classifier_cv_scores": "analyzed"
+          },
+          "outputs": {
+             "accuracy": "analyzed"
           }
       }
   }
