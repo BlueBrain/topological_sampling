@@ -21,6 +21,7 @@
         "features": "features.npy",
         "classifier_test_scores": "classifier_test_scores.npy",
         "classifier_cv_scores": "classifier_cv_scores.npy",
+        "classifier_manifold_results": "classifier_manifold_results.json",
         "classification_hc": "classification_hc.h5",
         "accuracy_hc": "accuracy_hc.json",
         "accuracy": "accuracy.txt"
@@ -91,11 +92,13 @@
       },
       "classifier": {
           "inputs": {
-             "features": "analyzed"
+             "features": "analyzed",
+             "components": "analyzed"
           },
           "outputs": {
              "classifier_test_scores": "analyzed",
-             "classifier_test_scores": "analyzed"
+             "classifier_cv_scores": "analyzed",
+             "classifier_manifold_results": "analyzed"
           }
       },
       "evaluator": {

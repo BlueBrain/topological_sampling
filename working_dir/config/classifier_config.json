@@ -1,3 +1,4 @@
 {
-  "train_size" : 0.6
+  "train_size" : 0.6,
+  "random_seeds": [0, 1, 2, 3, 4, 5]
 }
