@@ -1,78 +1,603 @@
 {
-  "Volumetric":{
+  "Volumetric": {
     "Specifier_label": "Radius",
     "Specifiers": [
       {
         "name": "125 um",
         "value": 125,
         "number": 20,
-        "neuron_count": 378
+        "neuron_count": 500
       },
       {
         "name": "175 um",
         "value": 175,
         "number": 20,
-        "neuron_count": 378
+        "neuron_count": 500
       },
       {
         "name": "225 um",
         "value": 225,
         "number": 20,
-        "neuron_count": 378
+        "neuron_count": 500
       },
       {
         "name": "275 um",
         "value": 275,
         "number": 20,
-        "neuron_count": 378
+        "neuron_count": 500
       },
       {
         "name": "325 um",
         "value": 325,
         "number": 20,
-        "neuron_count": 378
+        "neuron_count": 500
       }
     ],
     "Arguments": {
-      "offset_amplitudes": [200, 600, 200]
+      "offset_amplitudes": [
+        200,
+        600,
+        200
+      ]
     }
   },
   "Champions": {
     "Specifier_label": "Parameter",
-    "Specifiers":[
+    "Specifiers": [
       {
-        "name": "Euler characteristic",
-        "value": {"column": "euler_characteristic"},
+        "name": "Clustering coefficient",
+        "value": {
+          "column": "C_ks",
+          "index": 2
+        },
         "number": 20
       },
       {
-        "name": "Betti 2",
-        "value": {"column": "bettis", "index": 2},
+        "name": "Alternative clustering coefficient",
+        "value": {
+          "column": "old_Cks",
+          "index": 2
+        },
+        "number": 20
+      },
+      {
+        "name": "Adjacency spectrum",
+        "value": {
+          "column": "adjacency_spectrum",
+          "function": "smallest_nonzero_value"
+        },
+        "number": 20
+      },
+      {
+        "name": "Laplacian spectrum",
+        "value": {
+          "column": "laplacian_spectrum",
+          "function": "smallest_nonzero_value"
+        },
+        "number": 20
+      },
+      {
+        "name": "Ricci curvature",
+        "value": {
+          "column": "ricci_curvature"
+        },
+        "number": 20
+      },
+      {
+        "name": "Betti coefficient",
+        "value": {
+          "column": "betti_coeff"
+        },
+        "number": 20
+      },
+      {
+        "name": "Euler characteristic",
+        "value": {
+          "column": "euler_characteristic"
+        },
+        "number": 20
+      },
+      {
+        "name": "Betti two",
+        "value": {
+          "column": "bettis",
+          "index": 2
+        },
+        "number": 20
+      },
+      {
+        "name": "Betti three",
+        "value": {
+          "column": "bettis",
+          "index": 3
+        },
+        "number": 20
+      },
+      {
+        "name": "Two simplex containment",
+        "value": {
+          "column": "simplex_containment",
+          "index": 2
+        },
         "number": 20
       },
       {
         "name": "In-degree",
-        "value": {"column": "in_degree"},
+        "value": {
+          "column": "in_degree"
+        },
         "number": 20,
         "subsampling": {
-          "levels": [95, 90, 80, 70, 50],
-          "number_samples": 10,
-          "number_subsamples": 5
+          "levels": [
+            90,
+            80,
+            70,
+            50
+          ],
+          "number_samples": 5,
+          "number_subsamples": 4
+        }
+      },
+      {
+        "name": "Out-degree",
+        "value": {
+          "column": "out_degree"
+        },
+        "number": 20,
+        "subsampling": {
+          "levels": [
+            90,
+            80,
+            70,
+            50
+          ],
+          "number_samples": 5,
+          "number_subsamples": 4
         }
       }
     ]
   },
   "Random": {
     "Specifier_label": "M-type",
-    "Specifiers":[
+    "Specifiers": [
+      {
+        "name": "L1_DLAC",
+        "value": {
+          "column": "mtype",
+          "value": "L1_DLAC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L1_HAC",
+        "value": {
+          "column": "mtype",
+          "value": "L1_HAC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L1_DAC",
+        "value": {
+          "column": "mtype",
+          "value": "L1_DAC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L1_SLAC",
+        "value": {
+          "column": "mtype",
+          "value": "L1_SLAC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L1_NGC-DA",
+        "value": {
+          "column": "mtype",
+          "value": "L1_NGC-DA"
+        },
+        "number": 20
+      },
+      {
+        "name": "L1_NGC-SA",
+        "value": {
+          "column": "mtype",
+          "value": "L1_NGC-SA"
+        },
+        "number": 20
+      },
       {
         "name": "L23_PC",
-        "value": {"column": "mtype", "value": "L23_PC"},
+        "value": {
+          "column": "mtype",
+          "value": "L23_PC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L23_LBC",
+        "value": {
+          "column": "mtype",
+          "value": "L23_LBC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L23_NBC",
+        "value": {
+          "column": "mtype",
+          "value": "L23_NBC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L23_SBC",
+        "value": {
+          "column": "mtype",
+          "value": "L23_SBC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L23_MC",
+        "value": {
+          "column": "mtype",
+          "value": "L23_MC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L23_DBC",
+        "value": {
+          "column": "mtype",
+          "value": "L23_DBC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L23_BTC",
+        "value": {
+          "column": "mtype",
+          "value": "L23_BTC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L23_NGC",
+        "value": {
+          "column": "mtype",
+          "value": "L23_NGC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L23_BP",
+        "value": {
+          "column": "mtype",
+          "value": "L23_BP"
+        },
+        "number": 20
+      },
+      {
+        "name": "L23_ChC",
+        "value": {
+          "column": "mtype",
+          "value": "L23_ChC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L4_SS",
+        "value": {
+          "column": "mtype",
+          "value": "L4_SS"
+        },
+        "number": 20
+      },
+      {
+        "name": "L4_MC",
+        "value": {
+          "column": "mtype",
+          "value": "L4_MC"
+        },
         "number": 20
       },
       {
         "name": "L4_PC",
-        "value": {"column": "mtype", "value": "L4_PC"},
+        "value": {
+          "column": "mtype",
+          "value": "L4_PC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L4_SP",
+        "value": {
+          "column": "mtype",
+          "value": "L4_SP"
+        },
+        "number": 20
+      },
+      {
+        "name": "L4_NBC",
+        "value": {
+          "column": "mtype",
+          "value": "L4_NBC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L4_DBC",
+        "value": {
+          "column": "mtype",
+          "value": "L4_DBC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L4_LBC",
+        "value": {
+          "column": "mtype",
+          "value": "L4_LBC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L4_SBC",
+        "value": {
+          "column": "mtype",
+          "value": "L4_SBC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L4_NGC",
+        "value": {
+          "column": "mtype",
+          "value": "L4_NGC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L4_BP",
+        "value": {
+          "column": "mtype",
+          "value": "L4_BP"
+        },
+        "number": 20
+      },
+      {
+        "name": "L4_BTC",
+        "value": {
+          "column": "mtype",
+          "value": "L4_BTC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L4_ChC",
+        "value": {
+          "column": "mtype",
+          "value": "L4_ChC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L5_TTPC1",
+        "value": {
+          "column": "mtype",
+          "value": "L5_TTPC1"
+        },
+        "number": 20
+      },
+      {
+        "name": "L5_TTPC2",
+        "value": {
+          "column": "mtype",
+          "value": "L5_TTPC2"
+        },
+        "number": 20
+      },
+      {
+        "name": "L5_STPC",
+        "value": {
+          "column": "mtype",
+          "value": "L5_STPC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L5_MC",
+        "value": {
+          "column": "mtype",
+          "value": "L5_MC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L5_UTPC",
+        "value": {
+          "column": "mtype",
+          "value": "L5_UTPC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L5_DBC",
+        "value": {
+          "column": "mtype",
+          "value": "L5_DBC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L5_NBC",
+        "value": {
+          "column": "mtype",
+          "value": "L5_NBC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L5_LBC",
+        "value": {
+          "column": "mtype",
+          "value": "L5_LBC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L5_BP",
+        "value": {
+          "column": "mtype",
+          "value": "L5_BP"
+        },
+        "number": 20
+      },
+      {
+        "name": "L5_BTC",
+        "value": {
+          "column": "mtype",
+          "value": "L5_BTC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L5_SBC",
+        "value": {
+          "column": "mtype",
+          "value": "L5_SBC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L5_ChC",
+        "value": {
+          "column": "mtype",
+          "value": "L5_ChC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L5_NGC",
+        "value": {
+          "column": "mtype",
+          "value": "L5_NGC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L6_UTPC",
+        "value": {
+          "column": "mtype",
+          "value": "L6_UTPC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L6_TPC_L1",
+        "value": {
+          "column": "mtype",
+          "value": "L6_TPC_L1"
+        },
+        "number": 20
+      },
+      {
+        "name": "L6_BPC",
+        "value": {
+          "column": "mtype",
+          "value": "L6_BPC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L6_IPC",
+        "value": {
+          "column": "mtype",
+          "value": "L6_IPC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L6_MC",
+        "value": {
+          "column": "mtype",
+          "value": "L6_MC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L6_TPC_L4",
+        "value": {
+          "column": "mtype",
+          "value": "L6_TPC_L4"
+        },
+        "number": 20
+      },
+      {
+        "name": "L6_LBC",
+        "value": {
+          "column": "mtype",
+          "value": "L6_LBC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L6_BP",
+        "value": {
+          "column": "mtype",
+          "value": "L6_BP"
+        },
+        "number": 20
+      },
+      {
+        "name": "L6_NBC",
+        "value": {
+          "column": "mtype",
+          "value": "L6_NBC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L6_ChC",
+        "value": {
+          "column": "mtype",
+          "value": "L6_ChC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L6_NGC",
+        "value": {
+          "column": "mtype",
+          "value": "L6_NGC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L6_BTC",
+        "value": {
+          "column": "mtype",
+          "value": "L6_BTC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L6_SBC",
+        "value": {
+          "column": "mtype",
+          "value": "L6_SBC"
+        },
+        "number": 20
+      },
+      {
+        "name": "L6_DBC",
+        "value": {
+          "column": "mtype",
+          "value": "L6_DBC"
+        },
         "number": 20
       }
     ]

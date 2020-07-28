@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='toposample',
-    version='0.03',
+    version='0.04',
     install_requires=['h5py', 'numpy', 'simplejson', 'scipy>=1.0.0', 'scikit-learn', 'pandas',
                       'progressbar'],
     packages=find_packages(),

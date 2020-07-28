@@ -5,6 +5,7 @@ import pandas
 import json
 
 from toposample import config
+from toposample.db import get_column_from_database
 
 
 def read_input(input_config):
@@ -13,10 +14,8 @@ def read_input(input_config):
 
 
 # noinspection PyPep8Naming
-def pick_champs_from_column(db, column, N, index=None):
-    decider = db[column]
-    if index is not None:
-        decider = [_x[index] if len(_x) > index else 0 for _x in decider]
+def pick_champs_from_column(db, column, N, index=None, function=None):
+    decider = get_column_from_database(db, column, index=index, function=function)
     picked = numpy.argsort(decider)[-N:]
     return db.index[picked]
 
@@ -47,7 +46,8 @@ def random_subsample(base_samples, ss_specs, specifier):
 def make_sample(db, specifications):
     N = specifications["number"]
     spec_val = specifications["value"]
-    chiefs = pick_champs_from_column(db, spec_val["column"], N, index=spec_val.get("index", None))
+    chiefs = pick_champs_from_column(db, spec_val["column"], N, index=spec_val.get("index", None),
+                                     function=spec_val.get("function", None))
 
     out_dict = {specifications["name"]: {}}
     for i, chief in enumerate(chiefs):
