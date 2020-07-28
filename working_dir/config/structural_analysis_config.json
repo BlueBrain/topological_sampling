@@ -1,24 +1,116 @@
 {
   "Parameters": [
     {
-      "name": "In-degree",
+      "name": "Clustering coefficient",
       "value": {
-        "column": "in_degree"
+        "column": "C_ks",
+        "index": 2
+      },
+      "prediction_strategy": {
+        "number_sampled": 25000
+      }
+    },
+    {
+      "name": "Alternative clustering coefficient",
+      "value": {
+        "column": "old_Cks",
+        "index": 2
       },
       "prediction_strategy": {
         "number_sampled": 1000
       }
     },
     {
-      "name": "Betti 2",
-      "value": {"column": "bettis", "index": 2},
+      "name": "Adjacency spectrum",
+      "value": {
+        "column": "adjacency_spectrum",
+        "function": "smallest_nonzero_value"
+      },
+      "prediction_strategy": {
+        "number_sampled": 10000
+      }
+    },
+    {
+      "name": "Laplacian spectrum",
+      "value": {
+        "column": "laplacian_spectrum",
+        "function": "smallest_nonzero_value"
+      },
+      "prediction_strategy": {
+        "number_sampled": 25000
+      }
+    },
+    {
+      "name": "Ricci curvature",
+      "value": {
+        "column": "ricci_curvature"
+      },
       "prediction_strategy": {
         "number_sampled": 1000
       }
     },
     {
+      "name": "Betti coefficient",
+      "value": {
+        "column": "betti_coeff"
+      },
+      "prediction_strategy": {
+        "number_sampled": 100
+      }
+    },
+    {
       "name": "Euler characteristic",
-      "value": {"column": "euler_characteristic"},
+      "value": {
+        "column": "euler_characteristic"
+      },
+      "prediction_strategy": {
+        "number_sampled": 100
+      }
+    },
+    {
+      "name": "Betti two",
+      "value": {
+        "column": "bettis",
+        "index": 2
+      },
+      "prediction_strategy": {
+        "number_sampled": 100
+      }
+    },
+    {
+      "name": "Betti three",
+      "value": {
+        "column": "bettis",
+        "index": 3
+      },
+      "prediction_strategy": {
+        "number_sampled": 100
+      }
+    },
+    {
+      "name": "Two simplex containment",
+      "value": {
+        "column": "simplex_containment",
+        "index": 2
+      },
+      "prediction_strategy": {
+        "number_sampled": 1000
+      }
+    },
+    {
+      "name": "In-degree",
+      "value": {
+        "column": "in_degree"
+      },
+      "prediction_strategy": {
+        "number_sampled": 25000
+      }
+    },
+    {
+      "name": "Out-degree",
+      "value": {
+        "column": "out_degree"
+      },
       "prediction_strategy": {
         "number_sampled": 1000
       }

@@ -4,6 +4,7 @@ import json
 
 from toposample import config
 from toposample import TopoData
+from toposample.db import get_entry_from_row, get_column_from_database
 
 
 def read_input(input_config):
@@ -19,10 +20,9 @@ def lookup_parameter_from_db_by_chief(db, list_of_parameters, chief):
     row = db.loc[chief]
     out_dict = {}
     for param_spec in list_of_parameters:
-        v = row[param_spec["value"]["column"]]
-        idx = param_spec["value"].get("index", None)
-        if idx is not None:
-            v = v[idx]
+        v = get_entry_from_row(row, param_spec["value"]["column"],
+                               index=param_spec["value"].get("index", None),
+                               function=param_spec["value"].get("function", None))
         out_dict[param_spec["name"]] = int(v)
     return out_dict
 
@@ -42,7 +42,6 @@ def top_n_weighted_average(w, v, n=10):
     idxx = numpy.argsort(w)[-n:]
     v = v[idxx]
     w = w[idxx]
-
     return numpy.nansum(w * v) / numpy.nansum(w)
 
 
@@ -50,10 +49,9 @@ def predict_parameter_from_db_by_gids(db, list_of_parameters, gids):
     _, relative_overlap = tribal_spectrum(db, gids)
     out_dict = {}
     for param_spec in list_of_parameters:
-        v = db[param_spec["value"]["column"]].values
-        idx = param_spec["value"].get("index", None)
-        if idx is not None:
-            v = [_v[idx] if len(_v) > idx else 0 for _v in v]
+        v = get_column_from_database(db, param_spec["value"]["column"],
+                                     index=param_spec["value"].get("index", None),
+                                     function=param_spec["value"].get("function", None))
         N = param_spec["prediction_strategy"]["number_sampled"]
         out_dict[param_spec["name"]] = top_n_weighted_average(relative_overlap, v, n=N)
     return out_dict

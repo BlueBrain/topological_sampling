@@ -4,7 +4,10 @@ from toposample.db import lookup_functions
 def get_entry_from_row(row, column_name, index=None, function=None):
     v = row[column_name]
     if index is not None:
-        v = v[index]
+        if len(v) > index:
+            v = v[index]
+        else:
+            v = 0
     if function is not None:
         v = lookup_functions.__dict__[function](v)
     return v
