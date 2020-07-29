@@ -1,4 +1,16 @@
 {
   "train_size" : 0.6,
-  "random_seeds": [0, 1, 2, 3, 4, 5]
+  "random_seeds": [0, 1, 2, 3, 4, 5],
+  "selected": "SVC",
+
+  "classifiers": {
+    "SVC": {
+      "classifier_module": "sklearn.svm",
+      "classifier_class": "SVC",
+      "init_kwargs": {
+        "cache_size": 500,
+        "gamma": "scale"
+      }
+    }
+  }
 }

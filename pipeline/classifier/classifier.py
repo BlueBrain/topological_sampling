@@ -3,12 +3,17 @@ import numpy
 import h5py
 import json
 
+import importlib
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import cross_val_score
-from sklearn.svm import SVC
 
 from toposample import config, data
+
+
+def make_classifier(clasifier_specs):
+    module = importlib.import_module(clasifier_specs["classifier_module"])
+    classifier_class = module.__dict__[clasifier_specs["classifier_class"]]
+    return classifier_class(**clasifier_specs["init_kwargs"])
 
 
 def write_results_file(scores, y_truth, y_predicted, out_root, conds):
@@ -26,13 +31,13 @@ def write_results_file(scores, y_truth, y_predicted, out_root, conds):
 
 
 def execute_classifier(features, stage_cfg):
-    X = StandardScaler().fit_transform(features[:, :-1])
+    X = StandardScaler().fit_transform(features[:, :-1]) # TODO: Configured from config file
     y = features[:, -1]
 
     # dividing X, y into train and test data
     # X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=stage_cfg["train_size"], random_state=0)
 
-    clf = SVC(cache_size=500, gamma='scale')
+    clf = make_classifier(stage_cfg["classifiers"][stage_cfg["selected"]])
     # cv_scores = cross_val_score(clf, X, y, cv=stage_cfg["num_cv"])
     test_scores = []
     test_truth = []
