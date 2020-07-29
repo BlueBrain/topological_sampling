@@ -20,11 +20,11 @@ def read_input(input_config):
     return spikes, stims, tribal_chiefs, tribal_gids
 
 
-def spikes_to_y_vec(spikes, gids, t_bin_width):
+def spikes_to_y_vec(spikes, gids, t_bin_width, t_stim_start):
     t_max = numpy.ceil(numpy.max(spikes[:, 0]) / t_bin_width) * t_bin_width
     spikes = spikes[numpy.in1d(spikes[:, 1], gids)]
     gid_bins = numpy.hstack([sorted(gids), numpy.max(gids) + 1])
-    t_bins = numpy.arange(0, t_max + t_bin_width, t_bin_width)
+    t_bins = numpy.arange(t_stim_start, t_max + t_bin_width, t_bin_width)
     out = numpy.histogram2d(spikes[:, 1], spikes[:, 0], bins=(gid_bins, t_bins))[0]
     return out
 
@@ -74,7 +74,7 @@ def transform_all(spikes, stims, tribal_chiefs, tribal_gids, stage_config, out_r
         #  TODO: Skip if output file already exists. Currently that case will throw an error.
         print("Transforming for {0}".format(res.cond))
         gids = res.res
-        y_vec = spikes_to_y_vec(spikes, gids, stage_config["t_bin_width"])
+        y_vec = spikes_to_y_vec(spikes, gids, stage_config["t_bin_width"], stage_config["t_stim_start"])
         transformed, components, mn, noise_variance = factor_analysis(y_vec, stage_config["n_components"])
         tf_split = split_transformed_into_t_wins(transformed, stims)
         chief = tribal_chiefs.get2(**res.cond)
