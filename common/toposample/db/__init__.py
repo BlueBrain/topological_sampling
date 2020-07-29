@@ -1,6 +1,17 @@
 from toposample.db import lookup_functions
 
 
+'''This file provides some functionality to interact with the "topological database file" that is generated in the
+"gen_topo_db" step. In particular, the "database" contains in some columns not just single values, but vectors
+of values. To reduce that to a single value, either an index has to be specified, or a function (such as max or min).
+
+This file provides three convenience functions that serve this purpose. In all functions, the default behavior is
+to just return the value in the specified column. If required, index and/or function are specified through
+the corresponding kwargs. The function must be specified as a string that names a function inside the
+toposample/db/lookup_functions.py file.
+'''
+
+
 def get_entry_from_row(row, column_name, index=None, function=None):
     v = row[column_name]
     if index is not None:
