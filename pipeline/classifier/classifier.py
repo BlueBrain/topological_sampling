@@ -16,10 +16,10 @@ def make_classifier(clasifier_specs):
     return classifier_class(**clasifier_specs["init_kwargs"])
 
 
-def write_results_file(scores, y_truth, y_predicted, out_root, conds):
+def write_results_file(scores, y_truth, y_predicted, out_root, results_fn, conds):
     out_fn = os.path.join(out_root, conds.get("sampling", "UNSPECIFIED"),
                           conds.get("specifier", "UNSPECIFIED"),
-                          conds.get("index", "UNSPECIFIED"), "results.h5")
+                          conds.get("index", "UNSPECIFIED"), results_fn)
     assert not os.path.exists(out_fn)
     if not os.path.exists(os.path.split(out_fn)[0]):
         os.makedirs(os.path.split(out_fn)[0])
@@ -53,12 +53,12 @@ def execute_classifier(features, classifier_cfg):
     return test_scores, test_truth, test_predictions
 
 
-def execute_classifier_all(input_struc, label_struc, classifier_cfg, out_root):
+def execute_classifier_all(input_struc, label_struc, classifier_cfg, out_root, results_fn):
     result_lookup = {}
     for res in input_struc.contents:
         print("Evaluating for {0}".format(res.cond))
         scores, y_truth, y_pred = execute_classifier(res.res, classifier_cfg)
-        out_fn = write_results_file(scores, y_truth, y_pred, out_root, res.cond)
+        out_fn = write_results_file(scores, y_truth, y_pred, out_root, results_fn, res.cond)
         spec_lvl = result_lookup.setdefault(res.cond["sampling"], {}).setdefault(res.cond["specifier"], {})
         chief = label_struc.get2(**res.cond)
         spec_lvl[res.cond["index"]] = {"data_fn": out_fn, "idv_label": chief}
@@ -95,7 +95,7 @@ class ReadInput:
         return res
 
 
-def write_output_for_manifold(res_dict, fn_out):
+def write_output(res_dict, fn_out):
     if os.path.exists(fn_out):
         with open(fn_out, "r") as fid:
             existing = json.load(fid)
@@ -118,9 +118,9 @@ def main(path_to_config, input_type, **kwargs):
     res_dict = execute_classifier_all(class_data["data_fn"].filter(**kwargs),
                                       class_data["idv_label"].filter(**kwargs),
                                       classifier_cfg,
-                                      stage["other"])
-    write_output_for_manifold(res_dict,
-                              stage["outputs"]["classifier_{0}_results".format(input_type)])
+                                      stage["other"], "results_" + input_type + ".h5")
+    write_output(res_dict,
+                 stage["outputs"]["classifier_{0}_results".format(input_type)])
 
 
 def parse_filter_arguments(*args):
