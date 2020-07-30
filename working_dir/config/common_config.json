@@ -17,14 +17,9 @@
         "tribes": "tribes.json",
         "struc_parameters": "structural_parameters.json",
         "components": "extracted_components.json",
-        "ec_values": "ec_values.json",
-        "features": "features.npy",
-        "classifier_test_scores": "classifier_test_scores.npy",
-        "classifier_cv_scores": "classifier_cv_scores.npy",
+        "features": "features.json",
         "classifier_manifold_results": "classifier_manifold_results.json",
-        "classification_hc": "classification_hc.h5",
-        "accuracy_hc": "accuracy_hc.json",
-        "accuracy": "accuracy.txt"
+        "classifier_features_results": "classifier_features_results.json"
       }
     },
     "other": {
@@ -36,9 +31,9 @@
         "split_spikes": "input_data_config.json",
         "classifier": "classifier_config.json",
         "ec_analysis": "ec_analysis_config.json",
-        "evaluator": "evaluator_config.json",
         "gen_topo_db": "topo_db_config.json",
         "manifold_analysis": "manifold_config.json",
+        "topological_featurization": "featurization_config.json",
         "sample_tribes": "sampling_config.json",
         "struc_tribe_analysis": "structural_analysis_config.json"
       }
@@ -90,24 +85,24 @@
              "components": "analyzed"
           }
       },
+      "topological_featurization": {
+          "inputs": {
+            "split_spikes": "analyzed",
+            "database": "analyzed",
+            "tribes": "analyzed"
+          },
+          "outputs": {
+            "features": "analyzed"
+          }
+      },
       "classifier": {
           "inputs": {
              "features": "analyzed",
              "components": "analyzed"
           },
           "outputs": {
-             "classifier_test_scores": "analyzed",
-             "classifier_cv_scores": "analyzed",
+             "classifier_features_results": "analyzed",
              "classifier_manifold_results": "analyzed"
-          }
-      },
-      "evaluator": {
-          "inputs": {
-             "classifier_test_scores": "analyzed",
-             "classifier_cv_scores": "analyzed"
-          },
-          "outputs": {
-             "accuracy": "analyzed"
           }
       }
   }
