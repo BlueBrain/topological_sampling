@@ -11,7 +11,7 @@ Sub-steps:
     Run separately for classification based on topological features and based on manifol analysis:
         python pipeline/classifier/classifier.py working_dir/config/common_config.json features
         python pipeline/classifier/classifier.py working_dir/config/common_config.json manifold
-    Alternatively, the two sub-steps also can be run in separate steps.
+    Alternatively, the two sub-steps can be separated further by running them separately for different samplings.
     This allows you to trivially parallelize the calculation:
         python pipeline/classifier/classifier.py working_dir/config/common_config.json features “sampling=M-type” “specifier=L23_PC”
         python pipeline/classifier/classifier.py working_dir/config/common_config.json features “sampling=M-type” “specifier=L4_PC”
