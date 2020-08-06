@@ -19,7 +19,8 @@
         "components": "extracted_components.json",
         "features": "features.json",
         "classifier_manifold_results": "classifier_manifold_results.json",
-        "classifier_features_results": "classifier_features_results.json"
+        "classifier_features_results": "classifier_features_results.json",
+        "triads": "triads.json"
       }
     },
     "other": {
@@ -35,7 +36,8 @@
         "manifold_analysis": "manifold_config.json",
         "topological_featurization": "featurization_config.json",
         "sample_tribes": "sampling_config.json",
-        "struc_tribe_analysis": "structural_analysis_config.json"
+        "struc_tribe_analysis": "structural_analysis_config.json",
+        "count_triads": "triad_config.json"
       }
     }
   },
@@ -73,6 +75,16 @@
           },
           "outputs": {
               "struc_parameters": "analyzed"
+          }
+      },
+      "count_triads": {
+          "inputs": {
+              "adjacency_matrix": "inputs",
+              "neuron_info": "inputs",
+              "tribes": "analyzed"
+          },
+          "outputs": {
+              "triads": "analyzed"
           }
       },
       "manifold_analysis": {
