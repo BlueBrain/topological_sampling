@@ -1,12 +1,12 @@
 {
-	"parameters": ["Euler characteristic","Betti numbers"],
+	"parameters": ["Betti numbers","Euler characteristic"],
 	"precision": 10e-5,
 	"Euler characteristic": {
-								"source": "euler_char.py",
+								"source": "euler_char",
 								"column_name": "euler_char"
 							},
 	"Betti numbers": {
-						"source": "bettis.py",
+						"source": "bettis",
 						"column_name": "bettis"
 					 }
 
