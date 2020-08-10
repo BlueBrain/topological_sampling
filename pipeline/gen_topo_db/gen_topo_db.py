@@ -48,7 +48,7 @@ def main(path_to_config):
 
     # Loop over the tribe parameters as listed in topo_db_config, each loop makes a call to the associated function computing the parameter values and injects into DB.
     for parameter in topo_db_cfg["parameters"]:
-    	module = importlib.import_module(topo_db_cfg[parameter]["source"])
+    	module = importlib.import_module("../pipeline/gen_topo_db/" + topo_db_cfg[parameter]["source"])
     	DB[topo_db_cfg[parameter]["column_name"]] = module.compute(DB["tribe"],adj_matrix,precision)
 
     write_output(DB, stage["outputs"])
