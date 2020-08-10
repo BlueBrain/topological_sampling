@@ -1,5 +1,5 @@
 {
-	"parameters": ["Betti numbers","Euler characteristic"],
+	"parameters": ["Chung laplacian"],
 	"precision": 10e-5,
 	"Euler characteristic": {
 								"source": "euler_char",
@@ -8,6 +8,10 @@
 	"Betti numbers": {
 						"source": "bettis",
 						"column_name": "bettis"
-					 }
+					 },
+	"Chung laplacian": {
+							"source": "chung_laplacian_spectrum",
+							"column_name": "chung_spectrum"
+					   }
 
 }

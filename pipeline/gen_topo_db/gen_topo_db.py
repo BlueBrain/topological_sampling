@@ -43,6 +43,9 @@ def main(path_to_config):
     # Compute all the tribes
     DB["tribe"] = add_tribes(adj_matrix)
 
+    # Add actual GIDs
+    DB["gid"] = DB.index + 62693
+
     # TODO: Add neuron info
     # add_neuron_info(neuron_info)
 
