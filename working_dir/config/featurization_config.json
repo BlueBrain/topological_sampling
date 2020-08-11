@@ -1,2 +1,4 @@
 {
+	"time_bin": 10,
+	"topo_method": ["EC","Euler characteristic analysis"]
 }
