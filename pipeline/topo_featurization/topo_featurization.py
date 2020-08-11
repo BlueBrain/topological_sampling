@@ -1,13 +1,12 @@
 import numpy as np
-import pandas as pd
-import pickle as pkl
-import importlib
 from toposample import config
-import importlib
+import json
+
 
 def read_input(input_config):
     spiketrains = np.load(input_config["split_spikes"])
-    return spiketrains
+    tribes = json.load(input_config["tribes"])
+    return spiketrains,tribes
 
 def write_output(feature_vectors,output_config):
 	np.save(feature_vectors,output_config["features"])
@@ -23,33 +22,33 @@ def main(path_to_config):
     stage = cfg.stage("topological_featurization")
 
     # Fetch spiketrains
-    spiketrains = read_input(stage["inputs"])
+    spiketrains,tribes = read_input(stage["inputs"]) # TODO: check the format of tribes.json
 
     topo_featurization_cfg = stage["config"]["topological_featurization"]
 
     timebin = topo_featurization_cfg["time_bin"]
 
-    # communities_for_featurization contains active subcommunities in each time bin: first n positions are the n active subcommunities for the first timebin,
-    # in descending order by the structural parameter. Then follows the n active subcommunities for the second timebin etc.
-    for activation_class in range(len(spiketrains)):
+    # tribes_for_featurization contains active subtribes in each time bin: first n positions are the n active subtribes for the first timebin,
+    # in descending order by their chiefs. Then follows the n active subtribes for the second timebin etc.
+    for stimulus_class in range(len(spiketrains)):
         experiment_ID = 0
         
-        for experiment in spiketrains[activation_class]:
-            communities_for_featurization = []
+        for experiment in spiketrains[stimulus_class]:
+            tribes_for_featurization = []
 
-            for t in range(20): # This loop works OK
-                spikers = (experiment[(experiment[:,0] > t*timebin) & (experiment[:,0] <= (t+1)*timebin)][:,1]-62693).astype(dtype=int)
+            for t in range(20): # TODO: not hard-coded to 20, depends on stimulation experiment duration
+                spikers = (experiment[(experiment[:,0] > t*timebin) & (experiment[:,0] <= (t+1)*timebin)][:,1]-62693).astype(dtype=int) # TODO: check the need for the magical number 62693
 
-                for community in communities:
-                    communities_for_featurization.append(np.intersect1d(community,spikers))
+                for tribe in tribes: 
+                    tribes_for_featurization.append(np.intersect1d(tribe,spikers))
 
-            # get Euler characteristic of the active subcommunities
-            feature_vector = [Flagsering(parameter,community) for community in communities_for_featurization]
-            feature_vector.append(activation_class)
-            feature_vectors.append(feature_vector)
-            #print(f'{parameter} Activation class {activation_class} Experiment {experiment_ID}')
-            output.write(f'{parameter} Activation class {activation_class} Experiment {experiment_ID}\n')
-            experiment_ID += 1
+            if topo_featurization_cfg["topo_method"][0] == "EC":
+                # get Euler characteristic of the active subcommunities
+                feature_vector = [Flagsering(parameter,tribe) for tribe in tribes_for_featurization] # TODO: incorporate Flagser and Flagsering utilities, make separate module?
+                feature_vector.append(stimulus_class)
+                feature_vectors.append(feature_vector)
+                print(f'{parameter} Activation class {stimulus_class} Experiment {experiment_ID} featurized by {topo_featurization_cfg["topo_method"][1]}')
+                experiment_ID += 1
 
     write_output(np.array(feature_vectors), stage["outputs"])
 
