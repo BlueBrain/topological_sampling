@@ -1,4 +1,4 @@
-import numpy as np
+import numpy
 import pandas as pd
 import os
 import importlib
@@ -24,6 +24,8 @@ def add_tribes(adj_matrix):  # For now: indices, not neuron gids
 
     # Add transpose to get both in- and out-neighbors
     M = adj_matrix.transpose() + adj_matrix
+    # Add diagonal such the each chief is part of its tribe
+    M[numpy.diag_indices_from(M)] = True
     # Since we iterate rows, we want csr
     if M.format != 'csr':
         M = M.asformat('csr')
@@ -71,6 +73,7 @@ def main(path_to_config):
     import_root = os.path.split(__file__)[0]
     sys.path.insert(0, import_root)
     for parameter in topo_db_cfg["parameters"]:
+        print("Calculating {0} for all tribes...".format(parameter))
         module = importlib.import_module(topo_db_cfg[parameter]["source"])
         DB[topo_db_cfg[parameter]["column_name"]] = module.compute(DB["tribe"], adj_matrix, precision)
 

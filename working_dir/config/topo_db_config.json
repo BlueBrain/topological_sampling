@@ -1,6 +1,6 @@
 {
 	"parameters": ["Chung laplacian"],
-	"precision": 10e-5,
+	"precision": 4,
 	"Euler characteristic": {
 								"source": "euler_char",
 								"column_name": "euler_char"
