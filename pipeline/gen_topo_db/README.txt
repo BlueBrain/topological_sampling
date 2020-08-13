@@ -2,6 +2,6 @@ High level description: Generates the database of specified topological paramete
 
 Language(s): Python
 
-Additional dependencies: Pandas
+Additional dependencies: Pandas, networkx
 
 Sub-steps: Collection of functions injecting into DataFrame, each function responsible for a single parameter.
