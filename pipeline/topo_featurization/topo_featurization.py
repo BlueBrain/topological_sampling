@@ -9,6 +9,7 @@ import progressbar
 from scipy import sparse
 
 from toposample import config, TopoData
+from toposample.data.data_structures import ConditionCollection
 from toposample.indexing import GidConverter
 
 
@@ -20,11 +21,9 @@ def Flagsering(*args):
 def read_input(input_config):
     spiketrains = np.load(input_config["split_spikes"], allow_pickle=True)
     tribes = TopoData(input_config["tribes"])
-    # tribal_chiefs = tribes["chief"]  # TODO: Might want to add them to the output..?
-    tribal_gids = tribes["gids"]
     adj_matrix = sparse.load_npz(input_config["adjacency_matrix"])
     neuron_info = pandas.read_pickle(input_config["neuron_info"])
-    return spiketrains, tribal_gids, adj_matrix, neuron_info
+    return spiketrains, tribes, adj_matrix, neuron_info
 
 
 def write_output(data, output_config):
@@ -136,8 +135,22 @@ def make_write_h5(output_root):
                 grp = h5.create_group("per_stimulus")
                 for stim_id, features in enumerate(feature_data):
                     grp.create_dataset("stim{0}".format(stim_id), data=features)
-            yield out_fn, {"sampling": sampling, "specifier": specifier, "index": index}
+            yield {"data_fn": out_fn}, {"sampling": sampling, "specifier": specifier, "index": index}
     return write_h5
+
+
+def get_idv_label(tribal_data, label_str="idv_label"):
+    """
+    :param tribal_data: TopoData object holding data about the sampled tribes
+    :return: a ConditionCollection object holding further data about the sampled tribes (such as tribal chiefs) that
+    is supposed to be inherited by the output of this stage.
+    """
+    def make_idv_label_dict(some_data):
+        return {label_str: some_data}
+    data_points = []
+    for lbl in ['chief', 'parent', 'center_offset']:
+        data_points.extend(tribal_data[lbl].map(make_idv_label_dict).contents)
+    return ConditionCollection(data_points)
 
 
 def ordered_list(idxx, data):
@@ -160,7 +173,8 @@ def main(path_to_config, **kwargs):
     t_bins = np.arange(n_t_bins + 1) * timebin
 
     # 2. Read input data
-    spiketrains, tribes, adj_matrix, neuron_info = read_input(stage["inputs"])
+    spiketrains, tribal_data, adj_matrix, neuron_info = read_input(stage["inputs"])
+    tribes = tribal_data["gids"]
     tribes = tribes.filter(**kwargs)
 
     # 3. Analyze.
@@ -181,6 +195,9 @@ def main(path_to_config, **kwargs):
     # transform writes data into individual hdf5 files and returns their paths.
     fn_data = features_data.transform(["sampling", "specifier", "index"],  # data: str (path to .h5 file)
                                       func=make_write_h5(stage['other']), xy=True)
+    # There is some additional info about the neuron samples that we want to inherit from the "tribes" structure.
+    # So we add that info to fn_data
+    fn_data.extended_map(lambda x, y: x.update(y[0]), [get_idv_label(tribal_data)])
     write_output(TopoData.condition_collection_to_dict(fn_data), stage["outputs"])
 
 
