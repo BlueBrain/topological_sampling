@@ -11,12 +11,14 @@ Then run the pipeline steps in order:
 - pipeline/gen_topo_db
 - pipeline/sample_tribes
 - pipeline/struc_tribe_analysis
+- pipeline/count_triads
 - pipeline/split_time_windows
 - pipeline/manifold_analysis
 - pipeline/topological_featurization
 - pipeline/classifier
 
-Each step of the pipelin provides its own README that describes how to run it.
+Each step of the pipelin provides its own README that describes how to run it. It also lists potential additional dependencies in addition to the ones listed in common/setup.py
+
 Configuration of each step and the pipeline as a whole is given in working_dir/config. If you want to change some of the parameters either edit them directly, or create a copy of the working_dir and change the configuration in that copy and work there.
 
 After running the pipeline the analyzed output data is found under working_dir/data/analyzed_data.
