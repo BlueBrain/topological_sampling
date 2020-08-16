@@ -1,4 +1,8 @@
 {
 	"time_bin": 10,
-	"topo_method": ["EC","Euler characteristic analysis"]
+	"topo_method": "Euler characteristic analysis",
+	"Euler characteristic analysis": {
+		"source": "call_flagser",
+		"kwargs": {"parameter":  "euler"}
+	}
 }

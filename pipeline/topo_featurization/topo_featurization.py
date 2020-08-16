@@ -1,8 +1,14 @@
 import json
 import os
+import importlib
+import pandas
 import numpy as np
+import progressbar
+
+from scipy import sparse
 
 from toposample import config, TopoData
+from toposample.indexing import GidConverter
 
 
 def Flagsering(*args):
@@ -13,9 +19,11 @@ def Flagsering(*args):
 def read_input(input_config):
     spiketrains = np.load(input_config["split_spikes"], allow_pickle=True)
     tribes = TopoData(input_config["tribes"])
-    tribal_chiefs = tribes["chief"]
+    # tribal_chiefs = tribes["chief"]  # TODO: Might want to add them to the output..?
     tribal_gids = tribes["gids"]
-    return spiketrains, tribal_gids
+    adj_matrix = sparse.load_npz(input_config["adjacency_matrix"])
+    neuron_info = pandas.read_pickle(input_config["neuron_info"])
+    return spiketrains, tribal_gids, adj_matrix, neuron_info
 
 
 def write_output(data, output_config):
@@ -33,6 +41,13 @@ def write_output(data, output_config):
 
 
 def split_into_t_bins(spike_data, t_bins, n_t_bins):
+    """
+    Splits spiking data into regular time bins of specified size.
+    :param spike_data: n x 2 array. First column: spike time; second column spiking neuron gid
+    :param t_bins: The edges of time bins to use.
+    :param n_t_bins: Number of time bins (len(t_bins) - 1).
+    :return: List of m x 2 numpy arrays for the individual time bins (in order). sum(m_i) <= n
+    """
     bin_ids = np.digitize(spike_data[:, 0], t_bins)
     return [spike_data[bin_ids == i, 1].astype(int)
             for i in range(1, n_t_bins + 1)]
@@ -42,11 +57,11 @@ def generate_spikers(spiketrains, t_bins, n_t_bins):
     """
     generate_spikers: Which gids fire a spike in each time bin of each trial?
     :param spiketrains: Spiking data, split first by stimulus id, then by trial. Each entry a numpy.array with
-    shape n_spikes x 2. First column: time of spike; second column gid of spiking neuron
+    shape n_spikes x 2. First column: time of spike; second column identifier of spiking neuron
     :param t_bins: edges of time bins to use
     :param n_t_bins: len(t_bins) - 1
     :return: list of lists of lists of numpy.arrays. First index: Stimulus id; second index: trial;
-    third index: time bin; entries: array of spiking gids
+    third index: time bin; entries: array of identifiers of spiking neurons
     """
     res = []
     for spikes_for_stim in spiketrains:
@@ -56,27 +71,45 @@ def generate_spikers(spiketrains, t_bins, n_t_bins):
     return res
 
 
-def make_topo_features_for_tribes(spiketrains, t_bins, parameter):
+def translate_spiketrains_to_local_id(spiketrains, converter):
+    for per_stimulus in spiketrains:
+        for train in per_stimulus:
+            train[:, 1] = converter.indices(train[:, 1])
+
+
+def make_topo_features_for_tribes(spiketrains, t_bins, parameter, adj_matrix, converter):
     """
     :param spiketrains: Spiking data, split first by stimulus id, then by trial. Each entry a numpy.array with
     shape n_spikes x 2. First column: time of spike; second column gid of spiking neuron
     :param t_bins: edges of time bins to use
     :param parameter: No idea
+    :param adj_matrix: adjacency matrix of the entire population
+    :param converter: toposample.indexing.GidConverter object
     :return: a function object that can be used in an unpool operation to generate feature arrays for each stimulus.
     Adds the "stimulus" condition. individual data is an array of shape n_t_bins x 1 x n_trials
     """
+    translate_spiketrains_to_local_id(spiketrains, converter)  # Using indices into adj_matrix instead of gids.
     spikers = generate_spikers(spiketrains, t_bins, len(t_bins) - 1)
 
+    # Dynamic import of specified analyzis module
+    import_root = os.path.split(__file__)[0]
+    sys.path.insert(0, import_root)
+    module = importlib.import_module(parameter["source"])
+
     def topo_features_for_tribes(tribal_gids):  # target shape: t_bins x 1 x trials
-        tribal_gids = tribal_gids.res
-        print("Featurizing for tribe with {0} gids".format(len(tribal_gids)))
+        tribal_ids = converter.indices(tribal_gids.res)  # Using indices into adj_matrix instead of gids.
+        print("Featurizing for tribe with {0} gids".format(len(tribal_ids)))
         for stim_id, stim_spikers in enumerate(spikers):
             for_stim = []
-            for trial_spikers in stim_spikers:
-                tribe_per_t_bin = [np.intersect1d(tribal_gids, _spikers)
+            print("\t{0} repetitions of stimulus {0}".format(len(stim_spikers), stim_id))
+            pbar = progressbar.ProgressBar()
+            for trial_spikers in pbar(stim_spikers):
+                tribe_per_t_bin = [np.intersect1d(tribal_ids, _spikers)
                                    for _spikers in trial_spikers]
-                t_series = [Flagsering(parameter, active_tribe)
-                            for active_tribe in tribe_per_t_bin]
+                mat_per_t_bin = [adj_matrix[np.ix_(_tribe, _tribe)]
+                                 for _tribe in tribe_per_t_bin]
+                t_series = [module.compute(active_mat, **parameter["kwargs"])
+                            for active_mat in mat_per_t_bin]
                 for_stim.append([t_series])
             for_stim = np.array(for_stim).transpose()
             yield for_stim, {"stimulus": stim_id}
@@ -85,6 +118,11 @@ def make_topo_features_for_tribes(spiketrains, t_bins, parameter):
 
 
 def make_write_h5(output_root):
+    """
+    :param output_root: Root directory to write the data into
+    :return: a function object that writes analysis results into an .h5 file. Location of that file is under
+    output_root and determined by specified "sampling", "specifier" and "index" conditions. Returns that path.
+    """
     import h5py
 
     def write_h5(*args):
@@ -106,41 +144,42 @@ def ordered_list(idxx, data):
 
 
 def main(path_to_config, **kwargs):
+    assert "index" not in kwargs, "Splitting by index not supported for topo_featurization!"
+    # 1. Evaluate configuration.
     # Read the meta-config file
     cfg = config.Config(path_to_config)
-
     # Get configuration related to the current pipeline stage
     stage = cfg.stage("topological_featurization")
-
-    # Fetch spiketrains
-    spiketrains, tribes = read_input(stage["inputs"])
-    tribes = tribes.filter(**kwargs)
-
     topo_featurization_cfg = stage["config"]
-
     timebin = topo_featurization_cfg["time_bin"]
-    parameter = topo_featurization_cfg["topo_method"]  # Is this what parameter is supposed to be?
-
+    parameter = topo_featurization_cfg[topo_featurization_cfg["topo_method"]]
     # number of time steps per trial
     stim_dur = cfg.stage('split_spikes')['config']['stim_duration_ms']
     n_t_bins = int(stim_dur / timebin)
     t_bins = np.arange(n_t_bins + 1) * timebin
 
-    # this function generates features for trials and time bins
-    featurization_func = make_topo_features_for_tribes(spiketrains, t_bins, parameter)
-    # unpool adds the additional condition of "stimulus" (stimulus identifier)
+    # 2. Read input data
+    spiketrains, tribes, adj_matrix, neuron_info = read_input(stage["inputs"])
+    tribes = tribes.filter(**kwargs)
+
+    # 3. Analyze.
+    # Create analysis function, given the spikes and time bins
+    featurization_func = make_topo_features_for_tribes(spiketrains, t_bins, parameter,
+                                                       adj_matrix, GidConverter(neuron_info))
+    # unpool with this function adds the additional condition of "stimulus" (stimulus identifier)
     tribes.unpool(func=featurization_func)  # shape of data: t_bins x 1 x trials
+    # Now put the data into the expected format. First pooling along tribes (index).
     features_data = tribes.pool(["index"], func=np.hstack)  # shape of data: t_bins x tribe_index x trials
+    # Then pooling along different stimuli
     features_data = features_data.pool(["stimulus"], func=ordered_list, xy=True)
+    # Features that have been removed in the filter step need to be added back for the expected format.
     for k, v in kwargs.items():
         features_data.add_label(k, v)
-    # adds back the "index" condition, though with only a single value.
-    # This is required to fulfill specs of the TopoData format.
+    # The format also needs an "index" condition. We pooled that away, so we just add to what remains index=0
     features_data.add_label("index", "0")
     # transform writes data into individual hdf5 files and returns their paths.
-    fn_data = features_data.transform(["sampling", "specifier", "index"],
+    fn_data = features_data.transform(["sampling", "specifier", "index"],  # data: str (path to .h5 file)
                                       func=make_write_h5(stage['other']), xy=True)
-
     write_output(TopoData.condition_collection_to_dict(fn_data), stage["outputs"])
 
 

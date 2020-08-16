@@ -100,7 +100,8 @@
       "topological_featurization": {
           "inputs": {
             "split_spikes": "analyzed",
-            "database": "analyzed",
+            "adjacency_matrix": "inputs",
+            "neuron_info": "inputs",
             "tribes": "analyzed"
           },
           "outputs": {
