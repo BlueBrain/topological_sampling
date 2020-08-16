@@ -6,7 +6,9 @@ Language(s): python
 Additional python dependencies:
     pyflagser (https://github.com/giotto-ai/pyflagser or just pip install pyflagser)
 Sub-steps:
-Simply run:
+        Loop over all split spiketrains and input tribes. Intersect spiking neurons in time bins with tribes and put these into intermediate list.
+		Map the list to a list of corresponding topological descriptors by calling selected topological method as specified in config.
+To run:
     python pipeline/topo_featurization/topo_featurization.py working_dir/config/common_config.json
 However, this step is quite costly. It is recommended to run this embarrassingly parallel by executing the analysis
 for each sampling / specifier combination separately:
