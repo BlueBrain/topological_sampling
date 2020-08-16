@@ -2,11 +2,11 @@ import numpy
 import pandas as pd
 import os
 import importlib
-import sys
 
 from scipy import sparse
 
 from toposample import config
+from toposample.indexing import GidConverter
 
 
 def read_input(input_config):
@@ -19,7 +19,7 @@ def write_output(DB, output_config):
     DB.to_pickle(output_config["database"])
 
 
-def add_tribes(adj_matrix):  # For now: indices, not neuron gids
+def add_tribes(adj_matrix, converter):
     tribes = []
 
     # Add transpose to get both in- and out-neighbors
@@ -31,7 +31,7 @@ def add_tribes(adj_matrix):  # For now: indices, not neuron gids
         M = M.asformat('csr')
 
     for m in M:
-        tribes.append(m.indices)
+        tribes.append(converter.gids(m.indices))
     return tribes
 
 
@@ -58,8 +58,8 @@ def main(path_to_config):
     topo_db_cfg = stage["config"]
     precision = topo_db_cfg["precision"]
 
-    # Compute all the tribes
-    DB["tribe"] = add_tribes(adj_matrix)
+    # Compute all the tribes.
+    DB["tribe"] = add_tribes(adj_matrix, GidConverter(neuron_info))
 
     # Use gids as index
     # Note: This assumes that the order in neuron_info and the adj_matrix are the same!

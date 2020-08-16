@@ -51,7 +51,7 @@ def make_sample(db, specifications):
 
     out_dict = {specifications["name"]: {}}
     for i, chief in enumerate(chiefs):
-        gids = db["neighbours"].loc[chief].astype(int)
+        gids = db["tribe"].loc[chief].astype(int)
         out_dict[specifications["name"]][i] = {
             "gids": gids.tolist(),
             "chief": int(chief)
