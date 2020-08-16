@@ -114,8 +114,8 @@ class ReadInput:
                             follow_link_functions=functions_dict)
         return res
 
-    @staticmethod
-    def features(input_config):
+    @classmethod
+    def features(cls, input_config):  # TODO: Features uses the same data format as manifold now. This is superfluous!
         functions_dict = {"data_fn": [numpy.load, False]}  # trials x tribes-time+y
         res = data.TopoData(input_config["features"],
                             follow_link_functions=functions_dict)
@@ -141,7 +141,8 @@ def main(path_to_config, input_type, **kwargs):
     cfg = config.Config(path_to_config)
     stage = cfg.stage("classifier")
     classifier_cfg = stage["config"]["classifiers"][stage["config"]["selected"][input_type]]
-    class_data = ReadInput().__getattribute__(input_type)(stage["inputs"])
+    # class_data = ReadInput().__getattribute__(input_type)(stage["inputs"])
+    class_data = ReadInput.manifold(stage["inputs"])  # TODO: Make it a simple read_input function
     res_dict = execute_classifier_all(class_data["data_fn"].filter(**kwargs),
                                       class_data["idv_label"].filter(**kwargs),
                                       classifier_cfg,
