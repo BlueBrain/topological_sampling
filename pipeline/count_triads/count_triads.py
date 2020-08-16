@@ -7,6 +7,7 @@ from scipy.special import comb
 from toposample import config
 from toposample import TopoData
 from toposample.data.data_structures import ConditionCollection, ResultsWithConditions
+from toposample.indexing import GidConverter
 
 
 """
@@ -53,32 +54,16 @@ def read_input(input_config):
     return tribes, M, info
 
 
-def __submatrix_legacy(chief_res, gid_collection, M, info):
-    """
-    submatrix: Gets the submatrix of a neuron sample from the whole adjacency matrix
-    :param chief_res: ResultsWithConditions; specifies the chief of the neuron sample and the sampling conditions
-    :param gid_collection: ConditionCollection; collection of the gids of all neuron samples
-    :param M: scipy.sparse.csc; the adjacency matrix of the entire circuit
-    :param info: pandas.DataFrame; basic information on all neurons in the circuit
-    :return: numpy.array; the adjacency matrix of the neuron sample
-             int; the index of the chief in the adjacency matrix
-    """
-    gids = gid_collection.get2(**chief_res.cond)
-    idxb = numpy.in1d(info.index.values, gids)
-    chief_idx = gids.index(chief_res.res)
-    return numpy.array(M[:, idxb][idxb].todense()), chief_idx
-
-
-def submatrix(gids, M, info):
+def submatrix(gids, M, converter):
     """
     submatrix: Gets the submatrix of a neuron sample from the whole adjacency matrix
     :param gids: list; specifies the gids of the sample
     :param M: scipy.sparse.csc; the adjacency matrix of the entire circuit
-    :param info: pandas.DataFrame; basic information on all neurons in the circuit
+    :param converter: toposample.indexing.GidConverter
     :return: numpy.array; the adjacency matrix of the neuron sample
     """
-    idxb = numpy.in1d(info.index.values, gids)
-    return numpy.array(M[:, idxb][idxb].todense())
+    idxx = converter.indices(gids)
+    return numpy.array(M[numpy.ix_(idxx, idxx)].todense())
 
 
 def canonical_sort(M):
@@ -268,9 +253,10 @@ def count_triads_all(tribes, M, info, cfg, **kwargs):
     #  tribal_chiefs = tribal_chiefs.filter(**kwargs)
     tribal_gids = tribal_gids.filter(**kwargs)
     lst_results = []
+    converter = GidConverter(info)
     for gid_res in tribal_gids.contents:
         print("Counting triads for: {0}".format(gid_res.cond))
-        subM = submatrix(gid_res.res, M, info)
+        subM = submatrix(gid_res.res, M, converter)
         sampled = count_triads_fully_connected(subM, max_num_sampled=cfg.get("max_num_sampled", None))
         ctrl_smpl = expected_triad_counts_simple_control(subM)
         ctrl_compl = expected_triad_probabilities_complex_control(subM)
