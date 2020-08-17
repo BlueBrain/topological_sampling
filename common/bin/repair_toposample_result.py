@@ -13,7 +13,7 @@ additional_fields = {
         "idv_label": ["parent", "center_offset", "chief"]
     },
     "topological_featurization": {
-
+        "idv_label": ["parent", "center_offset", "chief"]
     }
 }
 
