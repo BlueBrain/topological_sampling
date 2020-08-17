@@ -65,8 +65,8 @@ def execute_classifier_all(input_struc, label_struc, classifier_cfg, out_root, r
 
 
 def read_input(input_config, input_type, classifier_config):
-    step_idx_fr = classifier_config["time_steps_to_use"]["from"]
-    strp_idx_to = classifier_config["time_steps_to_use"]["to"]
+    step_idx_fr = classifier_config.get("time_steps_to_use", {}).get("from", None)
+    strp_idx_to = classifier_config.get("time_steps_to_use", {}).get("to", None)
 
     def read_reshape_stack(fn):
         import h5py
@@ -76,7 +76,8 @@ def read_input(input_config, input_type, classifier_config):
             for k in grp.keys():
                 stim_id = int(k[4:])
                 per_stim = numpy.array(grp[k])  # time x components x trials
-                per_stim = per_stim[step_idx_fr:strp_idx_to, :, :]
+                if step_idx_fr is not None:
+                    per_stim = per_stim[step_idx_fr:strp_idx_to, :, :]
                 X = per_stim.reshape((-1, per_stim.shape[-1]))  # time-components x trials
                 X = numpy.vstack((X, stim_id * numpy.ones(X.shape[1]))).transpose()  # trials x time-components+y
                 all_X.append(X)
