@@ -74,8 +74,11 @@ def main(path_to_config):
     sys.path.insert(0, import_root)
     for parameter in topo_db_cfg["parameters"]:
         print("Calculating {0} for all tribes...".format(parameter))
-        module = importlib.import_module(topo_db_cfg[parameter]["source"])
-        DB[topo_db_cfg[parameter]["column_name"]] = module.compute(DB["tribe"], adj_matrix, precision)
+        try:
+            module = importlib.import_module(topo_db_cfg[parameter]["source"])
+            DB[topo_db_cfg[parameter]["column_name"]] = module.compute(DB["tribe"], adj_matrix, precision)
+        except:
+            print("Unable to load module for {0}".format(parameter))        
 
     write_output(DB, stage["outputs"])
 
