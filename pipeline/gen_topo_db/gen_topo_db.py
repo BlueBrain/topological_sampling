@@ -59,9 +59,9 @@ def main(path_to_config):
     precision = topo_db_cfg["precision"]
 
     # Compute all the tribes.
-    DB["tribe"] = add_tribes(adj_matrix, GidConverter(neuron_info))
+    DB["tribe"] = add_tribes(adj_matrix, GidConverter(neuron_info))  # tribes specified by gids
 
-    # Use gids as index
+    # Use gids also as index of the DB
     # Note: This assumes that the order in neuron_info and the adj_matrix are the same!
     DB.index = neuron_info.index
 
