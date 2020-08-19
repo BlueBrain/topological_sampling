@@ -48,7 +48,7 @@ def execute_classifier(features, classifier_cfg):  # trials x features+y
         prediction = fitted.predict(X_test)
         test_truth.append(y_test)
         test_predictions.append(prediction)
-        test_scores.append((prediction == y_test).mean())
+        test_scores.append(numpy.mean(prediction == y_test))
     return test_scores, test_truth, test_predictions
 
 
@@ -64,18 +64,29 @@ def execute_classifier_all(input_struc, label_struc, classifier_cfg, out_root, r
     return result_lookup
 
 
-def read_reshape_stack(fn):
-    import h5py
-    all_X = []
-    with h5py.File(fn, "r") as h5:
-        grp = h5["per_stimulus"]
-        for k in grp.keys():
-            stim_id = int(k[4:])
-            per_stim = numpy.array(grp[k])  # time x components x trials
-            X = per_stim.reshape((-1, per_stim.shape[-1]))  # time-components x trials
-            X = numpy.vstack((X, stim_id * numpy.ones(X.shape[1]))).transpose()  # trials x time-components+y
-            all_X.append(X)
-    return numpy.vstack(all_X)  # trials x time-components+y
+def read_input(input_config, input_type, classifier_config):
+    step_idx_fr = classifier_config.get("time_steps_to_use", {}).get("from", None)
+    strp_idx_to = classifier_config.get("time_steps_to_use", {}).get("to", None)
+
+    def read_reshape_stack(fn):
+        import h5py
+        all_X = []
+        with h5py.File(fn, "r") as h5:
+            grp = h5["per_stimulus"]
+            for k in grp.keys():
+                stim_id = int(k[4:])
+                per_stim = numpy.array(grp[k])  # time x components x trials
+                if step_idx_fr is not None:
+                    per_stim = per_stim[step_idx_fr:strp_idx_to, :, :]
+                X = per_stim.reshape((-1, per_stim.shape[-1]))  # time-components x trials
+                X = numpy.vstack((X, stim_id * numpy.ones(X.shape[1]))).transpose()  # trials x time-components+y
+                all_X.append(X)
+        return numpy.vstack(all_X)  # trials x time-components+y
+
+    functions_dict = {"data_fn": [read_reshape_stack, False]}
+    res = data.TopoData(input_config[input_type],
+                        follow_link_functions=functions_dict)
+    return res
 
 
 def read_filter_stack(fn):
@@ -90,7 +101,8 @@ def read_filter_stack(fn):
         for k in grp.keys():
             stim_id = int(k[4:])
             per_stim = numpy.array(grp[k])  # time x components x trials
-            time_series.append(per_stim); stims.append(stim_id)
+            time_series.append(per_stim)
+            stims.append(stim_id)
         idxx = []
         for component in range(time_series[0].shape[1]):
             var_reduction = []
@@ -104,22 +116,6 @@ def read_filter_stack(fn):
         time_series = [numpy.vstack([_x, stim_id * numpy.ones(_x.shape[1])]).transpose()
                        for _x, stim_id in zip(time_series, stims)]  # trials x components + y
     return numpy.vstack(time_series)  # trials x components+y
-
-
-class ReadInput:
-    @classmethod
-    def manifold(cls, input_config):
-        functions_dict = {"data_fn": [read_reshape_stack, False]}
-        res = data.TopoData(input_config["components"],
-                            follow_link_functions=functions_dict)
-        return res
-
-    @classmethod
-    def features(cls, input_config):  # TODO: Features uses the same data format as manifold now. This is superfluous!
-        functions_dict = {"data_fn": [numpy.load, False]}  # trials x tribes-time+y
-        res = data.TopoData(input_config["features"],
-                            follow_link_functions=functions_dict)
-        return res
 
 
 def write_output(res_dict, fn_out):
@@ -136,13 +132,13 @@ def write_output(res_dict, fn_out):
 
 
 def main(path_to_config, input_type, **kwargs):
-    if input_type not in ReadInput.__dict__:
-        raise Exception("Input type {0} not known!".format(input_type))
     cfg = config.Config(path_to_config)
     stage = cfg.stage("classifier")
+    if input_type not in stage["inputs"]:
+        raise Exception("Input type {0} not known!".format(input_type))
     classifier_cfg = stage["config"]["classifiers"][stage["config"]["selected"][input_type]]
-    # class_data = ReadInput().__getattribute__(input_type)(stage["inputs"])
-    class_data = ReadInput.manifold(stage["inputs"])  # TODO: Make it a simple read_input function
+
+    class_data = read_input(stage["inputs"], input_type, classifier_cfg)
     res_dict = execute_classifier_all(class_data["data_fn"].filter(**kwargs),
                                       class_data["idv_label"].filter(**kwargs),
                                       classifier_cfg,

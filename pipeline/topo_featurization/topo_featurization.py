@@ -13,11 +13,6 @@ from toposample.data.data_structures import ConditionCollection
 from toposample.indexing import GidConverter
 
 
-def Flagsering(*args):
-    """ Place holder for testing"""
-    return np.random.rand()
-
-
 def read_input(input_config):
     spiketrains = np.load(input_config["split_spikes"], allow_pickle=True)
     tribes = TopoData(input_config["tribes"])

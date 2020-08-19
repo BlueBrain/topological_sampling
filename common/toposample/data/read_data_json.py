@@ -105,3 +105,20 @@ def read_multiple_h5_datasets(dset_dict):
     def read_func(fn):
         return dict([(k, v(fn)) for k, v in readers.items()])
     return read_func
+
+
+def read_all_h5_datasets():
+    import h5py
+    import numpy
+
+    def read_func(fn):
+        with h5py.File(fn, "r") as h5:
+            dsets = []
+
+            def append_if_dset(item_name, item):
+                if isinstance(item, h5py._hl.dataset.Dataset):
+                    dsets.append(item_name)
+            h5.visititems(append_if_dset)
+            return dict([(dsetname, numpy.array(h5[dsetname]))
+                         for dsetname in dsets])
+    return read_func
