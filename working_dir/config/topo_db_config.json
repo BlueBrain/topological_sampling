@@ -1,5 +1,5 @@
 {
-	"parameters": ["Chung laplacian"],
+	"parameters": ["Chung laplacian","Relative boundary"],
 	"precision": 4,
 	"Euler characteristic": {
 								"source": "euler_char",
@@ -12,6 +12,11 @@
 	"Chung laplacian": {
 							"source": "chung_laplacian_spectrum",
 							"column_name": "chung_spectrum"
-					   }
+					   },
+	"Relative boundary": {
+							"source": "relative_boundary_size",
+							"column_name": "relative_boundary"
+
+						 }
 
 }
