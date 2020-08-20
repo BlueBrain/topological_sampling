@@ -1,5 +1,5 @@
 {
-	"parameters": ["Chung laplacian","Relative boundary"],
+	"parameters": ["Chung laplacian","Relative boundary", "Euler characteristic", "Betti numbers"],
 	"precision": 4,
 	"Euler characteristic": {
 								"source": "euler_char",
