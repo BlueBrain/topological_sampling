@@ -65,7 +65,8 @@ setup(
     version='0.0.1',
     author='Jason P. Smith',
     description='A pybind11 wrapper for a version of flagser that returns the number of directed cliques each vertex belongs to',
-    ext_modules=[CMakeExtension('pyflagsercontain')],
+    ext_modules=[CMakeExtension('pyflagsercontain/pyflagsercontain')],
     cmdclass=dict(build_ext=CMakeBuild),
+    packages=["pyflagsercontain"],
     zip_safe=False,
 )
