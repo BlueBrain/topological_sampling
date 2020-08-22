@@ -96,7 +96,7 @@ def make_topo_features_for_tribes(spiketrains, t_bins, parameter, adj_matrix, co
         print("Featurizing for tribe with {0} gids".format(len(tribal_ids)))
         for stim_id, stim_spikers in enumerate(spikers):
             for_stim = []
-            print("\t{0} repetitions of stimulus {0}".format(len(stim_spikers), stim_id))
+            print("\t{0} repetitions of stimulus {1}".format(len(stim_spikers), stim_id))
             pbar = progressbar.ProgressBar()
             for trial_spikers in pbar(stim_spikers):
                 tribe_per_t_bin = [np.intersect1d(tribal_ids, _spikers)
