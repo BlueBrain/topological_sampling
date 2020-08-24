@@ -25,7 +25,7 @@ def compute(tribes, adj_matrix, precision):
         denom = totdeg*(totdeg-1)-(indeg*outdeg+recip_deg)
 
         if denom != 0 and len(smplxcont) > 2:
-            # simplexcontainment[i][2] gives the number of directed 2-cliques that vertex i belongs to
+            # smplxcont[i][2] gives the number of directed 2-cliques that vertex i belongs to
             parameter = np.round(smplxcont[2] / denom, precision)
         else:
             parameter = 0
