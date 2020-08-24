@@ -1,5 +1,5 @@
 {
-	"parameters": ["Chung laplacian","Relative boundary", "Euler characteristic", "Betti numbers"],
+	"parameters": ["Chung laplacian","Relative boundary", "Euler characteristic", "Betti numbers", "Transitive clustering coefficient"],
 	"precision": 4,
 	"Euler characteristic": {
 								"source": "euler_char",
@@ -17,6 +17,11 @@
 							"source": "relative_boundary_size",
 							"column_name": "relative_boundary"
 
-						 }
+						 },
+	"Transitive clustering coefficient": {
+											"source": "transitive_clustering_coefficient",
+											"column_name": "trans_cc"
+
+										 }
 
 }
