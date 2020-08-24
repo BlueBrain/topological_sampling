@@ -1,8 +1,12 @@
 # topological_sampling
 The analysis pipeline for the topological sampling project
 
-First install the python dependencies:
-- cd common
+First install the python dependencies for reading / writing results and configurations:
+- cd common/toposample_utilities
+- pip install .
+
+Next, install the python dependencies for counting directed simplex containment:
+- cd common/pyflagsercontain
 - pip install .
 
 Next, obtain the input data used for our paper (or use your own simulation results!) under the following link: LINK HERE and place it into working_dir/data/input_data.

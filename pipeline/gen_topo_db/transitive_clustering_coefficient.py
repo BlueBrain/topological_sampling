@@ -1,32 +1,32 @@
 import numpy as np
 import progressbar
+
 from toposample.indexing import GidConverter
-import pyflagsercontain
+from pyflagsercontain import flagser_count
+
 
 def compute(tribes, adj_matrix, precision):
 
     # Transitive clustering coefficients
     trccs = []
-    pbar = progressbar.ProgressBar()
     conv = GidConverter(tribes)
-    G_full = nx.from_scipy_sparse_matrix(adj_matrix)
 
-    # Wrapper to pyflagser-count. TODO: add pyflagsercontain as a dependancy and check the path here
-    exec(open('./src/flagser_count.py').read())
-    simplexcontainment = flagser_count(G_full)
+    simplexcontainment = flagser_count(adj_matrix)
+    indegs = np.array(adj_matrix.sum(axis=0))[0]
+    outdegs = np.array(adj_matrix.sum(axis=1))[:, 0]
+    totdegs = np.array((adj_matrix + adj_matrix.transpose()).sum(axis=0))[0]
+    recip_degs = indegs + outdegs - totdegs
 
     # This assumes tribes are in the order of adjacency matrix indexing
-    for i in pbar(range(len(G_full))):
-
-        outdeg = np.count_nonzero(G_full[i])
-        indeg = np.count_nonzero(np.transpose(G_full)[i])
-        recip_deg = np.count_nonzero(np.logical_and(G_full[i],np.transpose(G_full)[i]))
-        totdeg = outdeg+indeg-recip_deg
+    pbar = progressbar.ProgressBar(maxval=len(indegs))
+    for indeg, outdeg, totdeg, recip_deg, smplxcont in pbar(zip(indegs, outdegs,
+                                                                totdegs, recip_degs,
+                                                                simplexcontainment)):
         denom = totdeg*(totdeg-1)-(indeg*outdeg+recip_deg)
 
-        if denom != 0:
+        if denom != 0 and len(smplxcont) > 2:
             # simplexcontainment[i][2] gives the number of directed 2-cliques that vertex i belongs to
-            parameter = np.round(simplexcontainment[i][2]/denom, precision)
+            parameter = np.round(smplxcont[2] / denom, precision)
         else:
             parameter = 0
         trccs.append(parameter)

@@ -1,5 +1,10 @@
 {
-	"parameters": ["Chung laplacian","Relative boundary","Euler characteristic","Betti numbers","Transitive clustering coefficient","Normalized Betti coefficient"],
+	"parameters": ["Chung laplacian",
+		"Relative boundary",
+		"Euler characteristic",
+		"Betti numbers",
+		"Transitive clustering coefficient",
+		"Normalized Betti coefficient"],
 	"precision": 4,
 	"Euler characteristic": {
 								"source": "euler_char",
@@ -26,7 +31,6 @@
 	"Normalized Betti coefficient": {
 										"source": "normalized_betti_coefficient",
 										"column_name": "norm_betti_coeff"
-
 									}
 
 }
