@@ -1,0 +1,6 @@
+setup.py
+pyflagsercontain.egg-info/PKG-INFO
+pyflagsercontain.egg-info/SOURCES.txt
+pyflagsercontain.egg-info/dependency_links.txt
+pyflagsercontain.egg-info/not-zip-safe
+pyflagsercontain.egg-info/top_level.txt
