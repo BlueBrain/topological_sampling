@@ -1,7 +1,7 @@
 import numpy as np
 import progressbar
 from toposample.indexing import GidConverter
-import pyflagsercontain
+from pyflagsercontain import flagser_count
 
 def compute(tribes, adj_matrix, precision):
 
@@ -11,8 +11,7 @@ def compute(tribes, adj_matrix, precision):
     conv = GidConverter(tribes)
     G_full = nx.from_scipy_sparse_matrix(adj_matrix)
 
-    # Wrapper to pyflagser-count. TODO: add pyflagsercontain as a dependancy and check the path here
-    exec(open('./src/flagser_count.py').read())
+    # Compute simplex containments over all vertices
     simplexcontainment = flagser_count(G_full)
 
     # This assumes tribes are in the order of adjacency matrix indexing
