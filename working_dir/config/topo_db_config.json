@@ -5,7 +5,8 @@
 		"Euler characteristic",
 		"Betti numbers",
 		"Transitive clustering coefficient",
-		"Normalized Betti coefficient"
+		"Normalized Betti coefficient",
+		"Density coefficient"
 	],
 	"precision": 4,
 	"Euler characteristic": {
@@ -39,5 +40,9 @@
 	"Out-degree": {
 		"source": "out_degree",
 		"column_name": "out_degree"
+	},
+	"Density coefficient": {
+		"source": "density_coefficient",
+		"column_name": "density_coeff"
 	}
 }
