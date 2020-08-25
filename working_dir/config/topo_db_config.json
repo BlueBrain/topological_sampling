@@ -1,13 +1,16 @@
 {
 	"parameters": [
-		"Chung laplacian",
+		"Chung Laplacian",
 		"Relative boundary",
 		"Euler characteristic",
 		"Betti numbers",
 		"Transitive clustering coefficient",
 		"Normalized Betti coefficient",
 		"In-degree",
-		"Out-degree"
+		"Out-degree",
+		"Density coefficient",
+		"Adjacency spectrum",
+		"Extension rate"
 	],
 	"precision": 4,
 	"Euler characteristic": {
@@ -18,7 +21,7 @@
 		"source": "bettis",
 		"column_name": "bettis"
 	},
-	"Chung laplacian": {
+	"Chung Laplacian": {
 		"source": "chung_laplacian_spectrum",
 		"column_name": "chung_spectrum"
 	},
@@ -41,5 +44,17 @@
 	"Out-degree": {
 		"source": "out_degree",
 		"column_name": "out_degree"
+	},
+	"Density coefficient": {
+		"source": "density_coefficient",
+		"column_name": "density_coeff"
+	},
+	"Adjacency spectrum": {
+		"source": "adjacency_spectrum",
+		"column_name": "adj_spectrum"
+	},
+	"Extension rate": {
+		"source": "extension_rate",
+		"column_name": "extension_rate"
 	}
 }

@@ -1,7 +1,5 @@
 import numpy as np
 import progressbar
-
-from toposample.indexing import GidConverter
 from pyflagsercontain import flagser_count
 
 
@@ -9,7 +7,6 @@ def compute(tribes, adj_matrix, precision):
 
     # Transitive clustering coefficients
     trccs = []
-    conv = GidConverter(tribes)
 
     simplexcontainment = flagser_count(adj_matrix)
     indegs = np.array(adj_matrix.sum(axis=0))[0]
