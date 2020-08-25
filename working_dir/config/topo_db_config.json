@@ -1,36 +1,43 @@
 {
-	"parameters": ["Chung laplacian",
+	"parameters": [
+		"Chung laplacian",
 		"Relative boundary",
 		"Euler characteristic",
 		"Betti numbers",
 		"Transitive clustering coefficient",
-		"Normalized Betti coefficient"],
+		"Normalized Betti coefficient"
+	],
 	"precision": 4,
 	"Euler characteristic": {
-								"source": "euler_char",
-								"column_name": "euler_char"
-							},
+		"source": "euler_char",
+		"column_name": "euler_char"
+	},
 	"Betti numbers": {
-						"source": "bettis",
-						"column_name": "bettis"
-					 },
+		"source": "bettis",
+		"column_name": "bettis"
+	},
 	"Chung laplacian": {
-							"source": "chung_laplacian_spectrum",
-							"column_name": "chung_spectrum"
-					   },
+		"source": "chung_laplacian_spectrum",
+		"column_name": "chung_spectrum"
+	},
 	"Relative boundary": {
-							"source": "relative_boundary_size",
-							"column_name": "relative_boundary"
-
-						 },
+		"source": "relative_boundary_size",
+		"column_name": "relative_boundary"
+	},
 	"Transitive clustering coefficient": {
-											"source": "transitive_clustering_coefficient",
-											"column_name": "trans_cc"
-
-										 },
+		"source": "transitive_clustering_coefficient",
+		"column_name": "trans_cc"
+	},
 	"Normalized Betti coefficient": {
-										"source": "normalized_betti_coefficient",
-										"column_name": "norm_betti_coeff"
-									}
-
+		"source": "normalized_betti_coefficient",
+		"column_name": "norm_betti_coeff"
+	},
+	"In-degree": {
+		"source": "in_degree",
+		"column_name": "in_degree"
+	},
+	"Out-degree": {
+		"source": "out_degree",
+		"column_name": "out_degree"
+	}
 }
