@@ -2,6 +2,7 @@ import numpy as np
 import progressbar
 from toposample.indexing import GidConverter
 
+
 def compute(tribes, adj_matrix, precision):
 
     extensions = []
@@ -13,7 +14,7 @@ def compute(tribes, adj_matrix, precision):
         extension_submat = adj_matrix[tribe_ids]
 
         # Get all the neighbours of all the vertices in the tribe
-        all_neighbours = np.nonzero(np.sum(extension_submat,axis=0))[0]
+        all_neighbours = np.nonzero(np.sum(extension_submat, axis=0))[0]
 
         # Remove tribe itself to get the extension rate
         extension_rate = len(all_neighbours) - len(tribe)

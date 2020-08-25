@@ -4,6 +4,7 @@ from numpy import linalg as LA
 
 from toposample.indexing import GidConverter
 
+
 def compute(tribes, adj_matrix, precision):
 
     spectra = []
@@ -15,7 +16,7 @@ def compute(tribes, adj_matrix, precision):
         adj_submat = adj_matrix[np.ix_(tribe_ids, tribe_ids)]
 
         # Find the eigenvalues
-        eig = LA.eigvals(adj_submat)
+        eig = LA.eigvals(adj_submat.todense())
 
         # Order the non-zero eigenvalues and round to desired precision
         spectrum = np.round(np.unique(eig[np.nonzero(eig)]), precision)
