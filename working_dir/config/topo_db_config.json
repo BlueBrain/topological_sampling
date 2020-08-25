@@ -5,7 +5,9 @@
 		"Euler characteristic",
 		"Betti numbers",
 		"Transitive clustering coefficient",
-		"Normalized Betti coefficient"
+		"Normalized Betti coefficient",
+		"In-degree",
+		"Out-degree"
 	],
 	"precision": 4,
 	"Euler characteristic": {
