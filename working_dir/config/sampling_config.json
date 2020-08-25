@@ -1,36 +1,37 @@
 {
   "Volumetric": {
     "Specifier_label": "Radius",
+    "seed": 131311,
     "Specifiers": [
       {
         "name": "125 um",
         "value": 125,
         "number": 20,
-        "neuron_count": 500
+        "neuron_count": 400
       },
       {
         "name": "175 um",
         "value": 175,
         "number": 20,
-        "neuron_count": 500
+        "neuron_count": 400
       },
       {
         "name": "225 um",
         "value": 225,
         "number": 20,
-        "neuron_count": 500
+        "neuron_count": 400
       },
       {
         "name": "275 um",
         "value": 275,
         "number": 20,
-        "neuron_count": 500
+        "neuron_count": 400
       },
       {
         "name": "325 um",
         "value": 325,
         "number": 20,
-        "neuron_count": 500
+        "neuron_count": 400
       }
     ],
     "Arguments": {
@@ -45,63 +46,24 @@
     "Specifier_label": "Parameter",
     "Specifiers": [
       {
-        "name": "Clustering coefficient",
+        "name": "Relative boundary",
         "value": {
-          "column": "C_ks",
-          "index": 2
+          "column": "relative_boundary"
         },
         "number": 20
       },
       {
-        "name": "Alternative clustering coefficient",
+        "name": "Chung spectrum",
         "value": {
-          "column": "old_Cks",
-          "index": 2
-        },
-        "number": 20
-      },
-      {
-        "name": "Adjacency spectrum",
-        "value": {
-          "column": "adjacency_spectrum",
+          "column": "chung_spectrum",
           "function": "smallest_nonzero_value"
-        },
-        "number": 20
-      },
-      {
-        "name": "Laplacian spectrum",
-        "value": {
-          "column": "laplacian_spectrum",
-          "function": "smallest_nonzero_value"
-        },
-        "number": 20
-      },
-      {
-        "name": "Ricci curvature",
-        "value": {
-          "column": "ricci_curvature"
-        },
-        "number": 20
-      },
-      {
-        "name": "Betti coefficient",
-        "value": {
-          "column": "betti_coeff"
         },
         "number": 20
       },
       {
         "name": "Euler characteristic",
         "value": {
-          "column": "euler_characteristic"
-        },
-        "number": 20
-      },
-      {
-        "name": "Betti two",
-        "value": {
-          "column": "bettis",
-          "index": 2
+          "column": "euler_char"
         },
         "number": 20
       },
@@ -114,10 +76,16 @@
         "number": 20
       },
       {
-        "name": "Two simplex containment",
+        "name": "Transitive clustering coefficient",
         "value": {
-          "column": "simplex_containment",
-          "index": 2
+          "column": "trans_cc"
+        },
+        "number": 20
+      },
+      {
+        "name": "Normalized Betti coefficient",
+        "value": {
+          "column": "norm_betti_coeff"
         },
         "number": 20
       },
@@ -154,11 +122,43 @@
           "number_samples": 5,
           "number_subsamples": 4
         }
+      },
+      {
+        "name": "Laplacian spectrum",
+        "value": {
+          "column": "laplacian_spectrum",
+          "function": "smallest_nonzero_value"
+        },
+        "number": 20
+      },
+      {
+        "name": "Ricci curvature",
+        "value": {
+          "column": "ricci_curvature"
+        },
+        "number": 20
+      },
+      {
+        "name": "Betti two",
+        "value": {
+          "column": "bettis",
+          "index": 2
+        },
+        "number": 20
+      },
+      {
+        "name": "Two simplex containment",
+        "value": {
+          "column": "simplex_containment",
+          "index": 2
+        },
+        "number": 20
       }
     ]
   },
   "Random": {
     "Specifier_label": "M-type",
+    "seed": 131312,
     "Specifiers": [
       {
         "name": "L1_DLAC",

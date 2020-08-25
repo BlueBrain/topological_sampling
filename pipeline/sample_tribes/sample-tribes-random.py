@@ -37,6 +37,7 @@ def make_sample(db, specifications):
 
 def make_all_samples(db, full_specification):
     spec_lbl = full_specification["Specifier_label"]
+    numpy.random.seed(full_specification.get("seed", 9001))
     out_dict = dict([(spec_lbl, {})])
     for spec in full_specification["Specifiers"]:
         out_dict[spec_lbl].update(make_sample(db, spec))
