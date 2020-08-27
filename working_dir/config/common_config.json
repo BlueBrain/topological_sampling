@@ -18,7 +18,7 @@
         "struc_parameters": "structural_parameters.json",
         "components": "extracted_components.json",
         "features": "features.json",
-        "classifier_manifold_results": "classifier_manifold_results.json",
+        "classifier_components_results": "classifier_manifold_results.json",
         "classifier_features_results": "classifier_features_results.json",
         "triads": "triads.json"
       }
@@ -115,7 +115,7 @@
           },
           "outputs": {
              "classifier_features_results": "analyzed",
-             "classifier_manifold_results": "analyzed"
+             "classifier_components_results": "analyzed"
           }
       }
   }

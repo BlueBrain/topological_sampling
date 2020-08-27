@@ -23,7 +23,7 @@ def lookup_parameter_from_db_by_chief(db, list_of_parameters, chief):
         v = get_entry_from_row(row, param_spec["value"]["column"],
                                index=param_spec["value"].get("index", None),
                                function=param_spec["value"].get("function", None))
-        out_dict[param_spec["name"]] = int(v)
+        out_dict[param_spec["name"]] = float(v)
     return out_dict
 
 

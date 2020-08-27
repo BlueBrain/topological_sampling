@@ -26,6 +26,8 @@ def difference_between_largest_absolute_values(v):
 
 
 def largest_value(v):
+    if len(v) == 0:
+        return 0.0
     return numpy.max(v)
 
 
