@@ -11,10 +11,10 @@ def compute(tribes, adj_matrix, precision):
 
     for tribe in pbar(tribes):
         tribe_ids = conv.indices(tribe)
-        extension_submat = adj_matrix[tribe_ids]
+        extension_submat = adj_matrix[:, tribe_ids]
 
         # Get all the neighbours of all the vertices in the tribe
-        all_neighbours = np.nonzero(np.sum(extension_submat, axis=0))[0]
+        all_neighbours = np.nonzero(np.sum(extension_submat, axis=1))[0]
 
         # Remove tribe itself to get the extension rate
         extension_rate = len(all_neighbours) - len(tribe)

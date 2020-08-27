@@ -188,9 +188,16 @@
         "number": 20
       },
       {
-        "name": "Extension rate",
+        "name": "Afferent extension rate",
         "value": {
-          "column": "extension_rate"
+          "column": "aff_extension_rate"
+        },
+        "number": 20
+      },
+      {
+        "name": "Efferent extension rate",
+        "value": {
+          "column": "eff_extension_rate"
         },
         "number": 20
       }

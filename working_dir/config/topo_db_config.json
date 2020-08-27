@@ -10,7 +10,8 @@
 		"Out-degree",
 		"Density coefficient",
 		"Adjacency spectrum",
-		"Extension rate"
+		"Afferent extension rate",
+		"Efferent extension rate"
 	],
 	"precision": 4,
 	"Euler characteristic": {
@@ -53,8 +54,12 @@
 		"source": "adjacency_spectrum",
 		"column_name": "adj_spectrum"
 	},
-	"Extension rate": {
-		"source": "extension_rate",
-		"column_name": "extension_rate"
+	"Afferent extension rate": {
+		"source": "afferent_extension_rate",
+		"column_name": "aff_extension_rate"
+	},
+	"Efferent extension rate": {
+		"source": "efferent_extension_rate",
+		"column_name": "eff_extension_rate"
 	}
 }

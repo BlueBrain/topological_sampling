@@ -155,9 +155,18 @@
       }
     },
     {
-      "name": "Extension rate",
+      "name": "Afferent extension rate",
       "value": {
-        "column": "extension_rate"
+        "column": "aff_extension_rate"
+      },
+      "prediction_strategy": {
+        "number_sampled": 10000
+      }
+    },
+    {
+      "name": "Efferent extension rate",
+      "value": {
+        "column": "eff_extension_rate"
       },
       "prediction_strategy": {
         "number_sampled": 10000
