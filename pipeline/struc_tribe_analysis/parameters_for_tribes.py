@@ -31,7 +31,7 @@ def lookup_parameter_from_db_by_chief(db, list_of_parameters, chief):
 def tribal_spectrum(db_metrics, gids):
     L = []
     rel_L = []
-    for tribe in db_metrics['neighbours']:
+    for tribe in db_metrics['tribe']:
         L.append(len(numpy.intersect1d(gids, tribe)))
         rel_L.append(2 * L[-1] / (len(gids) + len(tribe)))
     return L, rel_L
