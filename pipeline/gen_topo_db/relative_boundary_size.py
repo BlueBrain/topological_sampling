@@ -18,10 +18,12 @@ def compute(tribes, adj_matrix, precision):
         adj_submat = adj_matrix[np.ix_(tribe_local_indices, tribe_local_indices)]
         G = nx.from_scipy_sparse_matrix(adj_submat, create_using=nx.DiGraph)
         edges_in_tribe = G.number_of_edges()
+        if edges_in_tribe == 0:
+            rel_boundaries.append(0)
+        else:
+            # Get the edge boundary of a tribe within the full circuit
+            boundary = nx.algorithms.boundary.edge_boundary(G_full, tribe_local_indices)
 
-        # Get the edge boundary of a tribe within the full circuit
-        boundary = nx.algorithms.boundary.edge_boundary(G_full, tribe_local_indices)
-
-        rel_boundaries.append(np.round(len(list(boundary)) / edges_in_tribe, precision))
+            rel_boundaries.append(np.round(len(list(boundary)) / edges_in_tribe, precision))
 
     return rel_boundaries

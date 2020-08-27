@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import numpy
 import os
 import json
@@ -49,10 +50,13 @@ def split_transformed_into_t_wins(transformed, stim_train):
     return per_stim_splt
 
 
-def write_results_file(transformed, tf_split, components, mn, noise_variance, chief_spec, out_root, conds):
-    out_fn = os.path.join(out_root, conds.get("sampling", "UNSPECIFIED"),
-                          conds.get("specifier", "UNSPECIFIED"),
-                          conds.get("index", "UNSPECIFIED"), "results.h5")
+def output_filename(out_root, conds):
+    return os.path.join(out_root, conds.get("sampling", "UNSPECIFIED"),
+                        conds.get("specifier", "UNSPECIFIED"),
+                        conds.get("index", "UNSPECIFIED"), "results.h5")
+
+
+def write_results_file(transformed, tf_split, components, mn, noise_variance, chief_spec, out_fn):
     assert not os.path.exists(out_fn)
     if not os.path.exists(os.path.split(out_fn)[0]):
         os.makedirs(os.path.split(out_fn)[0])
@@ -71,7 +75,10 @@ def write_results_file(transformed, tf_split, components, mn, noise_variance, ch
 def transform_all(spikes, stims, tribal_chiefs, tribal_gids, stage_config, out_root):
     result_lookup = {}
     for res in tribal_gids.contents:
-        #  TODO: Skip if output file already exists. Currently that case will throw an error.
+        out_fn = output_filename(out_root, res.cond)
+        if os.path.exists(out_fn):
+            print("{0} exists. Skipping...".format(out_fn))
+            continue
         print("Transforming for {0}".format(res.cond))
         gids = res.res
         y_vec = spikes_to_y_vec(spikes, gids, stage_config["t_bin_width"], stage_config["t_stim_start"])
@@ -79,7 +86,7 @@ def transform_all(spikes, stims, tribal_chiefs, tribal_gids, stage_config, out_r
         tf_split = split_transformed_into_t_wins(transformed, stims)
         chief = tribal_chiefs.get2(**res.cond)
         out_fn = write_results_file(transformed, tf_split, components, mn,
-                                    noise_variance, chief, out_root, res.cond)
+                                    noise_variance, chief, out_fn)
         spec_lvl = result_lookup.setdefault(res.cond["sampling"], {}).setdefault(res.cond["specifier"], {})
         spec_lvl[res.cond["index"]] = {"data_fn": out_fn, "idv_label": chief}
     return result_lookup
