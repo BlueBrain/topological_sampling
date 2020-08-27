@@ -46,13 +46,6 @@
     "Specifier_label": "Parameter",
     "Specifiers": [
       {
-        "name": "Relative boundary",
-        "value": {
-          "column": "relative_boundary"
-        },
-        "number": 20
-      },
-      {
         "name": "Chung spectrum",
         "value": {
           "column": "chung_spectrum",
@@ -61,9 +54,24 @@
         "number": 20
       },
       {
+        "name": "Relative boundary",
+        "value": {
+          "column": "relative_boundary"
+        },
+        "number": 20
+      },
+      {
         "name": "Euler characteristic",
         "value": {
           "column": "euler_char"
+        },
+        "number": 20
+      },
+      {
+        "name": "Betti two",
+        "value": {
+          "column": "bettis",
+          "index": 2
         },
         "number": 20
       },
@@ -124,33 +132,65 @@
         }
       },
       {
-        "name": "Laplacian spectrum",
+        "name": "Second density coefficient",
         "value": {
-          "column": "laplacian_spectrum",
-          "function": "smallest_nonzero_value"
+          "column": "density_coeff",
+          "index": 1
         },
         "number": 20
       },
       {
-        "name": "Ricci curvature",
+        "name": "Third density coefficient",
         "value": {
-          "column": "ricci_curvature"
-        },
-        "number": 20
-      },
-      {
-        "name": "Betti two",
-        "value": {
-          "column": "bettis",
+          "column": "density_coeff",
           "index": 2
         },
         "number": 20
       },
       {
-        "name": "Two simplex containment",
+        "name": "Fourth density coefficient",
         "value": {
-          "column": "simplex_containment",
-          "index": 2
+          "column": "density_coeff",
+          "index": 3
+        },
+        "number": 20
+      },
+      {
+        "name": "Fifth density coefficient",
+        "value": {
+          "column": "density_coeff",
+          "index": 4
+        },
+        "number": 20
+      },
+      {
+        "name": "Adjacency spectral gap (low)",
+        "value": {
+          "column": "adj_spectrum",
+          "function": "smallest_nonzero_absolute_value"
+        },
+        "number": 20
+      },
+      {
+        "name": "Adjacency spectral gap (high)",
+        "value": {
+          "column": "adj_spectrum",
+          "function": "difference_between_largest_absolute_values"
+        },
+        "number": 20
+      },
+      {
+        "name": "Adjacency spectral radius",
+        "value": {
+          "column": "adj_spectrum",
+          "function": "largest_absolute_value"
+        },
+        "number": 20
+      },
+      {
+        "name": "Extension rate",
+        "value": {
+          "column": "extension_rate"
         },
         "number": 20
       }

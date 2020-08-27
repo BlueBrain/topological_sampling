@@ -1,29 +1,9 @@
 {
   "Parameters": [
     {
-      "name": "Clustering coefficient",
+      "name": "Chung spectrum",
       "value": {
-        "column": "C_ks",
-        "index": 2
-      },
-      "prediction_strategy": {
-        "number_sampled": 25000
-      }
-    },
-    {
-      "name": "Alternative clustering coefficient",
-      "value": {
-        "column": "old_Cks",
-        "index": 2
-      },
-      "prediction_strategy": {
-        "number_sampled": 1000
-      }
-    },
-    {
-      "name": "Adjacency spectrum",
-      "value": {
-        "column": "adjacency_spectrum",
+        "column": "chung_spectrum",
         "function": "smallest_nonzero_value"
       },
       "prediction_strategy": {
@@ -31,37 +11,18 @@
       }
     },
     {
-      "name": "Laplacian spectrum",
+      "name": "Relative boundary",
       "value": {
-        "column": "laplacian_spectrum",
-        "function": "smallest_nonzero_value"
+        "column": "relative_boundary"
       },
       "prediction_strategy": {
-        "number_sampled": 25000
-      }
-    },
-    {
-      "name": "Ricci curvature",
-      "value": {
-        "column": "ricci_curvature"
-      },
-      "prediction_strategy": {
-        "number_sampled": 1000
-      }
-    },
-    {
-      "name": "Betti coefficient",
-      "value": {
-        "column": "betti_coeff"
-      },
-      "prediction_strategy": {
-        "number_sampled": 100
+        "number_sampled": 10000
       }
     },
     {
       "name": "Euler characteristic",
       "value": {
-        "column": "euler_characteristic"
+        "column": "euler_char"
       },
       "prediction_strategy": {
         "number_sampled": 100
@@ -88,13 +49,21 @@
       }
     },
     {
-      "name": "Two simplex containment",
+      "name": "Transitive clustering coefficient",
       "value": {
-        "column": "simplex_containment",
-        "index": 2
+        "column": "trans_cc"
       },
       "prediction_strategy": {
-        "number_sampled": 1000
+        "number_sampled": 10000
+      }
+    },
+    {
+      "name": "Normalized Betti coefficient",
+      "value": {
+        "column": "norm_betti_coeff"
+      },
+      "prediction_strategy": {
+        "number_sampled": 100
       }
     },
     {
@@ -103,7 +72,7 @@
         "column": "in_degree"
       },
       "prediction_strategy": {
-        "number_sampled": 25000
+        "number_sampled": 10000
       }
     },
     {
@@ -113,6 +82,85 @@
       },
       "prediction_strategy": {
         "number_sampled": 1000
+      }
+    },
+    {
+      "name": "Second density coefficient",
+      "value": {
+        "column": "density_coeff",
+        "index": 1
+      },
+      "prediction_strategy": {
+        "number_sampled": 10000
+      }
+    },
+    {
+      "name": "Third density coefficient",
+      "value": {
+        "column": "density_coeff",
+        "index": 2
+      },
+      "prediction_strategy": {
+        "number_sampled": 10000
+      }
+    },
+    {
+      "name": "Fourth density coefficient",
+      "value": {
+        "column": "density_coeff",
+        "index": 3
+      },
+      "prediction_strategy": {
+        "number_sampled": 10000
+      }
+    },
+    {
+      "name": "Fifth density coefficient",
+      "value": {
+        "column": "density_coeff",
+        "index": 4
+      },
+      "prediction_strategy": {
+        "number_sampled": 10000
+      }
+    },
+    {
+      "name": "Adjacency spectral gap (low)",
+      "value": {
+        "column": "adj_spectrum",
+        "function": "smallest_nonzero_absolute_value"
+      },
+      "prediction_strategy": {
+        "number_sampled": 10000
+      }
+    },
+    {
+      "name": "Adjacency spectral gap (high)",
+      "value": {
+        "column": "adj_spectrum",
+        "function": "difference_between_largest_absolute_values"
+      },
+      "prediction_strategy": {
+        "number_sampled": 10000
+      }
+    },
+    {
+      "name": "Adjacency spectral radius",
+      "value": {
+        "column": "adj_spectrum",
+        "function": "largest_absolute_value"
+      },
+      "prediction_strategy": {
+        "number_sampled": 10000
+      }
+    },
+    {
+      "name": "Extension rate",
+      "value": {
+        "column": "extension_rate"
+      },
+      "prediction_strategy": {
+        "number_sampled": 10000
       }
     }
   ]
