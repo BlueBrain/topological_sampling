@@ -1,12 +1,10 @@
 import numpy as np
 import progressbar
-from toposample.indexing import GidConverter
 
 
-def compute(tribes, adj_matrix, precision):
+def compute(tribes, adj_matrix, conv, precision):
 
     extensions = []
-    conv = GidConverter(tribes)
     pbar = progressbar.ProgressBar()
 
     for tribe in pbar(tribes):
@@ -20,7 +18,7 @@ def compute(tribes, adj_matrix, precision):
         extension_rate = len(all_neighbours) - len(tribe)
 
         # Something is funky if this trips
-        assert extension_rate > 0
+        # assert extension_rate > 0
 
         extensions.append(extension_rate)
         

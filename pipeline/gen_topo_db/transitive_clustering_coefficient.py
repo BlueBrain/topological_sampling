@@ -3,9 +3,9 @@ import progressbar
 from pyflagsercontain import flagser_count
 
 
-def compute(tribes, adj_matrix, precision):
+def compute(tribes, adj_matrix, conv, precision):
 
-    # Transitive clustering coefficients
+    # Transitive clustering coefficients of chiefs
     trccs = []
 
     simplexcontainment = flagser_count(adj_matrix)

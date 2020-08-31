@@ -3,14 +3,11 @@ import progressbar
 
 import pyflagser
 
-from toposample.indexing import GidConverter
 
-
-def compute(tribes, adj_matrix, precision):
+def compute(tribes, adj_matrix, conv, precision):
 
     bettis = []
     pbar = progressbar.ProgressBar()
-    conv = GidConverter(tribes)
 
     for tribe in pbar(tribes):
         # Convert from GIDs to local indexing

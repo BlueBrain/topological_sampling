@@ -1,15 +1,13 @@
 import numpy as np
 import progressbar
-from toposample.indexing import GidConverter
 import pyflagser
 
 
-def compute(tribes, adj_matrix, precision):
+def compute(tribes, adj_matrix, conv, precision):
 
     # Normalized Betti coefficients
     nbcs = []
     pbar = progressbar.ProgressBar()
-    conv = GidConverter(tribes)
 
     for tribe in pbar(tribes):
 

@@ -2,13 +2,10 @@ import numpy as np
 import progressbar
 from numpy import linalg as LA
 
-from toposample.indexing import GidConverter
 
-
-def compute(tribes, adj_matrix, precision):
+def compute(tribes, adj_matrix, conv, precision):
 
     spectra = []
-    conv = GidConverter(tribes)
     pbar = progressbar.ProgressBar()
 
     for tribe in pbar(tribes):

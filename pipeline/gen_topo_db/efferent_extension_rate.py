@@ -1,12 +1,10 @@
 import numpy as np
 import progressbar
-from toposample.indexing import GidConverter
 
 
-def compute(tribes, adj_matrix, precision):
+def compute(tribes, adj_matrix, conv, precision):
 
     extensions = []
-    conv = GidConverter(tribes)
     pbar = progressbar.ProgressBar()
 
     for tribe in pbar(tribes):

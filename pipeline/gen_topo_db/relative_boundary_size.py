@@ -1,14 +1,12 @@
 import numpy as np
 import progressbar
-from toposample.indexing import GidConverter
 
 
-def compute(tribes, adj_matrix, precision):
+def compute(tribes, adj_matrix, conv, precision):
     import networkx as nx
 
     rel_boundaries = []
     pbar = progressbar.ProgressBar()
-    conv = GidConverter(tribes)
     G_full = nx.from_scipy_sparse_matrix(adj_matrix)
 
     for tribe in pbar(tribes):

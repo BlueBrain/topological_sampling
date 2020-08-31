@@ -3,7 +3,7 @@ import progressbar
 from pyflagsercontain import flagser_count
 
 
-def compute(tribes, adj_matrix, precision):
+def compute(tribes, adj_matrix, conv, precision):
 
     # Density coefficients
     dcs = []

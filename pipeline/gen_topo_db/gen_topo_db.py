@@ -16,6 +16,7 @@ def read_input(input_config):
     return adj_matrix, neuron_info
 
 
+# noinspection PyPep8Naming
 def write_output(DB, output_fn):
     DB.to_pickle(output_fn)
 
@@ -46,6 +47,7 @@ def calculate_tribes(adj_matrix, neuron_info):
     return tribal_db
 
 
+# noinspection PyPep8Naming
 def add_neuron_info(DB, neuron_info):
     """
     Copies columns from one DataFrame into another. Checks for duplicate columns
@@ -59,7 +61,8 @@ def add_neuron_info(DB, neuron_info):
         DB[col] = neuron_info[col]
 
 
-def add_parameter_column(DB, tribes, parameter, topo_db_cfg, adj_matrix):
+# noinspection PyPep8Naming,PyUnresolvedReferences
+def add_parameter_column(DB, tribes, parameter, topo_db_cfg, conv, adj_matrix):
     """
     Loop over the tribe parameters as specified, each loop makes a call to the associated
     function computing the parameter values and injects into DB.
@@ -67,6 +70,7 @@ def add_parameter_column(DB, tribes, parameter, topo_db_cfg, adj_matrix):
     :param tribes: pandas.DataFrame - with a column "tribe" that holds gids of associated tribes. Can be the same as DB
     :param parameter: str - parameter name
     :param topo_db_cfg: dict - configuration of the gen_topo_db step
+    :param conv: GidConverter
     :param adj_matrix: scipy.sparse.csr_matrix - adjacency matrix of circuit
     :return: None - puts results into DB
     """
@@ -76,7 +80,7 @@ def add_parameter_column(DB, tribes, parameter, topo_db_cfg, adj_matrix):
     print("Calculating {0} for all tribes...".format(parameter))
     try:
         module = importlib.import_module(topo_db_cfg[parameter]["source"])
-        DB[topo_db_cfg[parameter]["column_name"]] = module.compute(tribes["tribe"], adj_matrix, precision)
+        DB[topo_db_cfg[parameter]["column_name"]] = module.compute(tribes["tribe"], adj_matrix, conv, precision)
     except ImportError as e:
         print(e)
         print("Unable to load module for {0}".format(parameter))
@@ -100,6 +104,7 @@ def create_db_with_specified_columns(lst_columns, tribes, neuron_info, topo_db_c
     # Use gids also as index of the DB
     # Note: This assumes that the order in neuron_info and the adj_matrix are the same!
     DB.index = neuron_info.index
+    conv = GidConverter(neuron_info)
 
     for column_name in lst_columns:
         if column_name == "tribe":
@@ -107,7 +112,7 @@ def create_db_with_specified_columns(lst_columns, tribes, neuron_info, topo_db_c
         elif column_name == "neuron_info":
             add_neuron_info(DB, neuron_info)
         else:
-            add_parameter_column(DB, tribes, column_name, topo_db_cfg, adj_matrix)
+            add_parameter_column(DB, tribes, column_name, topo_db_cfg, conv, adj_matrix)
     return DB
 
 
