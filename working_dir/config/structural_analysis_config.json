@@ -1,4 +1,9 @@
 {
+  "Exclude for volumetric": [
+    "Transitive clustering coefficient",
+    "In-degree",
+    "Out-degree"
+  ],
   "Parameters": [
     {
       "name": "Chung spectrum",

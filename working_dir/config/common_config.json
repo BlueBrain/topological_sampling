@@ -16,6 +16,7 @@
         "database": "community_database.pkl",
         "tribes": "tribes.json",
         "struc_parameters": "structural_parameters.json",
+        "struc_parameters_volumetric": "structural_parameters_vol.json",
         "components": "extracted_components.json",
         "features": "features.json",
         "classifier_components_results": "classifier_manifold_results.json",
@@ -71,10 +72,13 @@
       "struc_tribe_analysis": {
           "inputs": {
               "database": "analyzed",
-              "tribes": "analyzed"
+              "tribes": "analyzed",
+              "neuron_info": "analyzed",
+              "adjacency_matrix": "inputs"
           },
           "outputs": {
-              "struc_parameters": "analyzed"
+              "struc_parameters": "analyzed",
+              "struc_parameters_volumetric": "analyzed"
           }
       },
       "count_triads": {
