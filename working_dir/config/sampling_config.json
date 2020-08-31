@@ -65,7 +65,17 @@
         "value": {
           "column": "euler_char"
         },
-        "number": 20
+        "number": 20,
+        "subsampling": {
+          "levels": [
+            90,
+            80,
+            70,
+            50
+          ],
+          "number_samples": 5,
+          "number_subsamples": 4
+        }
       },
       {
         "name": "Betti two",
@@ -73,7 +83,17 @@
           "column": "bettis",
           "index": 2
         },
-        "number": 20
+        "number": 20,
+        "subsampling": {
+          "levels": [
+            90,
+            80,
+            70,
+            50
+          ],
+          "number_samples": 5,
+          "number_subsamples": 4
+        }
       },
       {
         "name": "Betti three",
