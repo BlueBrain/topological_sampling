@@ -59,7 +59,13 @@ def make_sample(db, specifications):
     return out_dict
 
 
+def filter_by_minimum_tribe_size(db, min_size):
+    tribal_size = numpy.array(list(map(len, db["tribe"])))
+    return db.iloc[tribal_size > min_size]
+
+
 def make_all_samples(db, full_specification):
+    db = filter_by_minimum_tribe_size(db, full_specification.get("Minimum size", 0))
     spec_lbl = full_specification["Specifier_label"]
     out_dict = dict([(spec_lbl, {})])
     for spec in full_specification["Specifiers"]:

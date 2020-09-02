@@ -73,7 +73,7 @@
           "inputs": {
               "database": "analyzed",
               "tribes": "analyzed",
-              "neuron_info": "analyzed",
+              "neuron_info": "inputs",
               "adjacency_matrix": "inputs"
           },
           "outputs": {
