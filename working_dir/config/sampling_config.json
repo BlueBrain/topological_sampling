@@ -43,7 +43,6 @@
     }
   },
   "Champions": {
-    "Minimum size": 300,
     "Specifier_label": "Parameter",
     "Specifiers": [
       {
@@ -72,7 +71,8 @@
             90,
             80,
             70,
-            50
+            50,
+            25
           ],
           "number_samples": 5,
           "number_subsamples": 4
@@ -90,7 +90,8 @@
             90,
             80,
             70,
-            50
+            50,
+            25
           ],
           "number_samples": 5,
           "number_subsamples": 4
@@ -129,7 +130,8 @@
             90,
             80,
             70,
-            50
+            50,
+            25
           ],
           "number_samples": 5,
           "number_subsamples": 4
@@ -146,7 +148,8 @@
             90,
             80,
             70,
-            50
+            50,
+            25
           ],
           "number_samples": 5,
           "number_subsamples": 4

@@ -34,3 +34,7 @@ def largest_value(v):
 def largest_absolute_value(v):
     v = numpy.abs(v)
     return largest_value(v)
+
+
+def nanmean(v):
+    return numpy.nanmean(v)

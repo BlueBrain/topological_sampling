@@ -55,7 +55,8 @@
       "gen_topo_db": {
           "inputs": {
               "adjacency_matrix": "inputs",
-              "neuron_info": "inputs"
+              "neuron_info": "inputs",
+              "raw_spikes": "inputs"
           },
           "outputs": {
               "database": "analyzed"

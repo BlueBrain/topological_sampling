@@ -2,9 +2,30 @@
   "Exclude for volumetric": [
     "Transitive clustering coefficient",
     "In-degree",
-    "Out-degree"
+    "Out-degree",
+    "Community coupling",
+    "Mean tribe community coupling"
   ],
   "Parameters": [
+    {
+      "name": "Community coupling",
+      "value": {
+        "column": "comm_coupling"
+      },
+      "prediction_strategy": {
+        "number_sampled": 10000
+      }
+    },
+    {
+      "name": "Mean tribe community coupling",
+      "value": {
+        "column": "tribe_comm_coupling",
+        "function": "nanmean"
+      },
+      "prediction_strategy": {
+        "number_sampled": 10000
+      }
+    },
     {
       "name": "Chung spectrum",
       "value": {
