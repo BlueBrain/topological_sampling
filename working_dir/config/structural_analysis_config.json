@@ -13,7 +13,8 @@
         "column": "comm_coupling"
       },
       "prediction_strategy": {
-        "number_sampled": 10000
+        "strategy": "mean_of_members",
+        "kwargs": {}
       }
     },
     {
@@ -23,7 +24,8 @@
         "function": "nanmean"
       },
       "prediction_strategy": {
-        "number_sampled": 10000
+        "strategy": "mean_of_members",
+        "kwargs": {}
       }
     },
     {
@@ -33,7 +35,10 @@
         "function": "smallest_nonzero_value"
       },
       "prediction_strategy": {
-        "number_sampled": 10000
+        "strategy": "weighted_mean_by_overlap",
+        "kwargs": {
+          "number_sampled": 6737
+        }
       }
     },
     {
@@ -42,7 +47,10 @@
         "column": "relative_boundary"
       },
       "prediction_strategy": {
-        "number_sampled": 10000
+        "strategy": "weighted_mean_by_overlap",
+        "kwargs": {
+          "number_sampled": 680
+        }
       }
     },
     {
@@ -51,7 +59,10 @@
         "column": "euler_char"
       },
       "prediction_strategy": {
-        "number_sampled": 100
+        "strategy": "weighted_mean_by_overlap",
+        "kwargs": {
+          "number_sampled": 72
+        }
       }
     },
     {
@@ -61,7 +72,10 @@
         "index": 2
       },
       "prediction_strategy": {
-        "number_sampled": 100
+        "strategy": "weighted_mean_by_overlap",
+        "kwargs": {
+          "number_sampled": 67
+        }
       }
     },
     {
@@ -71,7 +85,10 @@
         "index": 3
       },
       "prediction_strategy": {
-        "number_sampled": 100
+        "strategy": "weighted_mean_by_overlap",
+        "kwargs": {
+          "number_sampled": 259
+        }
       }
     },
     {
@@ -80,7 +97,10 @@
         "column": "trans_cc"
       },
       "prediction_strategy": {
-        "number_sampled": 10000
+        "strategy": "weighted_mean_by_overlap",
+        "kwargs": {
+          "number_sampled": 30575
+        }
       }
     },
     {
@@ -89,7 +109,10 @@
         "column": "norm_betti_coeff"
       },
       "prediction_strategy": {
-        "number_sampled": 100
+        "strategy": "weighted_mean_by_overlap",
+        "kwargs": {
+          "number_sampled": 1233
+        }
       }
     },
     {
@@ -98,7 +121,10 @@
         "column": "in_degree"
       },
       "prediction_strategy": {
-        "number_sampled": 10000
+        "strategy": "weighted_mean_by_overlap",
+        "kwargs": {
+          "number_sampled": 242
+        }
       }
     },
     {
@@ -107,7 +133,10 @@
         "column": "out_degree"
       },
       "prediction_strategy": {
-        "number_sampled": 1000
+        "strategy": "weighted_mean_by_overlap",
+        "kwargs": {
+          "number_sampled": 30250
+        }
       }
     },
     {
@@ -117,7 +146,10 @@
         "index": 1
       },
       "prediction_strategy": {
-        "number_sampled": 10000
+        "strategy": "weighted_mean_by_overlap",
+        "kwargs": {
+          "number_sampled": 242
+        }
       }
     },
     {
@@ -127,7 +159,10 @@
         "index": 2
       },
       "prediction_strategy": {
-        "number_sampled": 10000
+        "strategy": "weighted_mean_by_overlap",
+        "kwargs": {
+          "number_sampled": 224
+        }
       }
     },
     {
@@ -137,7 +172,10 @@
         "index": 3
       },
       "prediction_strategy": {
-        "number_sampled": 10000
+        "strategy": "weighted_mean_by_overlap",
+        "kwargs": {
+          "number_sampled": 1084
+        }
       }
     },
     {
@@ -147,7 +185,10 @@
         "index": 4
       },
       "prediction_strategy": {
-        "number_sampled": 10000
+        "strategy": "weighted_mean_by_overlap",
+        "kwargs": {
+          "number_sampled": 2260
+        }
       }
     },
     {
@@ -157,7 +198,10 @@
         "function": "smallest_nonzero_absolute_value"
       },
       "prediction_strategy": {
-        "number_sampled": 10000
+        "strategy": "weighted_mean_by_overlap",
+        "kwargs": {
+          "number_sampled": 7534
+        }
       }
     },
     {
@@ -167,7 +211,10 @@
         "function": "difference_between_largest_absolute_values"
       },
       "prediction_strategy": {
-        "number_sampled": 10000
+        "strategy": "weighted_mean_by_overlap",
+        "kwargs": {
+          "number_sampled": 58
+        }
       }
     },
     {
@@ -177,7 +224,10 @@
         "function": "largest_absolute_value"
       },
       "prediction_strategy": {
-        "number_sampled": 10000
+        "strategy": "weighted_mean_by_overlap",
+        "kwargs": {
+          "number_sampled": 66
+        }
       }
     },
     {
@@ -186,7 +236,10 @@
         "column": "aff_extension_rate"
       },
       "prediction_strategy": {
-        "number_sampled": 10000
+        "strategy": "weighted_mean_by_overlap",
+        "kwargs": {
+          "number_sampled": 6729
+        }
       }
     },
     {
@@ -195,7 +248,10 @@
         "column": "eff_extension_rate"
       },
       "prediction_strategy": {
-        "number_sampled": 10000
+        "strategy": "weighted_mean_by_overlap",
+        "kwargs": {
+          "number_sampled": 30272
+        }
       }
     }
   ]

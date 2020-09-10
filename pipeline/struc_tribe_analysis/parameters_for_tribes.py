@@ -5,6 +5,7 @@ import json
 from toposample import config
 from toposample import TopoData
 from toposample.db import get_entry_from_row, get_column_from_database
+from toposample.indexing import GidConverter
 
 
 def read_input(input_config):
@@ -37,37 +38,54 @@ def tribal_spectrum(db_metrics, gids):
     return L, rel_L
 
 
-def top_n_weighted_average(w, v, n=10):
+def top_n_weighted_average(w, v, number_sampled=10):
     w, v = numpy.array(w), numpy.array(v)
-    idxx = numpy.argsort(w)[-n:]
+    idxx = numpy.argsort(w)[-int(number_sampled):]
     v = v[idxx]
     w = w[idxx]
     return numpy.nansum(w * v) / numpy.nansum(w)
 
 
-def predict_parameter_from_db_by_gids(db, list_of_parameters, gids):
-    _, relative_overlap = tribal_spectrum(db, gids)
+def get_relevant_columns_from_db(db, list_of_parameters):
     out_dict = {}
+    print("Looking up relevant db entries...")
     for param_spec in list_of_parameters:
+        print("...{0}".format(param_spec["name"]))
         v = get_column_from_database(db, param_spec["value"]["column"],
                                      index=param_spec["value"].get("index", None),
                                      function=param_spec["value"].get("function", None))
-        N = param_spec["prediction_strategy"]["number_sampled"]
-        out_dict[param_spec["name"]] = top_n_weighted_average(relative_overlap, v, n=N)
+        out_dict[param_spec["name"]] = numpy.array(v)
+    return out_dict
+
+
+def predict_parameter_from_db_by_gids(db, dict_of_columns, list_of_parameters, gids):
+    _, relative_overlap = tribal_spectrum(db, gids)
+    conv = GidConverter(db)
+    out_dict = {}
+    for param_spec in list_of_parameters:
+        v = dict_of_columns[param_spec["name"]]
+        use_kwargs = param_spec["prediction_strategy"].get("kwargs", {})
+        if param_spec["prediction_strategy"]["strategy"] == "weighted_mean_by_overlap":
+            out_dict[param_spec["name"]] = top_n_weighted_average(relative_overlap, v, **use_kwargs)
+        elif param_spec["prediction_strategy"]["strategy"] == "mean_of_members":
+            out_dict[param_spec["name"]] = numpy.nanmean(v[conv.indices(gids)])
     return out_dict
 
 
 def make_lookup_functions(db, list_of_parameters):
-    def lookup_if_non_volumetric(sampling_strats, tribe_spec): # to be used with tribal chiefs
+    dict_of_columns = get_relevant_columns_from_db(db, list_of_parameters)
+
+    def lookup_if_non_volumetric(sampling_strats, tribe_spec):  # to be used with tribal chiefs
         for smpl, trb in zip(sampling_strats, tribe_spec):
             if smpl != 'Radius':
                 yield lookup_parameter_from_db_by_chief(db, list_of_parameters, trb), {'sampling': smpl}
 
-    def predict_if_volumetric(sampling_strats, tribe_spec): # to be used with tribal gids
+    def predict_if_volumetric(sampling_strats, tribe_spec):  # to be used with tribal gids
         for smpl, trb in zip(sampling_strats, tribe_spec):
             if smpl == 'Radius':
                 print("Predicting parameter value for volumetric sample of {0} gids".format(len(trb)))
-                yield predict_parameter_from_db_by_gids(db, list_of_parameters, trb), {'sampling': smpl}
+                yield predict_parameter_from_db_by_gids(db, dict_of_columns, list_of_parameters, trb),\
+                      {'sampling': smpl}
     return lookup_if_non_volumetric, predict_if_volumetric
 
 

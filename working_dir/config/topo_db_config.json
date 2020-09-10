@@ -14,7 +14,7 @@
 		"Efferent extension rate"
 	],
 	"precision": 4,
-	"coupling_bin_size": 5.0,
+	"coupling_bin_size": 10.0,
 	"Euler characteristic": {
 		"source": "euler_char",
 		"column_name": "euler_char"
