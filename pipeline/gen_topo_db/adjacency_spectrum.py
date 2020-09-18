@@ -1,7 +1,6 @@
 import numpy as np
 import progressbar
-from numpy import linalg as LA
-
+import scipy
 
 def compute(tribes, adj_matrix, conv, precision):
 
@@ -13,10 +12,10 @@ def compute(tribes, adj_matrix, conv, precision):
         adj_submat = adj_matrix[np.ix_(tribe_ids, tribe_ids)]
 
         # Find the eigenvalues
-        eig = LA.eigvals(adj_submat.todense())
+        eig = scipy.linalg.eig(adj_submat.todense())[0]
 
         # Order the non-zero eigenvalues and round to desired precision
-        spectrum = np.round(np.unique(eig[np.nonzero(eig)]), precision)
+        spectrum = np.unique(np.round(eig[np.nonzero(eig)], precision))
         spectra.append(spectrum)
         
     return spectra
