@@ -1,6 +1,7 @@
 import numpy as np
 import progressbar
-import scipy
+import scipy.linalg
+
 
 def compute(tribes, adj_matrix, conv, precision):
 
