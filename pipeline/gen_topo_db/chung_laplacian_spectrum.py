@@ -1,7 +1,6 @@
 import numpy as np
 import progressbar
-from numpy import linalg as LA
-
+import scipy
 
 def compute(tribes, adj_matrix, conv, precision):
     import networkx as nx
@@ -23,10 +22,10 @@ def compute(tribes, adj_matrix, conv, precision):
             L = nx.directed_laplacian_matrix(G.subgraph(largest))
 
             # Find the eigenvalues
-            eig = LA.eigvals(L)
+            eig = scipy.linalg.eig(L)[0]
 
             # Order the non-zero eigenvalues and round to desired precision
-            spectrum = np.round(np.unique(eig[np.nonzero(eig)]), precision)
-
+            spectrum = np.unique(np.round(eig[np.nonzero(eig)], precision))
             spectra.append(spectrum)
+            
     return spectra
