@@ -12,10 +12,14 @@ The analysis pipeline for the topological sampling project
   - pandas
   - progressbar
   - flagser
+  - future
   
 ## Installation
 
-First install the python dependencies for reading / writing results and configurations:
+Download the repository and submodules with:
+- git clone --recursive https://github.com/MWolfR/topological_sampling.git
+
+Then, install the python dependencies for reading / writing results and configurations:
 - cd common/toposample_utilities
 - pip install .
 
