@@ -31,6 +31,12 @@ Next, install the python dependencies for counting directed simplex containment:
 
 Next, obtain the input data used for our paper (or use your own simulation results!) under the following link: LINK HERE and place it into working_dir/data/input_data.
 
+The following four input files are required, the addresses for which should be updated in working_dir/config/common_config.json:
+- The adjacency matrix of the circuit in scipy sparse csr format
+- The spike trains of the simulation
+- The classification labels for the the stimuli as a numpy array
+- A pandas database containing the layers, morphilogical type and (x,y,z) coordinates of the neurons
+
 Then run the pipeline steps in order:
 - pipeline/gen_topo_db
 - pipeline/sample_tribes
