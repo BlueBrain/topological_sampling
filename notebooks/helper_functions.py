@@ -62,5 +62,22 @@ def perform_anovas(dframe, result_param, static_params, static_categories, itera
     return ret
 
     
+def find_redundant_entries(corr_mat, labels, threshold=0.95):
+    decider_mat = corr_mat > threshold
+    decider_mat[numpy.eye(decider_mat.shape[0]) == 1] = False
+    labels = labels.copy()
     
-    
+    if numpy.any(decider_mat):
+        red_sum = numpy.sum(decider_mat, axis=0)
+        max_num = numpy.max(red_sum)
+        idxx = numpy.nonzero(red_sum == max_num)[0]
+        to_remove = idxx[0]
+        print("{0} is redundant {1} times\n\t...removing".format(labels[to_remove], red_sum[to_remove]))
+        if len(idxx) > 1:
+            print("\t\t -- although {0} others were equally redundant".format(len(idxx) - 1))
+        idxx = list(range(len(labels)))
+        idxx.pop(to_remove)
+        labels.pop(to_remove)
+        return find_redundant_entries(corr_mat[numpy.ix_(idxx, idxx)], labels, threshold=threshold)
+    return corr_mat, labels
+

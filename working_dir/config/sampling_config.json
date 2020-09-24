@@ -49,7 +49,7 @@
         "name": "Chung spectrum",
         "value": {
           "column": "chung_spectrum",
-          "function": "smallest_nonzero_value"
+          "function": "smallest_nonzero_absolute_value"
         },
         "number": 20
       },

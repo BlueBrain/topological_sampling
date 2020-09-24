@@ -32,7 +32,7 @@
       "name": "Chung spectrum",
       "value": {
         "column": "chung_spectrum",
-        "function": "smallest_nonzero_value"
+        "function": "smallest_nonzero_absolute_value"
       },
       "prediction_strategy": {
         "strategy": "weighted_mean_by_overlap",

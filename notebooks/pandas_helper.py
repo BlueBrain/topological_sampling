@@ -2,6 +2,11 @@ import pandas
 import numpy
 
 
+def sanitize_param_name(param):
+        param_label = param.replace(" ", "_")
+        return "".join([_x for _x in param_label if _x not in ")(-+"])
+
+
 def column_names_to_values(dframe_in, columns=None, name_col="Column", name_value="Value"):
     if columns is None:
         columns = dframe_in.columns
@@ -19,10 +24,7 @@ def assemble_result_dataframe(acc_data_struc, param_data_struc,
                               label_accuracy="Accuracy",
                               sanitize=True,
                               **kwargs):
-    def sanitize_param_name(param):
-        param_label = param.replace(" ", "_")
-        return "".join([_x for _x in param_label if _x not in ")(-+"])
-   
+    
     cols = {}
     if labels_to_iterate is None:
         labels_to_iterate = acc_data_struc.filter(**kwargs).labels_of(cond_to_iterate)
