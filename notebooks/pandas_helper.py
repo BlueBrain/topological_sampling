@@ -44,7 +44,7 @@ def assemble_result_dataframe(acc_data_struc, param_data_struc,
         kw_cp.update({cond_to_iterate: label, "index": index})
         for param in parameters_to_add:
             if param not in param_data_struc.data:
-                print("{0} not calculated for the samples. Skipping...".format(spec))
+                print("{0} not calculated for the samples. Skipping...".format(param))
                 continue
             new_value = param_data_struc[param].get2(**kw_cp)
             if hasattr(new_value, '__len__'):  # returns empty list if no value is found -> use NaN instead
