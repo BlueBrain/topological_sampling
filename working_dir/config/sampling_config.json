@@ -224,6 +224,38 @@
           "column": "eff_extension_rate"
         },
         "number": 20
+      },
+      {
+        "name": "Bauer laplacian spectrum",
+        "value": {
+          "column": "bauer_laplac_spec",
+          "function": "smallest_nonzero_absolute_value"
+        },
+        "number": 25
+      },
+      {
+        "name": "Transition probability spectral gap (low)",
+        "value": {
+          "column": "transition_prob_spec",
+          "function": "smallest_nonzero_absolute_value"
+        },
+        "number": 25
+      },
+      {
+        "name": "Transition probability spectral gap (high)",
+        "value": {
+          "column": "transition_prob_spec",
+          "function": "difference_between_largest_absolute_values"
+        },
+        "number": 25
+      },
+      {
+        "name": "Transition probability spectral radius",
+        "value": {
+          "column": "transition_prob_spec",
+          "function": "largest_absolute_value"
+        },
+        "number": 25
       }
     ]
   },

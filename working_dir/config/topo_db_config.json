@@ -11,7 +11,9 @@
 		"Density coefficient",
 		"Adjacency spectrum",
 		"Afferent extension rate",
-		"Efferent extension rate"
+		"Efferent extension rate",
+		"Bauer laplacian spectrum",
+		"Transition probability spectrum"
 	],
 	"precision": 4,
 	"coupling_bin_size": 10.0,
@@ -62,5 +64,13 @@
 	"Efferent extension rate": {
 		"source": "efferent_extension_rate",
 		"column_name": "eff_extension_rate"
+	},
+	"Bauer laplacian spectrum": {
+		"source": "bauer_laplacian_spectrum",
+		"column_name": "bauer_laplac_spec"
+	},
+	"Transition probability spectrum": {
+		"source": "transition_probability_spectrum",
+		"column_name": "transition_prob_spec"
 	}
 }

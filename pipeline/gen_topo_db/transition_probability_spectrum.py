@@ -2,6 +2,7 @@ import numpy as np
 import progressbar
 import scipy.linalg
 
+
 def compute(tribes, adj_matrix, conv, precision):
     import networkx as nx
 
@@ -20,10 +21,10 @@ def compute(tribes, adj_matrix, conv, precision):
             spectra.append([])
         else:
             # Adjacency matrix of the tribe's strong component
-            tribe_strong_adj_submat = nx.to_numpy_array(G.subgraph(largest),dtype='int8')
+            tribe_strong_adj_submat = nx.to_numpy_array(G.subgraph(largest), dtype='int8')
 
             # Make a diagonal matrix of inverses of outdegrees in the tribe
-            diag_outdegree_inverses = np.diagflat(np.power(np.sum(tribe_strong_adj_submat,axis=1).astype(float),-1))
+            diag_outdegree_inverses = np.diagflat(np.power(np.sum(tribe_strong_adj_submat, axis=1).astype(float), -1))
 
             # The transition probability matrix
             tr_prob = diag_outdegree_inverses @ tribe_strong_adj_submat          
