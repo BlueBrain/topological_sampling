@@ -253,6 +253,45 @@
           "number_sampled": 30272
         }
       }
+    },
+    {
+      "name": "Bauer laplacian spectrum",
+      "value": {
+        "column": "bauer_laplac_spec",
+        "function": "smallest_nonzero_absolute_value"
+      },
+      "prediction_strategy": {
+        "strategy": "weighted_mean_by_overlap",
+        "kwargs": {
+          "number_sampled": 30664
+        }
+      }
+    },
+    {
+      "name": "Transition probability spectral gap (low)",
+      "value": {
+        "column": "transition_prob_spec",
+        "function": "smallest_nonzero_absolute_value"
+      },
+      "prediction_strategy": {
+        "strategy": "weighted_mean_by_overlap",
+        "kwargs": {
+          "number_sampled": 23255
+        }
+      }
+    },
+    {
+      "name": "Transition probability spectral gap (high)",
+      "value": {
+        "column": "transition_prob_spec",
+        "function": "difference_between_largest_absolute_values"
+      },
+      "prediction_strategy": {
+        "strategy": "weighted_mean_by_overlap",
+        "kwargs": {
+          "number_sampled": 8169
+        }
+      }
     }
   ]
 }

@@ -26,7 +26,10 @@ def main(cfg_fn, delete_inputs=False):
         return
     DB_raw = [pandas.read_pickle(_fn) for _fn in files]
     DB = pandas.concat(DB_raw, axis=1)
-    pandas.to_pickle(DB, stage["outputs"]["database"])
+    fn_out = stage["outputs"]["database"]
+    if not os.path.isdir(os.path.split(fn_out)[0]):
+        os.makedirs(os.path.split(fn_out)[0])
+    pandas.to_pickle(DB, fn_out)
     if delete_inputs:
         for fn in files:
             os.remove(fn)

@@ -2,6 +2,7 @@ import numpy as np
 import progressbar
 import scipy.linalg
 
+
 def compute(tribes, adj_matrix, conv, precision):
     import networkx as nx
 

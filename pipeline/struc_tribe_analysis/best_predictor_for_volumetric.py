@@ -7,7 +7,7 @@ from toposample import Config, TopoData
 from toposample.data import read_h5_dataset
 from toposample.db import get_column_from_database
 
-from .parameters_for_tribes import top_n_weighted_average, tribal_spectrum
+from parameters_for_tribes import top_n_weighted_average, tribal_spectrum
 
 
 def read_inputs(cfg):
@@ -33,13 +33,17 @@ def specified_parameter_spec(stage_cfg, param_names):
     ret = []
     for param_spec in stage_cfg["Parameters"]:
         if param_spec["name"] in param_names:
+            print("Will optimize: {0}".format(param_spec["name"]))
             ret.append(param_spec)
+        else:
+            print("Not optimizing: {0}".format(param_spec["name"]))
+    print("\toptimizing {0} parameters...".format(len(ret)))
     return ret
 
 
 def evaluate_fit(input_data):
     input_data = numpy.vstack(input_data)
-    return numpy.abs(pearsonr(input_data[:, 0], input_data[:, 1])[0])
+    return pearsonr(input_data[:, 0], input_data[:, 1])[0]
 
 
 def find_best_parameter(db, acc_data, gids, param_specs):
@@ -60,7 +64,7 @@ def find_best_parameter(db, acc_data, gids, param_specs):
         def func_to_minimize(N):
             prediction = overlap_sizes.map(lambda w: top_n_weighted_average(w, v, number_sampled=N))
             data_to_evaluate = acc_data.extended_map(lambda a, b: [a] + b, [prediction]).get()
-            return -evaluate_fit(data_to_evaluate)
+            return -numpy.abs(evaluate_fit(data_to_evaluate))
 
         print("Calling minimizer")
         res = minimize_scalar(func_to_minimize, bounds=[1, len(v)], method='bounded',
@@ -73,7 +77,8 @@ def plot_parameter_fit_quality_curve(db, acc_data, gids, param_specs, res_dict, 
     from matplotlib import pyplot as plt
     from matplotlib import cm
     if plot_x is None:
-        plot_x = numpy.logspace(1, numpy.log10(len(db)), 15).astype(int)
+        plot_x = numpy.linspace(1, len(db), 51).astype(int)
+        #  numpy.logspace(1, numpy.log10(len(db)), 21).astype(int)
     print("Calculating size of tribal overlaps...")
     overlap_sizes = gids.map(lambda g: tribal_spectrum(db, g)[1])
 
@@ -89,21 +94,25 @@ def plot_parameter_fit_quality_curve(db, acc_data, gids, param_specs, res_dict, 
                                                  index=param_spec["value"].get("index", None),
                                                  function=param_spec["value"].get("function", None)))
         plot_y = []
-        print("Getting data points")
-        for N in plot_x:
-            prediction = overlap_sizes.map(lambda w: top_n_weighted_average(w, v, number_sampled=N))
-            data_to_evaluate = acc_data.extended_map(lambda a, b: [a] + b, [prediction]).get()
-            plot_y.append(evaluate_fit(data_to_evaluate))
         x = plot_x.tolist()
+        print("Getting data points")
+
         opt_x = int(res_dict[param_spec["name"]].x)
-        opt_y = -res_dict[param_spec["name"]].fun
+        opt_y = None
         insert_place = numpy.nonzero(plot_x > opt_x)[0]
         if len(insert_place) > 0:
             x.insert(insert_place[0], opt_x)
-            plot_y.insert(insert_place[0], opt_y)
         else:
             x.append(opt_x)
-            plot_y.append(opt_y)
+
+        for N in x:
+            prediction = overlap_sizes.map(lambda w: top_n_weighted_average(w, v, number_sampled=N))
+            data_to_evaluate = acc_data.extended_map(lambda a, b: [a] + b, [prediction]).get()
+            plot_y.append(evaluate_fit(data_to_evaluate))
+            if N == opt_x:
+                opt_y = plot_y[-1]
+
+        print(plot_y)
         ax.plot(x, plot_y, label=param_spec["name"], color=col, lw=0.75)
         ax.plot(opt_x, opt_y, 'o', color=col)
     ax.legend()

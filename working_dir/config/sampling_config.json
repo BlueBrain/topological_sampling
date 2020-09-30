@@ -248,14 +248,6 @@
           "function": "difference_between_largest_absolute_values"
         },
         "number": 25
-      },
-      {
-        "name": "Transition probability spectral radius",
-        "value": {
-          "column": "transition_prob_spec",
-          "function": "largest_absolute_value"
-        },
-        "number": 25
       }
     ]
   },
