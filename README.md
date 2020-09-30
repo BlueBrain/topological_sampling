@@ -2,7 +2,7 @@
 The analysis pipeline for the topological sampling project
 
 ## Requirements
-- cmake
+- cmake >= 2.8.12
 - python >= 3.7
   - h5py
   - numpy
@@ -13,6 +13,7 @@ The analysis pipeline for the topological sampling project
   - progressbar
   - flagser
   - future
+  - networkx
   
 ## Installation
 
