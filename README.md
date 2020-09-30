@@ -11,7 +11,7 @@ The analysis pipeline for the topological sampling project
   - scikit-learn
   - pandas
   - progressbar
-  - flagser
+  - pyflagser
   - future
   - networkx
   
