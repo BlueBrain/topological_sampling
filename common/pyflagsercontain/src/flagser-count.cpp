@@ -11,6 +11,7 @@
 #include <deque>
 #include <sstream>
 #include <cmath>
+#include <array>
 
 //##############################################################################
 // DEFINITIONS

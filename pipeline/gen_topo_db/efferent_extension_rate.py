@@ -8,6 +8,9 @@ def compute(tribes, adj_matrix, conv, precision):
     pbar = progressbar.ProgressBar()
 
     for tribe in pbar(tribes):
+        if len(tribe) == 1:
+            return 0
+        
         tribe_ids = conv.indices(tribe)
         extension_submat = adj_matrix[tribe_ids]
 
