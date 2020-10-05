@@ -2,7 +2,7 @@
 The analysis pipeline for the topological sampling project
 
 ## Requirements
-- cmake >= 2.8.12
+- cmake >= 3.4
 - python >= 3.7
   - h5py
   - numpy

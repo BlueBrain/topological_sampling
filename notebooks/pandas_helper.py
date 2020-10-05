@@ -22,7 +22,7 @@ def assemble_result_dataframe(acc_data_struc, param_data_struc,
                               labels_to_iterate=None,
                               parameters_to_add=None,
                               label_accuracy="Accuracy",
-                              sanitize=True,
+                              sanitize=True, normalize=[],
                               **kwargs):
     
     cols = {}
@@ -51,5 +51,8 @@ def assemble_result_dataframe(acc_data_struc, param_data_struc,
                 cols.setdefault(param_labels[param], []).append(numpy.NaN)
             else:
                 cols.setdefault(param_labels[param], []).append(new_value)
+    for col_name in normalize:
+        col_name = param_labels.get(col_name, col_name)
+        cols[col_name] = (numpy.array(cols[col_name]) - numpy.nanmean(cols[col_name])) / numpy.nanstd(cols[col_name])
     return pandas.DataFrame(cols)
 

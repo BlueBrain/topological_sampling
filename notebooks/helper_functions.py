@@ -1,4 +1,7 @@
 import numpy
+from pandas_helper import sanitize_param_name
+from statsmodels.formula.api import ols
+from scipy.stats import pearsonr
 
 
 def percentile_of(data_base, data_sampled):
@@ -80,4 +83,57 @@ def find_redundant_entries(corr_mat, labels, threshold=0.95):
         labels.pop(to_remove)
         return find_redundant_entries(corr_mat[numpy.ix_(idxx, idxx)], labels, threshold=threshold)
     return corr_mat, labels
+
+
+def variance_explained(y_truth, y_pred):
+    var_before = numpy.var(y_truth)
+    var_after = numpy.var(y_truth - y_pred)
+    return 1.0 - var_after / var_before
+
+
+def analyze_linear_fit(dframe, columns_x, column_category="specifier", column_y="Accuracy", also_fit_category=True):
+    """
+    Analyzes the linear dependence of one parameter on another, also (potentially) taking into consideration that the 
+    samples come from different categories. 
+    Input: dframe: pandas.DataFrame holding the data
+    columns_x: list of columns holding the independent variables
+    column_category: column holding the category values that were sampled
+    column_y: column holding the dependent variable
+    also_fit_category (default: True): Should category also be part of the fit?
+    
+    Returns: For each dependent variable a dict with entries:
+         model: the ols model used
+         corr: pearson correlation of independent and depdent variable
+         pvalue: pvalue of the ols fit of the independent variable
+         slope: slope of the ols fit of the independent variable
+         var_expl: additional variance explained of the ols model over a model that only used the category values
+    """
+    if also_fit_category:
+        str_model = "{0} ~ C({1}) + {2}"
+    else:
+        str_model = "{0} ~ {2}"
+    model_baseline = ols("{0} ~ C({1})".format(column_y, column_category), data=dframe).fit()
+    var_expl_baseline = variance_explained(dframe[column_y], model_baseline.predict(dframe))
+    res_out = {}
+    for col in columns_x:
+        try:
+            model = ols(str_model.format(column_y, column_category, sanitize_param_name(col)),
+                        data=dframe).fit()
+            correlation = pearsonr(dframe[sanitize_param_name(col)], dframe[column_y])
+            var_expl_data = variance_explained(dframe[column_y], model.predict(dframe))
+            res_out[col] = {"model": model,
+                            "corr": correlation,
+                            "var_expl": var_expl_data - var_expl_baseline,
+                            "pvalue": model.pvalues[sanitize_param_name(col)],
+                            "slope": model.params[sanitize_param_name(col)]
+                           }
+        except: # If values in column are degenerate the fit fails. In that case create "insignificant" results
+            res_out[col] = {
+                "model": None,
+                "corr": 0.0,
+                "var_expl": 0.0,
+                "pvalue": 1.0,
+                "slope": 0.0
+            }
+    return res_out
 
