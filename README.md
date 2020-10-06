@@ -1,5 +1,8 @@
-# topological_sampling
-The analysis pipeline for the topological sampling project
+# NEUTRINO - NEUral TRIbe and Network Observer
+An analysis pipeline for joint analysis of neural spiking data and synaptic connectivity.
+This repository encompasses all analyses performed in the following manuscript:
+
+MANUSCRIPT HERE
 
 ## Requirements
 - cmake >= 3.4
@@ -60,3 +63,8 @@ jupyter notebooks that use the analyzed data to create the figures (or individua
 
 They create the figures and also provide a good starting point for learning how to work with the input and/or analyzed data.
 
+## Citation
+
+If you decide to use any part of this software, please reference the following manuscript:
+
+MANUSCRIPT HERE
