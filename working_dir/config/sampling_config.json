@@ -6,32 +6,52 @@
       {
         "name": "125 um",
         "value": 125,
-        "number": 20,
-        "neuron_count": 600
+        "number": 25,
+        "neuron_count": 600,
+        "subtribes": {
+          "number_samples": 5,
+          "number_tribes": 25
+        }
       },
       {
         "name": "175 um",
         "value": 175,
-        "number": 20,
-        "neuron_count": 600
+        "number": 25,
+        "neuron_count": 600,
+        "subtribes": {
+          "number_samples": 5,
+          "number_tribes": 25
+        }
       },
       {
         "name": "225 um",
         "value": 225,
-        "number": 20,
-        "neuron_count": 600
+        "number": 25,
+        "neuron_count": 600,
+        "subtribes": {
+          "number_samples": 5,
+          "number_tribes": 25
+        }
       },
       {
         "name": "275 um",
         "value": 275,
-        "number": 20,
-        "neuron_count": 600
+        "number": 25,
+        "neuron_count": 600,
+        "subtribes": {
+          "number_samples": 5,
+          "number_tribes": 25
+        }
       },
       {
         "name": "325 um",
         "value": 325,
-        "number": 20,
-        "neuron_count": 600
+        "number": 25,
+        "neuron_count": 600,
+        "subtribes": {
+          "number_samples": 5,
+          "number_tribes": 25
+        }
       }
     ],
     "Arguments": {
@@ -43,6 +63,7 @@
     }
   },
   "Champions": {
+    "Minimum size": 50,
     "Specifier_label": "Parameter",
     "Specifiers": [
       {
@@ -51,28 +72,28 @@
           "column": "chung_spectrum",
           "function": "smallest_nonzero_absolute_value"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "Relative boundary",
         "value": {
           "column": "relative_boundary"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "Euler characteristic",
         "value": {
           "column": "euler_char"
         },
-        "number": 20,
+        "number": 25,
         "subsampling": {
           "levels": [
             90,
-            80,
             70,
             50,
-            25
+            25,
+            15
           ],
           "number_samples": 5,
           "number_subsamples": 4
@@ -84,14 +105,14 @@
           "column": "bettis",
           "index": 2
         },
-        "number": 20,
+        "number": 25,
         "subsampling": {
           "levels": [
             90,
-            80,
             70,
             50,
-            25
+            25,
+            15
           ],
           "number_samples": 5,
           "number_subsamples": 4
@@ -103,35 +124,35 @@
           "column": "bettis",
           "index": 3
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "Transitive clustering coefficient",
         "value": {
           "column": "trans_cc"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "Normalized Betti coefficient",
         "value": {
           "column": "norm_betti_coeff"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "In-degree",
         "value": {
           "column": "in_degree"
         },
-        "number": 20,
+        "number": 25,
         "subsampling": {
           "levels": [
             90,
-            80,
             70,
             50,
-            25
+            25,
+            15
           ],
           "number_samples": 5,
           "number_subsamples": 4
@@ -142,14 +163,14 @@
         "value": {
           "column": "out_degree"
         },
-        "number": 20,
+        "number": 25,
         "subsampling": {
           "levels": [
             90,
-            80,
             70,
             50,
-            25
+            25,
+            15
           ],
           "number_samples": 5,
           "number_subsamples": 4
@@ -161,7 +182,7 @@
           "column": "density_coeff",
           "index": 1
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "Third density coefficient",
@@ -169,7 +190,7 @@
           "column": "density_coeff",
           "index": 2
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "Fourth density coefficient",
@@ -177,7 +198,7 @@
           "column": "density_coeff",
           "index": 3
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "Fifth density coefficient",
@@ -185,7 +206,7 @@
           "column": "density_coeff",
           "index": 4
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "Adjacency spectral gap (low)",
@@ -193,7 +214,7 @@
           "column": "adj_spectrum",
           "function": "smallest_nonzero_absolute_value"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "Adjacency spectral gap (high)",
@@ -201,7 +222,7 @@
           "column": "adj_spectrum",
           "function": "difference_between_largest_absolute_values"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "Adjacency spectral radius",
@@ -209,21 +230,21 @@
           "column": "adj_spectrum",
           "function": "largest_absolute_value"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "Afferent extension rate",
         "value": {
           "column": "aff_extension_rate"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "Efferent extension rate",
         "value": {
           "column": "eff_extension_rate"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "Bauer laplacian spectrum",
@@ -248,6 +269,14 @@
           "function": "difference_between_largest_absolute_values"
         },
         "number": 25
+      },
+      {
+        "name": "Transition probability spectral radius",
+        "value": {
+          "column": "transition_prob_spec",
+          "function": "largest_absolute_value"
+        },
+        "number": 25
       }
     ]
   },
@@ -261,7 +290,7 @@
           "column": "mtype",
           "value": "L1_DLAC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L1_HAC",
@@ -269,7 +298,7 @@
           "column": "mtype",
           "value": "L1_HAC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L1_DAC",
@@ -277,7 +306,7 @@
           "column": "mtype",
           "value": "L1_DAC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L1_SLAC",
@@ -285,7 +314,7 @@
           "column": "mtype",
           "value": "L1_SLAC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L1_NGC-DA",
@@ -293,7 +322,7 @@
           "column": "mtype",
           "value": "L1_NGC-DA"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L1_NGC-SA",
@@ -301,7 +330,7 @@
           "column": "mtype",
           "value": "L1_NGC-SA"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L23_PC",
@@ -309,7 +338,7 @@
           "column": "mtype",
           "value": "L23_PC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L23_LBC",
@@ -317,7 +346,7 @@
           "column": "mtype",
           "value": "L23_LBC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L23_NBC",
@@ -325,7 +354,7 @@
           "column": "mtype",
           "value": "L23_NBC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L23_SBC",
@@ -333,7 +362,7 @@
           "column": "mtype",
           "value": "L23_SBC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L23_MC",
@@ -341,7 +370,7 @@
           "column": "mtype",
           "value": "L23_MC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L23_DBC",
@@ -349,7 +378,7 @@
           "column": "mtype",
           "value": "L23_DBC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L23_BTC",
@@ -357,7 +386,7 @@
           "column": "mtype",
           "value": "L23_BTC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L23_NGC",
@@ -365,7 +394,7 @@
           "column": "mtype",
           "value": "L23_NGC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L23_BP",
@@ -373,7 +402,7 @@
           "column": "mtype",
           "value": "L23_BP"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L23_ChC",
@@ -381,7 +410,7 @@
           "column": "mtype",
           "value": "L23_ChC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L4_SS",
@@ -389,7 +418,7 @@
           "column": "mtype",
           "value": "L4_SS"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L4_MC",
@@ -397,7 +426,7 @@
           "column": "mtype",
           "value": "L4_MC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L4_PC",
@@ -405,7 +434,7 @@
           "column": "mtype",
           "value": "L4_PC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L4_SP",
@@ -413,7 +442,7 @@
           "column": "mtype",
           "value": "L4_SP"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L4_NBC",
@@ -421,7 +450,7 @@
           "column": "mtype",
           "value": "L4_NBC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L4_DBC",
@@ -429,7 +458,7 @@
           "column": "mtype",
           "value": "L4_DBC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L4_LBC",
@@ -437,7 +466,7 @@
           "column": "mtype",
           "value": "L4_LBC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L4_SBC",
@@ -445,7 +474,7 @@
           "column": "mtype",
           "value": "L4_SBC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L4_NGC",
@@ -453,7 +482,7 @@
           "column": "mtype",
           "value": "L4_NGC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L4_BP",
@@ -461,7 +490,7 @@
           "column": "mtype",
           "value": "L4_BP"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L4_BTC",
@@ -469,7 +498,7 @@
           "column": "mtype",
           "value": "L4_BTC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L4_ChC",
@@ -477,7 +506,7 @@
           "column": "mtype",
           "value": "L4_ChC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L5_TTPC1",
@@ -485,7 +514,7 @@
           "column": "mtype",
           "value": "L5_TTPC1"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L5_TTPC2",
@@ -493,7 +522,7 @@
           "column": "mtype",
           "value": "L5_TTPC2"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L5_STPC",
@@ -501,7 +530,7 @@
           "column": "mtype",
           "value": "L5_STPC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L5_MC",
@@ -509,7 +538,7 @@
           "column": "mtype",
           "value": "L5_MC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L5_UTPC",
@@ -517,7 +546,7 @@
           "column": "mtype",
           "value": "L5_UTPC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L5_DBC",
@@ -525,7 +554,7 @@
           "column": "mtype",
           "value": "L5_DBC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L5_NBC",
@@ -533,7 +562,7 @@
           "column": "mtype",
           "value": "L5_NBC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L5_LBC",
@@ -541,7 +570,7 @@
           "column": "mtype",
           "value": "L5_LBC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L5_BP",
@@ -549,7 +578,7 @@
           "column": "mtype",
           "value": "L5_BP"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L5_BTC",
@@ -557,7 +586,7 @@
           "column": "mtype",
           "value": "L5_BTC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L5_SBC",
@@ -565,7 +594,7 @@
           "column": "mtype",
           "value": "L5_SBC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L5_ChC",
@@ -573,7 +602,7 @@
           "column": "mtype",
           "value": "L5_ChC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L5_NGC",
@@ -581,7 +610,7 @@
           "column": "mtype",
           "value": "L5_NGC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L6_UTPC",
@@ -589,7 +618,7 @@
           "column": "mtype",
           "value": "L6_UTPC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L6_TPC_L1",
@@ -597,7 +626,7 @@
           "column": "mtype",
           "value": "L6_TPC_L1"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L6_BPC",
@@ -605,7 +634,7 @@
           "column": "mtype",
           "value": "L6_BPC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L6_IPC",
@@ -613,7 +642,7 @@
           "column": "mtype",
           "value": "L6_IPC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L6_MC",
@@ -621,7 +650,7 @@
           "column": "mtype",
           "value": "L6_MC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L6_TPC_L4",
@@ -629,7 +658,7 @@
           "column": "mtype",
           "value": "L6_TPC_L4"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L6_LBC",
@@ -637,7 +666,7 @@
           "column": "mtype",
           "value": "L6_LBC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L6_BP",
@@ -645,7 +674,7 @@
           "column": "mtype",
           "value": "L6_BP"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L6_NBC",
@@ -653,7 +682,7 @@
           "column": "mtype",
           "value": "L6_NBC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L6_ChC",
@@ -661,7 +690,7 @@
           "column": "mtype",
           "value": "L6_ChC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L6_NGC",
@@ -669,7 +698,7 @@
           "column": "mtype",
           "value": "L6_NGC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L6_BTC",
@@ -677,7 +706,7 @@
           "column": "mtype",
           "value": "L6_BTC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L6_SBC",
@@ -685,7 +714,7 @@
           "column": "mtype",
           "value": "L6_SBC"
         },
-        "number": 20
+        "number": 25
       },
       {
         "name": "L6_DBC",
@@ -693,7 +722,7 @@
           "column": "mtype",
           "value": "L6_DBC"
         },
-        "number": 20
+        "number": 25
       }
     ]
   }

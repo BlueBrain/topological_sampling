@@ -34,6 +34,40 @@ def pick_random_neurons_volumetric(db, radius, offset, M):
     return numpy.random.choice(gids, numpy.minimum(M, len(gids)), replace=False)
 
 
+def find_subtribes(db, base_samples, st_specs, specifier):
+    db_tribes = db["tribe"]
+    num_samples = st_specs["number_samples"]
+    num_tribes = st_specs["number_tribes"]
+    chosen_samples = sorted(base_samples.keys(), key=int)[:num_samples]
+    
+    out_dict = {}
+    for smpl in chosen_samples:
+        st_dict = out_dict.setdefault(specifier + '@' + str(smpl), {})
+        gids = base_samples[smpl]["gids"]
+        
+        # Find subtribes in volumetric sample
+        db_subtribes = db_tribes.loc[gids]
+        for gid in gids:
+            db_subtribes.loc[gid] = numpy.intersect1d(db_subtribes.loc[gid], gids, assume_unique=True).tolist()
+        
+        # Select N largest tribes
+        db_subtribes = db_subtribes.to_frame()
+        db_subtribes['size'] = 0
+        for gid in gids:
+            db_subtribes.loc[gid, 'size'] = len(db_subtribes.loc[gid, 'tribe'])
+        
+        db_subtribes.sort_values('size', ascending=False, inplace=True)
+        subtribes_gids = db_subtribes['tribe'].iloc[:num_tribes].to_list()
+        subtribes_chief = db_subtribes.index[:num_tribes].to_list()
+        
+        # Add to dict
+        for idxx in range(num_tribes):
+            st_dict[str(idxx)] = {"gids": subtribes_gids[idxx],
+                                  "chief": subtribes_chief[idxx],
+                                 }
+    return out_dict
+
+
 def make_sample(db, specifications, offset_amplitudes):
     assert "subsampling" not in specifications, "Subsampling not supported for volumetric samples!"
     N = specifications["number"]
@@ -59,6 +93,9 @@ def make_all_samples(db, full_specification):
     out_dict = dict([(spec_lbl, {})])
     for spec in full_specification["Specifiers"]:
         out_dict[spec_lbl].update(make_sample(db, spec, offset_amplitude))
+        if "subtribes" in spec:
+            st_dict = find_subtribes(db, out_dict[spec_lbl][spec["name"]], spec["subtribes"], spec["name"])
+            out_dict.setdefault("subtribes", {}).update(st_dict)
     return out_dict
 
 
