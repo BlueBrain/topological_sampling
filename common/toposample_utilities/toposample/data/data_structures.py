@@ -153,7 +153,7 @@ class ConditionCollection(object):
         else:
             cond_lst.remove(conds)
             conds = [conds]
-        cond_lst = [_c for _c in cond_lst if len(self.labels_of(_c)) > 1]
+        # cond_lst = [_c for _c in cond_lst if len(self.labels_of(_c)) > 1]  # This squashed len 1 dimensions
         if len(cond_lst) == 0:
             return [{}]
         srt = numpy.argsort([numpy.mean(list(map(len, list(self.cond_map[k].values()))))
@@ -174,9 +174,14 @@ class ConditionCollection(object):
     def idx(self, **kwargs):
         idx = list(range(len(self.contents)))
         for k, v in list(kwargs.items()):
-            if k not in self.cond_map or v not in self.cond_map[k]:
+            if k not in self.cond_map:
                 return numpy.array([], dtype=int)
-            idx = numpy.intersect1d(idx, self.cond_map[k][v])
+            if v.__hash__ is not None:
+                idx = numpy.intersect1d(idx, self.cond_map[k].get(v, []))
+            else:
+                idx = numpy.intersect1d(idx,
+                                        numpy.hstack([self.cond_map[k].get(_v, [])
+                                                     for _v in v]))
         return idx
 
     def merge(self, other):
@@ -504,7 +509,12 @@ class ConditionCollection(object):
         index_labels = multi_index.names
         assert not numpy.any([_x is None for _x in index_labels])
         results = []
-        for conds, res in pandas_obj.iterrows():
-            cond_dict = dict(list(zip(index_labels, conds)))
-            results.append(ResultsWithConditions(res.values, **cond_dict))
+        if isinstance(pandas_obj, Series):  # Slightly different behavior...
+            for conds, res in pandas_obj.iteritems():
+                cond_dict = dict(list(zip(index_labels, conds)))
+                results.append(ResultsWithConditions(res, **cond_dict))
+        else:
+            for conds, res in pandas_obj.iterrows():
+                cond_dict = dict(list(zip(index_labels, conds)))
+                results.append(ResultsWithConditions(res.values, **cond_dict))
         return ConditionCollection(results)
