@@ -81,8 +81,16 @@ if __name__ == "__main__":
     opts = dict(opts)
     if len(args) < 2:
         print("""
-        The table of contents file will be placed where the pipeline expects it, according to specifications in the 
-        common config, unless overridden by using the -o option
-        """.format())
+        {0} [-o out_fn] path/to/common-config.json stage_name [type-of-classification]
+        Merges the various data payload files referenced in the table-of-contents file of a pipeline stage result into
+        one single h5 file. The merged h5 file will be placed at the root of the pipeline stages "other" directory,
+        by default that is working_dir/data/other/$pipeline-stage-name.
+        
+        The table of contents file will be updated to point at groups within the merged file, unless overridden by
+        using the -o option, in which case the updated file will be placed at out_fn.
+        
+        Input [type-of-classification] is required if stage_name == "classifier" and must be either "components"
+        or "features".
+        """.format(__name__))
         sys.exit(2)
     main(*args, path_to_output=opts.get("-o", None))
