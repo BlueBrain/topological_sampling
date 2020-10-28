@@ -11,6 +11,7 @@ of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser Gene
 You should have received a copy of the GNU Lesser General Public License along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+import os
 import json
 
 from .data_structures import ConditionCollection, ResultsWithConditions
@@ -101,12 +102,37 @@ class TopoData(object):
         return final_dict
 
 
+class H5File:
+    """
+    :param path: Path to an hdf5 File, potentially continuing the path to a group within the file, like
+    the h5ls utility is doing
+    :return: An h5py.File or a group within an hdf5 file
+    """
+
+    def __init__(self, path):
+        self.path = path
+
+    def __enter__(self):
+        import h5py
+        dset_path = "."
+        fn_path = self.path
+        while not os.path.isfile(fn_path):
+            fn_path, appendme = os.path.split(fn_path)
+            if len(fn_path) == 0 or os.path.isdir(fn_path):
+                raise OSError("Cannot open specified path: {0}".format(self.path))
+            dset_path = os.path.join(appendme, dset_path)
+        self.h5 = h5py.File(fn_path, "r")
+        return self.h5[dset_path]
+
+    def __exit__(self, type, value, traceback):
+        self.h5.close()
+
+
 def read_h5_dataset(dset_name):
-    import h5py
     import numpy
 
     def read_func(fn):
-        with h5py.File(fn, "r") as h5:
+        with H5File(fn) as h5:
             return numpy.array(h5[dset_name])
     return read_func
 
@@ -125,7 +151,7 @@ def read_all_h5_datasets():
     import numpy
 
     def read_func(fn):
-        with h5py.File(fn, "r") as h5:
+        with H5File(fn) as h5:
             dsets = []
 
             def append_if_dset(item_name, item):
