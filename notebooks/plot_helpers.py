@@ -1,5 +1,6 @@
 import numpy
 from matplotlib import pyplot as plt
+from colorsys import rgb_to_hls, hls_to_rgb
 
 
 def plot_linear_fit_results(fit_results, plot_params=None, same_axes=False,
@@ -45,3 +46,10 @@ def plot_linear_fit_results(fit_results, plot_params=None, same_axes=False,
     ax1.set_ylabel("Fit slope")
     ax2.set_ylabel("Additional var expl.")
     ax2.set_xlim(ax1.get_xlim())
+
+
+def adjust_color_brightness(rgb, factor):
+    hls = list(rgb_to_hls(*rgb))
+    hls[1] = numpy.clip(hls[1] * factor, 0.0, 1.0) # Scale "lightness" value
+    rgb = hls_to_rgb(*hls)
+    return rgb
