@@ -137,3 +137,22 @@ def analyze_linear_fit(dframe, columns_x, column_category="specifier", column_y=
             }
     return res_out
 
+
+# Check similarity between samples based on overlap coefficient (Szymkiewicz–Simpson coefficient)
+def overlap_coefficient(gids1, gids2):
+    gids1 = numpy.unique(gids1)
+    gids2 = numpy.unique(gids2)
+    overlap = len(numpy.intersect1d(gids1, gids2, assume_unique=True)) / min(len(gids1), len(gids2))
+    return overlap
+
+
+# Compute overlap between all pairs of samples (provided as list of list of GIDs)
+def samples_overlap(samples):
+    overlap_mat = numpy.full([len(samples)] * 2, numpy.nan)
+    for idx1, gids1 in enumerate(samples):
+        for idx2, gids2 in enumerate(samples):
+            if idx2 <= idx1:
+                continue
+            overlap_mat[idx1, idx2] = overlap_coefficient(gids1, gids2)
+    
+    return overlap_mat
