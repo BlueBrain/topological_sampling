@@ -196,8 +196,9 @@ def main(path_to_config, **kwargs):
     # Then pooling along different stimuli
     features_data = features_data.pool(["stimulus"], func=ordered_list, xy=True)
     # Features that have been removed in the filter step need to be added back for the expected format.
-    for k, v in kwargs.items():
-        features_data.add_label(k, v)
+    # Update: changed how filter works. It no longer destroys the associated dimension
+    # for k, v in kwargs.items():
+    #     features_data.add_label(k, v)
     # The format also needs an "index" condition. We pooled that away, so we just add to what remains index=0
     features_data.add_label("index", "0")
     # transform writes data into individual hdf5 files and returns their paths.
