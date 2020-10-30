@@ -12,8 +12,8 @@ To run:
     python pipeline/topo_featurization/topo_featurization.py working_dir/config/common_config.json
 However, this step is quite costly. It is recommended to run this embarrassingly parallel by executing the analysis
 for each sampling / specifier combination separately:
-    python pipeline/topo_featurization/topo_featurization.py working_dir/config/common_config.json “sampling=M-type” “specifier=L23_PC”
-    python pipeline/topo_featurization/topo_featurization.py working_dir/config/common_config.json “sampling=M-type” “specifier=L4_PC”
+    python pipeline/topo_featurization/topo_featurization.py working_dir/config/common_config.json "sampling=M-type" "specifier=L23_PC"
+    python pipeline/topo_featurization/topo_featurization.py working_dir/config/common_config.json "sampling=M-type" "specifier=L4_PC"
         …
-    python pipeline/topo_featurization/topo_featurization.py working_dir/config/common_config.json “sampling=Parameter” “specifier=Betti 2”
+    python pipeline/topo_featurization/topo_featurization.py working_dir/config/common_config.json "sampling=Parameter" "specifier=Betti 2"
 
