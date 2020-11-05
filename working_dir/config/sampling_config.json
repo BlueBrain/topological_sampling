@@ -2,6 +2,7 @@
   "Volumetric": {
     "Specifier_label": "Radius",
     "seed": 131311,
+    "seed_subtribes": 242422,
     "Specifiers": [
       {
         "name": "125 um",
@@ -10,7 +11,8 @@
         "neuron_count": 600,
         "subtribes": {
           "number_samples": 5,
-          "number_tribes": 25
+          "number_tribes": 25,
+          "add_random": true
         }
       },
       {
@@ -20,7 +22,8 @@
         "neuron_count": 600,
         "subtribes": {
           "number_samples": 5,
-          "number_tribes": 25
+          "number_tribes": 25,
+          "add_random": true
         }
       },
       {
@@ -30,7 +33,8 @@
         "neuron_count": 600,
         "subtribes": {
           "number_samples": 5,
-          "number_tribes": 25
+          "number_tribes": 25,
+          "add_random": true
         }
       },
       {
@@ -40,7 +44,8 @@
         "neuron_count": 600,
         "subtribes": {
           "number_samples": 5,
-          "number_tribes": 25
+          "number_tribes": 25,
+          "add_random": true
         }
       },
       {
@@ -50,7 +55,8 @@
         "neuron_count": 600,
         "subtribes": {
           "number_samples": 5,
-          "number_tribes": 25
+          "number_tribes": 25,
+          "add_random": true
         }
       }
     ],
