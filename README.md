@@ -1,4 +1,4 @@
-# NEUTRINO - NEUral TRIbe and Network Observer
+# toposampling
 An analysis pipeline for joint analysis of neural spiking data and synaptic connectivity.
 This repository encompasses all analyses performed in the following manuscript:
 
