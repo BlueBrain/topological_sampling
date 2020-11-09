@@ -12,7 +12,7 @@
         "subtribes": {
           "number_samples": 5,
           "number_tribes": 25,
-          "add_random": true
+          "number_random": 1
         }
       },
       {
@@ -23,7 +23,7 @@
         "subtribes": {
           "number_samples": 5,
           "number_tribes": 25,
-          "add_random": true
+          "number_random": 1
         }
       },
       {
@@ -34,7 +34,7 @@
         "subtribes": {
           "number_samples": 5,
           "number_tribes": 25,
-          "add_random": true
+          "number_random": 1
         }
       },
       {
@@ -45,7 +45,7 @@
         "subtribes": {
           "number_samples": 5,
           "number_tribes": 25,
-          "add_random": true
+          "number_random": 1
         }
       },
       {
@@ -56,7 +56,7 @@
         "subtribes": {
           "number_samples": 5,
           "number_tribes": 25,
-          "add_random": true
+          "number_random": 1
         }
       }
     ],

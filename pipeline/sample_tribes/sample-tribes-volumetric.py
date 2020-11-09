@@ -68,19 +68,24 @@ def find_subtribes(db, base_samples, st_specs, specifier):
     return out_dict
 
 
-def add_random_subtribes(base_samples, st_dict, rng):
+def add_random_subtribes(base_samples, st_dict, st_specs, rng):
     out_dict = {}
-    for subtr in st_dict.keys():
-        rnd_dict = out_dict.setdefault(subtr, {})
-        spec, smpl = subtr.split("@")
-        gids = base_samples[spec][smpl]["gids"]
+    if "number_random" in st_specs and st_specs["number_random"] > 0: # Add random control samples for all subtribes
+        num_rnd = st_specs["number_random"]
         
-        for idx in st_dict[subtr].keys():
-            subtr_size = len(st_dict[subtr][idx]["gids"])
-            rnd_sample = rng.choice(gids, subtr_size, replace=False)
-            rnd_dict[idx] = {"gids": rnd_sample.tolist(),
-                             "chief": None
-                            }
+        for subtr in st_dict.keys():
+            spec, smpl = subtr.split("@")
+            gids = base_samples[spec][smpl]["gids"]
+            
+            for n_rnd in range(num_rnd):
+                rnd_str = "" if num_rnd == 1 else f"-{n_rnd}" # Add string extension if more than one random samples are generated
+                rnd_dict = out_dict.setdefault(f"{spec}@{smpl}{rnd_str}", {})
+                for idx in st_dict[subtr].keys():
+                    subtr_size = len(st_dict[subtr][idx]["gids"])
+                    rnd_sample = rng.choice(gids, subtr_size, replace=False)
+                    rnd_dict[idx] = {"gids": rnd_sample.tolist(),
+                                     "chief": None
+                                    }
     return out_dict
 
 
@@ -114,9 +119,8 @@ def make_all_samples(db, full_specification):
             st_dict = find_subtribes(db, out_dict[spec_lbl][spec["name"]], spec["subtribes"], spec["name"])          
             out_dict.setdefault("subtribes", {}).update(st_dict)
             
-            if "add_random" in spec["subtribes"] and spec["subtribes"]["add_random"] == True: # Add random control samples for all subtribes
-                rnd_dict = add_random_subtribes(out_dict[spec_lbl], st_dict, rng_subtr) # Generates random samples with exact same sizes as subtribes
-                out_dict.setdefault("subtribes_random", {}).update(rnd_dict)
+            rnd_dict = add_random_subtribes(out_dict[spec_lbl], st_dict, spec["subtribes"], rng_subtr) # Generates random samples with exact same sizes as subtribes
+            out_dict.setdefault("subtribes_random", {}).update(rnd_dict)
     return out_dict
 
 
