@@ -63,8 +63,29 @@ def find_subtribes(db, base_samples, st_specs, specifier):
         # Add to dict
         for idxx in range(num_tribes):
             st_dict[str(idxx)] = {"gids": subtribes_gids[idxx],
-                                  "chief": subtribes_chief[idxx],
+                                  "chief": subtribes_chief[idxx]
                                  }
+    return out_dict
+
+
+def add_random_subtribes(base_samples, st_dict, st_specs, rng):
+    out_dict = {}
+    if "number_random" in st_specs and st_specs["number_random"] > 0: # Add random control samples for all subtribes
+        num_rnd = st_specs["number_random"]
+        
+        for subtr in st_dict.keys():
+            spec, smpl = subtr.split("@")
+            gids = base_samples[spec][smpl]["gids"]
+            
+            for n_rnd in range(num_rnd):
+                rnd_str = "" if num_rnd == 1 else f"-{n_rnd}" # Add string extension if more than one random samples are generated
+                rnd_dict = out_dict.setdefault(f"{spec}@{smpl}{rnd_str}", {})
+                for idx in st_dict[subtr].keys():
+                    subtr_size = len(st_dict[subtr][idx]["gids"])
+                    rnd_sample = rng.choice(gids, subtr_size, replace=False)
+                    rnd_dict[idx] = {"gids": rnd_sample.tolist(),
+                                     "chief": None
+                                    }
     return out_dict
 
 
@@ -79,7 +100,7 @@ def make_sample(db, specifications, offset_amplitudes):
     out_dict = {specifications["name"]: {}}
     for i, offset in enumerate(offsets):
         gids = pick_random_neurons_volumetric(db, radius, offset, M)
-        out_dict[specifications["name"]][i] = {
+        out_dict[specifications["name"]][str(i)] = {
             "gids": gids.tolist(),
             "center_offset": offset.tolist()
         }
@@ -90,12 +111,16 @@ def make_all_samples(db, full_specification):
     offset_amplitude = full_specification["Arguments"]["offset_amplitudes"]
     spec_lbl = full_specification["Specifier_label"]
     numpy.random.seed(full_specification.get("seed", 1337))
+    rng_subtr = numpy.random.default_rng(seed=full_specification.get("seed_subtribes", 2559)) # Separate RNG so that random control sampling of subtribes (if selected) not interfering with volumetric sampling
     out_dict = dict([(spec_lbl, {})])
     for spec in full_specification["Specifiers"]:
         out_dict[spec_lbl].update(make_sample(db, spec, offset_amplitude))
         if "subtribes" in spec:
-            st_dict = find_subtribes(db, out_dict[spec_lbl][spec["name"]], spec["subtribes"], spec["name"])
+            st_dict = find_subtribes(db, out_dict[spec_lbl][spec["name"]], spec["subtribes"], spec["name"])          
             out_dict.setdefault("subtribes", {}).update(st_dict)
+            
+            rnd_dict = add_random_subtribes(out_dict[spec_lbl], st_dict, spec["subtribes"], rng_subtr) # Generates random samples with exact same sizes as subtribes
+            out_dict.setdefault("subtribes_random", {}).update(rnd_dict)
     return out_dict
 
 
