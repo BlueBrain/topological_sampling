@@ -1,8 +1,9 @@
-# toposampling
+# toposampling - Topology-assisted sampling and analysis of activity data
 An analysis pipeline for joint analysis of neural spiking data and synaptic connectivity.
 This repository encompasses all analyses performed in the following manuscript:
 
-MANUSCRIPT HERE
+### Topology of synaptic connectivity constrains neuronal stimulus representation, predicting two complementary coding strategies
+https://www.biorxiv.org/content/10.1101/2020.11.02.363929v1
 
 ## Requirements
 - cmake >= 3.4
@@ -67,4 +68,9 @@ They create the figures and also provide a good starting point for learning how 
 
 If you decide to use any part of this software, please reference the following manuscript:
 
-MANUSCRIPT HERE
+Michael W Reimann, Henri Riihimäki, Jason P Smith, Jānis Lazovskis, Christoph Pokorny, Ran Levi:
+"Topology of synaptic connectivity constrains neuronal stimulus representation, predicting two complementary coding strategies"
+
+https://www.biorxiv.org/content/10.1101/2020.11.02.363929v1
+
+doi: https://doi.org/10.1101/2020.11.02.363929 
