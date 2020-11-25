@@ -36,11 +36,17 @@ Next, install the python dependencies for counting directed simplex containment:
 
 Next, obtain the input data used for our paper (or use your own simulation results!) under the following link: LINK HERE and place it into working_dir/data/input_data.
 
-The following four input files are required, the addresses for which should be updated in working_dir/config/common_config.json:
-- The adjacency matrix of the circuit in scipy sparse csr format
-- The spike trains of the simulation
-- The classification labels for the the stimuli as a numpy array
-- A pandas database containing the layers, morphilogical type and (x,y,z) coordinates of the neurons
+The following four input files are required:
+- The adjacency matrix of the circuit in scipy sparse csr format, exported to .npz
+- The spike trains of the simulation. In a numpy.array with two columns, where the first column denotes the time in ms of a spike and the second a global identifying integer (GID) of the spiking neuron. Exported to .npy using numpy.save
+- The classification labels for the the stimuli as a numpy array. Each entry is interpreted as an identifyer of a stimulus associated with a time window. Duration of the time window configured in the associated config file. Time windows are assumed to have the same duration and directly follow each other, with no break in between. Exported to .npy using numpy.save
+- A pandas database containing the layers, morphological type and (x,y,z) coordinates of the neurons. Index by the GID (see above) of the neuron. Exported to pickle using pandas.to_pickle.
+
+### Pipeline overview
+![Alt text](toposampling_pipeline_overview.png?raw=true "Pipeline overview")
+Blue squares denote input / output files (obtainable here). Grey circles denote steps of the analysis pipeline (that are implemented in this repository). Red rectangles denote configuration files (that are also in this github repository).
+
+### Running the analyses
 
 Then run the pipeline steps in order:
 - pipeline/gen_topo_db
