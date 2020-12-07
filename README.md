@@ -34,7 +34,7 @@ Next, install the python dependencies for counting directed simplex containment:
 
 ## Usage
 
-Next, obtain the input data used for our paper (or use your own simulation results!) under the following link: LINK HERE and place it into working_dir/data/input_data.
+Next, obtain the input data used for our paper (or use your own simulation results!) under the following DOI: 10.5281/zenodo.4290212 and place it into working_dir/data/input_data. More detailed information on where exactly each result file goes is given in the description of the dataset at the specified DOI.
 
 The following four input files are required:
 - The adjacency matrix of the circuit in scipy sparse csr format, exported to .npz
