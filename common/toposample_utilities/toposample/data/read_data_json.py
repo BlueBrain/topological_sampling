@@ -63,8 +63,12 @@ class TopoData(object):
                    [-0.49383982, -0.02171111, -0.01068425, ...,  0.09241486, -0.09268441,  0.06436797]])]
     """
     def __init__(self, fn, follow_link_functions={}):
+        self._fn = fn
         with open(fn, "r") as fid:
             self._raw = json.load(fid)
+        #  Make it so the follow_link_functions interpret local paths as being relative to the file being read here.
+        for k, v in follow_link_functions.items():
+            follow_link_functions[k] = self.resolve_local_path(v)
         self.data = self.parse_raw(follow_link_functions)
 
     def parse_raw(self, follow_link_functions):
@@ -86,6 +90,21 @@ class TopoData(object):
 
     def keys(self):
         return self.data.keys()
+
+    def resolve_local_path(self, raw_follow_link_arguments):
+        """The functionality to interpret local paths in the data file being relative to the location of the
+        data file is a late addition to the pipeline. Therefore, it is implemented in a rather weird way.
+        Apologies, MWR"""
+        local_path = os.path.split(os.path.abspath(self._fn))[0]
+        raw_follow_link_func, read_by_default = raw_follow_link_arguments
+
+        def resolving_follow_link_func(fn):
+            if not os.path.isabs(fn):
+                fn = os.path.join(local_path, fn)
+            return raw_follow_link_func(fn)
+
+        return resolving_follow_link_func, read_by_default
+
 
     @staticmethod
     def condition_collection_to_dict(data):
