@@ -13,8 +13,10 @@ You should have received a copy of the GNU Affero General Public License along w
 
 import json
 from os import path
+import shutil
 
 from toposample import Config
+from toposample.data.read_data_json import H5File
 
 valid_stages = ["manifold_analysis", "classifier", "topological_featurization"]
 
@@ -34,12 +36,17 @@ expected_filenames = {
 def compress_results(json_fn, other_path, stage_name, type_of_classification):
     import h5py
     fn_out = path.join(other_path, expected_filenames[stage_name].format(type_of_classification))
-    assert not path.isfile(fn_out), "File {0} already exists. To regenerate it, delete it first!".format(fn_out)
+    fn_tmp = fn_out + ".TMP" # Write to .TMP file first and rename later, since json file may contain references to existing output file
+    if path.isfile(fn_out):
+        fn_bak = fn_out + ".BAK"
+        print("WARNING: File {0} already exists. Moving to {1}.".format(fn_out, path.split(fn_bak)[1]))
+        assert not path.isfile(fn_bak), "File {0} already exists. To regenerate it, delete it first!".format(fn_bak) # Don't overwrite an existing backup
+        shutil.copy(fn_out, fn_bak) # Create backup, since file will be overwritten at the end
     with open(json_fn, "r") as fid:
         j_in = json.load(fid)
-
+    
     print("Copying linked content in {0} to {1}...".format(json_fn, fn_out))
-    with h5py.File(fn_out, "w") as h5_out:
+    with h5py.File(fn_tmp, "w") as h5_out:
         for sampling in j_in.keys():
             print("\tfor sampling = {0}".format(sampling))
             for specifier in j_in[sampling].keys():
@@ -48,15 +55,18 @@ def compress_results(json_fn, other_path, stage_name, type_of_classification):
                     if "data_fn" in info_dict:
                         grp_out_name = "{0}/{1}/{2}".format(sampling, specifier, index)
                         grp_out = h5_out.require_group(grp_out_name)
-                        h5_in = h5py.File(info_dict["data_fn"], "r")
-                        for k in h5_in.keys():
-                            h5_in.copy(k, grp_out)
+                        data_fn = info_dict["data_fn"]
+                        if not path.isabs(data_fn): # In case of relative paths, interprete them relative to json file
+                            data_fn = path.join(path.split(json_fn)[0], data_fn)
+                        with H5File(data_fn) as h5_in: # Use H5File supporting path continuation to a group within the file
+                            for k in h5_in.keys():
+                                h5_in.copy(k, grp_out)
                         info_dict["data_fn"] = path.join(fn_out, grp_out_name)
+    shutil.move(fn_tmp, fn_out) # Renaming output file, potentially overwriting existing file
     return j_in
 
 
 def main(path_to_cfg, stage_name, type_of_classification=None, path_to_output=None):
-    import shutil
     assert stage_name in valid_stages
     if stage_name == "classifier":
         assert type_of_classification is not None, "To repair classifier results, specify which classifier!"
