@@ -22,7 +22,7 @@ https://www.biorxiv.org/content/10.1101/2020.11.02.363929v1
 ## Installation
 
 Download the repository and submodules with:
-- git clone --recursive https://github.com/MWolfR/topological_sampling.git
+- git clone --recursive https://github.com/BlueBrain/topological_sampling.git
 
 Then, install the python dependencies for reading / writing results and configurations:
 - cd common/toposample_utilities
@@ -34,7 +34,7 @@ Next, install the python dependencies for counting directed simplex containment:
 
 ## Usage
 
-Next, obtain the input data used for our paper (or use your own simulation results!) under the following DOI: 10.5281/zenodo.4290212 and place it into working_dir/data/input_data. More detailed information on where exactly each result file goes is given in the description of the dataset at the specified DOI.
+Next, obtain the input data used for our paper (or use your own simulation results!) under the following DOI: 10.5281/zenodo.4317336 and place it into working_dir/data/input_data. More detailed information on where exactly each result file goes is given in the description of the dataset at the specified DOI.
 
 The following four input files are required:
 - The adjacency matrix of the circuit in scipy sparse csr format, exported to .npz
@@ -44,7 +44,7 @@ The following four input files are required:
 
 ### Pipeline overview
 ![Alt text](toposampling_pipeline_overview.png?raw=true "Pipeline overview")
-Blue squares denote input / output files (obtainable here). Grey circles denote steps of the analysis pipeline (that are implemented in this repository). Red rectangles denote configuration files (that are also in this github repository).
+Blue squares denote input / output files (obtainable under the following DOI: 10.5281/zenodo.4317336). Grey circles denote steps of the analysis pipeline (that are implemented in this repository). Red rectangles denote configuration files (that are also in this github repository).
 
 ### Running the analyses
 
