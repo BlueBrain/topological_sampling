@@ -80,3 +80,8 @@ Michael W Reimann, Henri Riihimäki, Jason P Smith, Jānis Lazovskis, Christoph 
 https://www.biorxiv.org/content/10.1101/2020.11.02.363929v1
 
 doi: https://doi.org/10.1101/2020.11.02.363929 
+
+## Acknowledgement
+"This study was supported by funding to the Blue Brain Project, a research center of the École polytechnique fédérale de Lausanne (EPFL), from the Swiss government’s ETH Board of the Swiss Federal Institutes of Technology."
+
+Copyright (c) 2020 - 2021 Blue Brain Project/EPFL
