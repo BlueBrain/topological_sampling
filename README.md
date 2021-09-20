@@ -42,6 +42,11 @@ The following four input files are required:
 - The classification labels for the the stimuli as a numpy array. Each entry is interpreted as an identifyer of a stimulus associated with a time window. Duration of the time window configured in the associated config file. Time windows are assumed to have the same duration and directly follow each other, with no break in between. Exported to .npy using numpy.save
 - A pandas database containing the layers, morphological type and (x,y,z) coordinates of the neurons. Index by the GID (see above) of the neuron. Exported to pickle using pandas.to_pickle.
 
+### Note
+In the source code and the following explanations, we sometimes refer to "tribes" (e.g. "structural_tribe_analysis", "sample_tribes")."Tribe" is the term we used for samples of a neuron and its entire graph-theoretical neighborhood in an early version of the associated manuscript. We have since been alerted that this is unfortunate and non-inclusive terminology and have updated the manuscript to use the term "neighborhood" instead. Yet, we have decided not to reflect this change in the source code at this point, as the likelihood to break something is too high. For consistency, we also keep the old terminology in this documentation.
+
+We apologize for any confusion or offense given.
+
 ### Pipeline overview
 ![Alt text](toposampling_pipeline_overview.png?raw=true "Pipeline overview")
 Blue squares denote input / output files (obtainable under the following DOI: 10.5281/zenodo.4317336). Grey circles denote steps of the analysis pipeline (that are implemented in this repository). Red rectangles denote configuration files (that are also in this github repository).
