@@ -84,7 +84,7 @@ def add_random_subtribes(base_samples, st_dict, st_specs, rng):
                     subtr_size = len(st_dict[subtr][idx]["gids"])
                     rnd_sample = rng.choice(gids, subtr_size, replace=False)
                     rnd_dict[idx] = {"gids": rnd_sample.tolist(),
-                                     "chief": None
+                                     "chief": -1
                                     }
     return out_dict
 
