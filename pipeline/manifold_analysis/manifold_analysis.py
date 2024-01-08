@@ -45,8 +45,10 @@ def merge_tribes(tribal_chiefs, tribal_gids, merge_specs, merged_label="merged")
         for _v, _c in zip(lst_vals, lst_conds):
             if _v[0] in tgt_vals:
                 _c = _c.pool([pool_cond], func=func)
-                _c.add_label(pool_cond, merged_label)
-                _c.add_label(tgt_cond, _v[0])
+                if pool_cond not in _c.conditions():
+                    _c.add_label(pool_cond, merged_label)
+                if tgt_cond not in _c.conditions():
+                    _c.add_label(tgt_cond, _v[0])
                 tf_out.merge(_c)
             else:
                 tf_out.merge(_c)
