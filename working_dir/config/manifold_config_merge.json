@@ -1,0 +1,12 @@
+{
+  "n_components": 12,
+  "t_bin_width": 20,
+  "stim_duration_ms": 200,
+  "t_stim_start": 0,
+  "merge_samples": {
+    "target_condition": "sampling",
+    "target_values": ["M-type", "Parameter"],
+    "pool_condition": "index"
+  }
+}
+

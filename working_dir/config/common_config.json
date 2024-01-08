@@ -34,7 +34,7 @@
         "classifier": "classifier_config.json",
         "ec_analysis": "ec_analysis_config.json",
         "gen_topo_db": "topo_db_config.json",
-        "manifold_analysis": "manifold_config.json",
+        "manifold_analysis": "manifold_config_merge.json",
         "topological_featurization": "featurization_config.json",
         "sample_tribes": "sampling_config.json",
         "struc_tribe_analysis": "structural_analysis_config.json",

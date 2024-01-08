@@ -19,6 +19,7 @@ import h5py
 
 from toposample import config
 from toposample import TopoData
+from toposample.data.data_structures import ConditionCollection
 
 
 def read_input(input_config):
@@ -32,6 +33,31 @@ def read_input(input_config):
     spikes = numpy.load(input_config["raw_spikes"])
     stims = numpy.load(input_config["stimuli"])
     return spikes, stims, tribal_chiefs, tribal_gids
+
+
+def merge_tribes(tribal_chiefs, tribal_gids, merge_specs, merged_label="merged"):
+    tgt_cond = merge_specs["target_condition"]
+    tgt_vals = merge_specs["target_values"]
+    pool_cond = merge_specs["pool_condition"]
+
+    def _tf_and_merge(lst_vals, lst_conds, func):
+        tf_out = ConditionCollection([])
+        for _v, _c in zip(lst_vals, lst_conds):
+            if _v[0] in tgt_vals:
+                _c = _c.pool([pool_cond], func=func)
+                _c.add_label(pool_cond, merged_label)
+                _c.add_label(tgt_cond, _v[0])
+                tf_out.merge(_c)
+            else:
+                tf_out.merge(_c)
+        return tf_out
+
+    vals, conds = tribal_gids.split(tgt_cond)
+    tribal_gids = _tf_and_merge(vals, conds, lambda _x: numpy.unique(numpy.hstack(_x)))
+
+    vals, conds = tribal_chiefs.split(tgt_cond)
+    tribal_chiefs = _tf_and_merge(vals, conds, lambda _x: merged_label)
+    return tribal_chiefs, tribal_gids
 
 
 def spikes_to_y_vec(spikes, gids, t_bin_width, t_stim_start):
@@ -128,6 +154,8 @@ def main(path_to_config, **kwargs):
     if len(kwargs) > 0:
         tribal_gids = tribal_gids.filter(**kwargs)
         tribal_chiefs = tribal_chiefs.filter(**kwargs)
+    if "merge_samples" in stage["config"]:
+        tribal_chiefs, tribal_gids = merge_tribes(tribal_chiefs, tribal_gids, stage["config"]["merge_samples"])
     res_lookup = transform_all(spikes, stims, tribal_chiefs, tribal_gids, stage["config"], stage["other"])
     write_output(res_lookup, stage["outputs"])
 
